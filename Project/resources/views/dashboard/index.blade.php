@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @php
-    $title='Dashboard';
+    $title='Tableau de bord';
     $subTitle = 'AI';
     $script= '<script src="' . asset('assets/js/homeOneChart.js') . '"></script>';
 @endphp
@@ -121,12 +121,12 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
-                                <h6 class="text-lg mb-0">Sales Statistic</h6>
+                                <h6 class="text-lg mb-0">Statistique des ventes</h6>
                                 <select class="form-select bg-base form-select-sm w-auto">
-                                    <option>Yearly</option>
-                                    <option>Monthly</option>
-                                    <option>Weekly</option>
-                                    <option>Today</option>
+                                    <option>Par an</option>
+                                    <option>Par mois</option>
+                                    <option>Par semaine</option>
+                                    <option>Par jour</option>
                                 </select>
                             </div>
                             <div class="d-flex flex-wrap align-items-center gap-2 mt-8">
@@ -134,7 +134,7 @@
                                 <span class="text-sm fw-semibold rounded-pill bg-success-focus text-success-main border br-success px-8 py-4 line-height-1 d-flex align-items-center gap-1">
                                     10% <iconify-icon icon="bxs:up-arrow" class="text-xs"></iconify-icon>
                                 </span>
-                                <span class="text-xs fw-medium">+ $1500 Per Day</span>
+                                <span class="text-xs fw-medium">+ $1500 Par jour</span>
                             </div>
                             <div id="chart" class="pt-28 apexcharts-tooltip-style-1"></div>
                         </div>
@@ -143,7 +143,7 @@
                 <div class="col-xxl-3 col-xl-6">
                     <div class="card h-100 radius-8 border">
                         <div class="card-body p-24">
-                            <h6 class="mb-12 fw-semibold text-lg mb-16">Total Subscriber</h6>
+                            <h6 class="mb-12 fw-semibold text-lg mb-16">Total Inscrit</h6>
                             <div class="d-flex align-items-center gap-2 mb-20">
                                 <h6 class="fw-semibold mb-0">5,000</h6>
                                 <p class="text-sm mb-0">
@@ -167,7 +167,7 @@
                                 <h6 class="mb-2 fw-bold text-lg">Users Overview</h6>
                                 <div class="">
                                     <select class="form-select form-select-sm w-auto bg-base border text-secondary-light">
-                                        <option>Today</option>
+                                        <option>Aujourd'hui</option>
                                         <option>Weekly</option>
                                         <option>Monthly</option>
                                         <option>Yearly</option>

@@ -14,13 +14,13 @@
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="solar:home-smile-angle-outline" class="menu-icon"></iconify-icon>
-                    <span>Dashboard</span>
+                    <span>Tableau de bord</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
                         <a href="{{ route('index') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> AI</a>
                     </li>
-                    <li>
+                    {{-- <li>
                     <a href="{{ route('index2') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
                     </li>
                     <li>
@@ -46,35 +46,35 @@
                     </li>
                     <li>
                     <a href="{{ route('index10') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> POS & Inventory </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="sidebar-menu-group-title">Application</li>
-            <li>
+            {{-- <li>
                   <a href="{{ route('email') }}">
                     <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
                     <span>Email</span>
                 </a>
-            </li>
-            <li>
+            </li> --}}
+            {{-- <li>
                 <a href="{{ route('chatMessage') }}">
                     <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
                     <span>Chat</span>
                 </a>
-            </li>
-            <li>
+            </li> --}}
+            {{-- <li>
                 <a href="{{ route('calendar') }}">
                     <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
                     <span>Calendar</span>
                 </a>
-            </li>
-            <li>
+            </li> --}}
+            {{-- <li>
                 <a href="{{ route('kanban') }}">
                     <iconify-icon icon="material-symbols:map-outline" class="menu-icon"></iconify-icon>
                     <span>Kanban</span>
                 </a>
-            </li>
-            <li class="dropdown">
+            </li> --}}
+            {{-- <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="hugeicons:invoice-03" class="menu-icon"></iconify-icon>
                     <span>Invoice</span>
@@ -93,8 +93,8 @@
                     <a href="{{ route('invoiceEdit') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Edit</a>
                     </li>
                 </ul>
-            </li>
-            <li class="dropdown">
+            </li> --}}
+            {{-- <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <i class="ri-robot-2-line text-xl me-6 d-flex w-auto"></i>
                     <span>Ai Application</span>
@@ -116,9 +116,9 @@
                         <a href="{{ route('videoGenerator') }}"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Video Generator</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <i class="ri-btc-line text-xl me-6 d-flex w-auto"></i>
                     <span>Crypto Currency</span>
@@ -137,7 +137,7 @@
                     <a  href="{{ route('portfolio') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Portfolios</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="sidebar-menu-group-title">UI Elements</li>
 

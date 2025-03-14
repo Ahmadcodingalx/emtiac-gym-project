@@ -60,6 +60,8 @@ Route::prefix('authentication')->group(function () {
         Route::get('/forgotpassword', 'forgotPassword')->name('forgotPassword');
         Route::get('/signin', 'signin')->name('signin');
         Route::get('/signup', 'signup')->name('signup');
+
+        Route::post('/signin/processing', 'login')->name('login.processing');
     });
 });
 
