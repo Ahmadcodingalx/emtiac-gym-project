@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @php
-    $title='Voir le profil';
-    $subTitle = 'Profile';
+    $title='Affichage du produit';
+    $subTitle = 'Produit';
     $script ='<script>
                     // ======================== Upload Image Start =====================
                     function readURL(input) {
@@ -48,34 +48,39 @@
                 <div class="pb-24 ms-16 mb-24 me-16  mt--100">
                     <div class="text-center border border-top-0 border-start-0 border-end-0">
                         <img src="{{ asset('assets/images/user-grid/user-grid-img14.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
-                        <h6 class="mb-0 mt-16">{{Auth::user()->lastname}} {{ Auth::user()->firstname }}</h6>
-                        <span class="text-secondary-light mb-16">{{ Auth::user()->email }}</span>
+                        {{-- <h6 class="mb-0 mt-16">{{ $product->identifiant }}</h6> --}}
+                        {{-- <span class="text-secondary-light mb-16">{{ $client->email }}</span> --}}
                     </div>
                     <div class="mt-24">
-                        <h6 class="text-xl mb-16">Informations personnelles</h6>
+                        {{-- <h6 class="text-xl mb-16">Information personnelles</h6> --}}
                         <ul>
-                            <li class="d-flex align-items-center gap-1 mb-12">
+                            <li class="d-flex align-items-start justify-content-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light">Nom</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->lastname}} {{ Auth::user()->firstname }}</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $product->name }}</span>
                             </li>
-                            <li class="d-flex align-items-center gap-1 mb-12">
-                                <span class="w-30 text-md fw-semibold text-primary-light"> Email</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->email}}</span>
+                            <li class="d-flex align-items-start justify-content-center gap-1 mb-12">
+                                <span class="w-30 text-md fw-semibold text-primary-light"> Prix</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $product->price }} fcfa</span>
                             </li>
-                            <li class="d-flex align-items-center gap-1 mb-12">
-                                <span class="w-30 text-md fw-semibold text-primary-light"> Téléphone</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->tel}}</span>
+                            <li class="d-flex align-items-start justify-content-center gap-1 mb-12">
+                                <span class="w-30 text-md fw-semibold text-primary-light"> Quantité</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $product->quantity }}</span>
                             </li>
-                            <li class="d-flex align-items-center gap-1 mb-12">
+                            <li class="d-flex align-items-start gap-1 mb-12">
+                                <span class="w-30 text-md fw-semibold text-primary-light"> Descrption</span>
+                                <textarea disabled style="border-color: transparent; background-color: transparent;" class="form-control" rows="4" cols="50">{{ $product->description }}</textarea>
+                                {{-- <span class="w-70 text-secondary-light fw-medium">: {{ $product->description }}</span> --}}
+                            </li>
+                            {{-- <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Addresse</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->address}}</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $client->address == null ? "***" : $client->address}}</span>
                             </li>
-                            @if (Auth::user()->sex == true)
+                            @if ($client->email == true)
                                 <li class="d-flex align-items-center gap-1 mb-12">
                                     <span class="w-30 text-md fw-semibold text-primary-light"> Sex</span>
                                     <span class="w-70 text-secondary-light fw-medium">: Homme</span>
                                 </li>
-                            @elseif (Auth::user()->sex == false)
+                            @elseif ($client->email == false)
                                 <li class="d-flex align-items-center gap-1 mb-12">
                                     <span class="w-30 text-md fw-semibold text-primary-light"> Sex</span>
                                     <span class="w-70 text-secondary-light fw-medium">: Femme</span>
@@ -85,7 +90,7 @@
                                     <span class="w-30 text-md fw-semibold text-primary-light"> Sex</span>
                                     <span class="w-70 text-secondary-light fw-medium">: Anonime</span>
                                 </li>
-                            @endif
+                            @endif --}}
                             {{-- <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Department</span>
                                 <span class="w-70 text-secondary-light fw-medium">: Design</span>
@@ -94,11 +99,7 @@
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Designation</span>
                                 <span class="w-70 text-secondary-light fw-medium">: UI UX Designer</span>
                             </li>
-                            <li class="d-flex align-items-center gap-1 mb-12">
-                                <span class="w-30 text-md fw-semibold text-primary-light"> Languages</span>
-                                <span class="w-70 text-secondary-light fw-medium">: English</span>
-                            </li> --}}
-                            {{-- <li class="d-flex align-items-center gap-1">
+                            <li class="d-flex align-items-center gap-1">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Bio</span>
                                 <span class="w-70 text-secondary-light fw-medium">: Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span>
                             </li> --}}
@@ -109,7 +110,7 @@
         </div>
         <div class="col-lg-8">
             <div class="card h-100">
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -117,7 +118,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif --}}
                 @if (session('success'))
                     {{-- <div class="alert alert-success">
                         {{ session('success') }}
@@ -150,14 +151,14 @@
                     <ul class="nav border-gradient-tab nav-pills mb-20 d-inline-flex" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link d-flex align-items-center px-24 active" id="pills-edit-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-edit-profile" type="button" role="tab" aria-controls="pills-edit-profile" aria-selected="true">
-                                Modifier le Profile
+                                Modifier le Produit
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link d-flex align-items-center px-24" id="pills-change-passwork-tab" data-bs-toggle="pill" data-bs-target="#pills-change-passwork" type="button" role="tab" aria-controls="pills-change-passwork" aria-selected="false" tabindex="-1">
                                 Changer le mot de passe
                             </button>
-                        </li>
+                        </li> --}}
                         {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link d-flex align-items-center px-24" id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notification" type="button" role="tab" aria-controls="pills-notification" aria-selected="false" tabindex="-1">
                                 Notification Settings
@@ -166,12 +167,14 @@
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <form action="{{ route('update-user') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0">
+                        <form action="{{ route('update-product') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0">
                             @csrf
-                            <h6 class="text-md text-primary-light mb-16">Image de profil</h6>
+                            @method('PUT')
+                            <h6 class="text-md text-primary-light mb-16">Image</h6>
                             <!-- Upload Image Start -->
                             <div class="mb-24 mt-16">
                                 <div class="avatar-upload">
+                                    <input type="hidden" name="id" value={{ $product->id }}>
                                     <div class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer">
                                         <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" hidden>
                                         <label for="imageUpload" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
@@ -189,114 +192,70 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-20">
-                                        <label for="lastname" class="form-label fw-semibold text-primary-light text-sm mb-8">Nom <span class="text-danger-600">*</span></label>
-                                        <input type="text" name="lastname" value={{ Auth::user()->lastname }} class="form-control radius-8" id="lastname" placeholder="Entrez votre nom">
+                                        <label for="name" class="form-label fw-semibold text-primary-light text-sm mb-8">Nom du produit <span class="text-danger-600">*</span></label>
+                                        <input type="text" name="name" value={{ $product->name }} class="form-control radius-8" id="name" placeholder="Entrez le nom du produit">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-20">
-                                        <label for="firstname" class="form-label fw-semibold text-primary-light text-sm mb-8">Prénom <span class="text-danger-600">*</span></label>
-                                        <input type="text" name="firstname" value={{ Auth::user()->firstname }} class="form-control radius-8" id="firstname" placeholder="Entrez votre prénom">
+                                        <label for="price" class="form-label fw-semibold text-primary-light text-sm mb-8">Prix du produit <span class="text-danger-600">*</span></label>
+                                        <input type="number" name="price" value={{ $product->price }} class="form-control radius-8" id="price" placeholder="Entrez le prix du produit">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-20">
-                                        <label for="username" class="form-label fw-semibold text-primary-light text-sm mb-8">Nom d'utilisateur <span class="text-danger-600">*</span></label>
-                                        <input type="text" name="username" value={{ Auth::user()->username }} class="form-control radius-8" id="username" placeholder="Entrez votre Nom d'utilisateur">
+                                        <label for="quantity" class="form-label fw-semibold text-primary-light text-sm mb-8">Quantité du produit <span class="text-danger-600">*</span></label>
+                                        <input type="number" name="quantity" value={{ $product->quantity }} class="form-control radius-8" id="quantity" placeholder="Quantité du produit">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="mb-20">
+                                    <label class="form-label">Description du produit</label>
+                                    <textarea name="desc" class="form-control" rows="4" cols="50" placeholder="Enter une description...">{{ $product->description }}</textarea>
+                                </div>
+                                {{-- <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="email" class="form-label fw-semibold text-primary-light text-sm mb-8">Email <span class="text-danger-600">*</span></label>
-                                        <input type="email" name="email" value={{ Auth::user()->email }} class="form-control radius-8" id="email" placeholder="Entez votre email">
+                                        <input type="email" name="email" value={{ $client->email }} class="form-control radius-8" id="email" placeholder="Entez votre email">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="tel" class="form-label fw-semibold text-primary-light text-sm mb-8">Téléphone</label>
-                                        <input type="text" name="tel" value={{ Auth::user()->tel }} class="form-control radius-8" id="tel" placeholder="Entez le numéro de téléphone">
+                                        <input type="text" name="tel" value={{ $client->tel }} class="form-control radius-8" id="tel" placeholder="Entez le numéro de téléphone">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="address" class="form-label fw-semibold text-primary-light text-sm mb-8">Addresse</label>
-                                        <input type="text" name="address" value={{ Auth::user()->address }} class="form-control radius-8" id="address" placeholder="Entez votre address">
+                                        <input type="text" name="address" value={{ $client->address == null ? "***" : ($client->address === "***" ? "***" : $client->address)}} class="form-control radius-8" id="tel" placeholder="Entez votre address">
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
+                                </div> --}}
+                                {{-- <div class="col-sm-6">
+                                    <div class="mb-20">
+                                        <label for="address" class="form-label fw-semibold text-primary-light text-sm mb-8">Addresse</label>
+                                        <input type="text" name="address" value={{ $client->address }} class="form-control radius-8" id="address" placeholder="Entez votre address">
+                                    </div>
+                                </div> --}}
+                                {{-- <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="sex" class="form-label fw-semibold text-primary-light text-sm mb-8">Genre <span class="text-danger-600">*</span> </label>
                                         <select name="sex" val class="form-control radius-8 form-select" id="sex">
-                                            @if (Auth::user()->sex == true)
+                                            @if ($client->sex == true)
                                                 <option>Homme</option>
                                                 <option>Femme</option>
+                                                <option>Selectionner</option>
+                                            @elseif ($client->sex == false)
+                                                <option>Femme</option>
+                                                <option>Homme</option>
+                                                <option>Selectionner</option>
                                             @else
+                                                <option>Selectionner</option>
                                                 <option>Femme</option>
                                                 <option>Homme</option>
                                             @endif
-                                            {{-- <option>Enter Event Title Two</option> --}}
-                                        </select>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-sm-6">
-                                    <div class="mb-20">
-                                        <label for="desig" class="form-label fw-semibold text-primary-light text-sm mb-8">Designation <span class="text-danger-600">*</span> </label>
-                                        <select class="form-control radius-8 form-select" id="desig">
-                                            <option>Enter Designation Title </option>
-                                            <option>Enter Designation Title One </option>
-                                            <option>Enter Designation Title Two</option>
                                         </select>
                                     </div>
                                 </div> --}}
-                                {{-- <div class="col-sm-6">
-                                    <div class="mb-20">
-                                        <label for="Language" class="form-label fw-semibold text-primary-light text-sm mb-8">Language <span class="text-danger-600">*</span> </label>
-                                        <select class="form-control radius-8 form-select" id="Language">
-                                            <option> English</option>
-                                            <option> Bangla </option>
-                                            <option> Hindi</option>
-                                            <option> Arabic</option>
-                                        </select>
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="col-sm-12">
-                                    <div class="mb-20">
-                                        <label for="desc" class="form-label fw-semibold text-primary-light text-sm mb-8">Description</label>
-                                        <textarea name="#0" class="form-control radius-8" id="desc" placeholder="Write description..."></textarea>
-                                    </div>
-                                </div> --}}
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center gap-3">
-                                {{-- <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8">
-                                    Cancel
-                                </button> --}}
-                                <button type="submit" class="btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8">
-                                    Enregistrer
-                                </button>
-                            </div>
-                        </form>
-
-                        <form action="{{ route('change-password') }}" method="POST" class="tab-pane fade" id="pills-change-passwork" role="tabpanel" aria-labelledby="pills-change-passwork-tab" tabindex="0">
-                            <div class="mb-20">
-                                <label for="old_password" class="form-label fw-semibold text-primary-light text-sm mb-8">Ancien Mot de passe <span class="text-danger-600">*</span></label>
-                                <div class="position-relative">
-                                    <input type="password" name="old_password" class="form-control radius-8" id="old_password" placeholder="Entez l'ancien Mot de passe">
-                                    <span class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light" data-toggle="#old_password"></span>
-                                </div>
-                            </div>
-                            <div class="mb-20">
-                                <label for="new_password" class="form-label fw-semibold text-primary-light text-sm mb-8">Nouveau mot de passe <span class="text-danger-600">*</span></label>
-                                <div class="position-relative">
-                                    <input type="password" name="new_password" class="form-control radius-8" id="new_password" placeholder="Entrez le nouveau mot de passe">
-                                    <span class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light" data-toggle="#new_password"></span>
-                                </div>
-                            </div>
-                            <div class="mb-20">
-                                <label for="confirm-password" class="form-label fw-semibold text-primary-light text-sm mb-8">Confirmez le nouveau mot de passe <span class="text-danger-600">*</span></label>
-                                <div class="position-relative">
-                                    <input type="password" name="confirm-password" class="form-control radius-8" id="confirm-password" placeholder="Confirmez le nouveau mot de passe">
-                                    <span class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light" data-toggle="#confirm-password"></span>
-                                </div>
                             </div>
                             <div class="d-flex align-items-center justify-content-center gap-3">
                                 {{-- <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8">
@@ -307,44 +266,6 @@
                                 </button>
                             </div>
                         </form>
-
-                        {{-- <div class="tab-pane fade" id="pills-notification" role="tabpanel" aria-labelledby="pills-notification-tab" tabindex="0">
-                            <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
-                                <label for="companzNew" class="position-absolute w-100 h-100 start-0 top-0"></label>
-                                <div class="d-flex align-items-center gap-3 justify-content-between">
-                                    <span class="form-check-label line-height-1 fw-medium text-secondary-light">Company News</span>
-                                    <input class="form-check-input" type="checkbox" role="switch" id="companzNew">
-                                </div>
-                            </div>
-                            <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
-                                <label for="pushNotifcation" class="position-absolute w-100 h-100 start-0 top-0"></label>
-                                <div class="d-flex align-items-center gap-3 justify-content-between">
-                                    <span class="form-check-label line-height-1 fw-medium text-secondary-light">Push Notification</span>
-                                    <input class="form-check-input" type="checkbox" role="switch" id="pushNotifcation" checked>
-                                </div>
-                            </div>
-                            <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
-                                <label for="weeklyLetters" class="position-absolute w-100 h-100 start-0 top-0"></label>
-                                <div class="d-flex align-items-center gap-3 justify-content-between">
-                                    <span class="form-check-label line-height-1 fw-medium text-secondary-light">Weekly News Letters</span>
-                                    <input class="form-check-input" type="checkbox" role="switch" id="weeklyLetters" checked>
-                                </div>
-                            </div>
-                            <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
-                                <label for="meetUp" class="position-absolute w-100 h-100 start-0 top-0"></label>
-                                <div class="d-flex align-items-center gap-3 justify-content-between">
-                                    <span class="form-check-label line-height-1 fw-medium text-secondary-light">Meetups Near you</span>
-                                    <input class="form-check-input" type="checkbox" role="switch" id="meetUp">
-                                </div>
-                            </div>
-                            <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
-                                <label for="orderNotification" class="position-absolute w-100 h-100 start-0 top-0"></label>
-                                <div class="d-flex align-items-center gap-3 justify-content-between">
-                                    <span class="form-check-label line-height-1 fw-medium text-secondary-light">Orders Notifications</span>
-                                    <input class="form-check-input" type="checkbox" role="switch" id="orderNotification" checked>
-                                </div>
-                            </div>
-                        </div> --}}
 
                     </div>
                 </div>

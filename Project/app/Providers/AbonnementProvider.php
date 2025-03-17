@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\AbonnementInterface;
+use App\Repositories\AbonnementRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AbonnementProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AbonnementProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->bind(AbonnementInterface::class, AbonnementProvider::class);
+        $this->app->bind(AbonnementInterface::class, AbonnementRepository::class);
     }
 
     /**

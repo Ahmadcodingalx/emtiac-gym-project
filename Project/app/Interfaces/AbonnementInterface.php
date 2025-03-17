@@ -9,4 +9,9 @@ interface AbonnementInterface
     public function show_service();
     public function destroy_service($id);
     public function update_service($request, $id);
+    //
+    public function create_type($data);
+    public function show_type();
+    public function destroy_type($id);
+    public function update_type($request, $id);
 }

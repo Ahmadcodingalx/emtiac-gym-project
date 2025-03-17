@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AbonnementController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CoursController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AiapplicationController;
@@ -169,6 +171,7 @@ Route::prefix('users')->group(function () {
         Route::get('/add-user', 'addUser')->name('addUser');
         Route::get('/users-grid', 'usersGrid')->name('usersGrid');
         Route::get('/users-list', 'usersList')->name('usersList');
+        Route::get('/users-roles-list', 'usersRoles')->name('usersRoles');
         Route::get('/view-profile', 'viewProfile')->name('viewProfile');
 
         Route::get('users', 'show')->name('showUsers');
@@ -177,6 +180,37 @@ Route::prefix('users')->group(function () {
         Route::post('/update-user', 'update')->name('update-user');
         Route::post('/change-password', 'changePassword')->name('change-password');
         Route::delete('/delete', 'destroy')->name('delete');
+    });
+});
+
+// Users
+Route::prefix('clients')->group(function () {
+    Route::controller(ClientController::class)->group(function () {
+        Route::get('/add-client', 'addClient')->name('addClient');
+        Route::get('/clients-list', 'clientList')->name('clientsList');
+        Route::get('/clients-list', 'clientList')->name('clientsList');
+        
+        // Route::get('users', 'show')->name('showUsers');
+        
+        Route::get('/view-client{id}', 'viewClient')->name('viewClient');
+        Route::post('/new-client', 'create')->name('new-client');
+        Route::put('/update-client', 'update')->name('update-client');
+        Route::delete('/delete-client', 'destroy')->name('delete-client');
+    });
+});
+
+// Users
+Route::prefix('products')->group(function () {
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/add-product', 'addProduct')->name('addProduct');
+        Route::get('/products-list', 'productsList')->name('productsList');
+        
+        // Route::get('users', 'show')->name('showUsers');
+        
+        Route::get('/view-product{id}', 'viewProduct')->name('viewProduct');
+        Route::post('/new-product', 'create')->name('new-product');
+        Route::put('/update-product', 'update')->name('update-product');
+        Route::delete('/delete-product', 'destroy')->name('delete-product');
     });
 });
 
@@ -197,12 +231,25 @@ Route::prefix('cours')->group(function () {
 Route::prefix('service')->group(function () {
     Route::controller(AbonnementController::class)->group(function () {
 
-        Route::get('/show-service','show')->name('show-service');
+        Route::get('/show-service','show_service')->name('show-service');
 
-        Route::post('/new-service', 'create')->name('new-service');
-        Route::put('/update-service', 'update')->name('update-service');
+        Route::post('/new-service', 'create_service')->name('new-service');
+        Route::put('/update-service', 'update_service')->name('update-service');
 
-        Route::delete('/delete-service', 'destroy')->name('delete-service');
+        Route::delete('/delete-service', 'destroy_service')->name('delete-service');
+    });
+});
+
+// Users
+Route::prefix('type')->group(function () {
+    Route::controller(AbonnementController::class)->group(function () {
+
+        Route::get('/show-type','show_type')->name('show-type');
+
+        Route::post('/new-type', 'create_type')->name('new-type');
+        Route::put('/update-type', 'update_type')->name('update-type');
+
+        Route::delete('/delete-type', 'destroy_type')->name('delete-type');
     });
 });
 

@@ -11,7 +11,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,21 @@ class ProductRequest extends FormRequest
     {
         return [
             //
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        //Un peu comme les messages d'erreurs, mais pour le register
+
+        return [
+            'name.required' => 'Veuillez renseigner le nom du produit',
+            'price.required' => 'Veuillez renseigner le prix du produit',
+            'quantity.required' => 'Veuillez renseigner le quantité du produit',
+            
         ];
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
-class ClientRepository
+use App\Interfaces\ClientInterface;
+use App\Models\Client;
+
+class ClientRepository implements ClientInterface
 {
     /**
      * Create a new class instance.
@@ -10,5 +13,47 @@ class ClientRepository
     public function __construct()
     {
         //
+    }
+
+    
+    public function create(array $data): Client
+    {
+        return Client::create($data);
+    }
+
+    public function show()
+    {
+        return Client::paginate(10);
+        // return User::all();
+    }
+
+    public function viewClient($id)
+    {
+        return Client::find($id);
+    }
+
+    public function update($clientRequest)
+    {
+        $client = Client::findOrFail($clientRequest->id);
+
+        $client->user_id_update = auth()->id();
+        $client->firstname = $clientRequest->input('firstname');
+        $client->lastname = $clientRequest->input('lastname');
+        // $client->image = $clientRequest->input('image');
+        $client->email = $clientRequest->input('email');
+        $client->tel = $clientRequest->input('tel');
+        $client->address = $clientRequest->input('address');
+        $client->sex = $clientRequest->input('sex') === "Selectionner" ? null : ($clientRequest->input('sex') === 'Homme' ? true : false);
+
+        // $client->updated_at = now();
+        
+        $client->save();
+
+        return $client;
+    }
+
+    public function destroy($id)
+    {
+        return Client::find($id);
     }
 }

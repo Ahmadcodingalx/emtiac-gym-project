@@ -13,7 +13,20 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id_create')->nullable();
+            $table->unsignedBigInteger('user_id_update')->nullable();
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->text('image');
+            $table->string('email')->nullable();
+            $table->string('tel');
+            $table->string('identifiant');
+            $table->text('address')->nullable();
+            $table->boolean('sex')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id_create')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id_update')->references('id')->on('users')->onDelete('set null');
         });
     }
 

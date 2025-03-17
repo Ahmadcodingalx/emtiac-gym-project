@@ -281,10 +281,16 @@
                     <span>Services</span>
                 </a>
             </li>
+            <li>
+                <a  href="{{ route('show-type') }}">
+                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
+                    <span>Types d'abonnement</span>
+                </a>
+            </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Users</span>
+                    <span>Utilisateurs</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -294,10 +300,41 @@
                         <a  href="{{ route('usersGrid') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
                     </li>
                     <li>
+                        <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Gestion des rôles</a>
+                    </li>
+                    <li>
                         <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
                     </li>
                     <li>
                         <a  href="{{ route('viewProfile') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View Profile</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a  href="javascript:void(0)">
+                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                    <span>Clients</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li>
+                        <a  href="{{ route('clientsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des clients</a>
+                    </li>
+                    <li>
+                        <a  href="{{ route('addClient') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter des clients</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a  href="javascript:void(0)">
+                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                    <span>Produits</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li>
+                        <a  href="{{ route('productsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des produits</a>
+                    </li>
+                    <li>
+                        <a  href="{{ route('addProduct') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter des produits</a>
                     </li>
                 </ul>
             </li>

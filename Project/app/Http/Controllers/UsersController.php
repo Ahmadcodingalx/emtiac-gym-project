@@ -35,6 +35,13 @@ class UsersController extends Controller
 
         return view('users/usersList', compact('users'));
     }
+
+    public function usersRoles()
+    {
+        $users = $this->userInterface->show();
+
+        return view('users/userRoles', compact('users'));
+    }
     
     public function viewProfile()
     {

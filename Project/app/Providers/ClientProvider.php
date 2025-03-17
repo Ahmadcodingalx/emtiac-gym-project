@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Interfaces\ClientInterface;
+use App\Repositories\ClientRepository;
 use Illuminate\Support\ServiceProvider;
 
 class ClientProvider extends ServiceProvider
@@ -12,6 +14,7 @@ class ClientProvider extends ServiceProvider
     public function register(): void
     {
         //
+        $this->app->bind(ClientInterface::class, ClientRepository:: class);
     }
 
     /**

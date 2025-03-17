@@ -86,7 +86,7 @@ class AbonnementController extends Controller
 
     public function show_service()
     {
-        $service = $this->abonnementInterface->show();
+        $service = $this->abonnementInterface->show_service();
 
         return view('service.service', compact('service'));
     }
@@ -152,6 +152,79 @@ class AbonnementController extends Controller
             //throw $th;
             // return $th;
             return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
+        }
+    }
+
+
+    public function show_type()
+    {
+        $types = $this->abonnementInterface->show_type();
+
+        return view('type.type', compact('types'));
+    }
+
+    public function create_type(Request $request)
+    {
+        // Validation des données
+        $data = [
+            'name' => $request->name,
+            'description' => $request->desc,
+            'amount' => $request->amount,
+        ];
+
+        DB::beginTransaction();
+
+        try {
+            $type = $this->abonnementInterface->create_type($data);
+            
+            if ($type) {  // Vérification si l'utilisateur a bien été créé
+                DB::commit();
+                return back()->with('success', 'Type d\'abonnement créé avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'La création du Type d\'abonnement a échoué.']);
+            }
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création du cours.']);
+        }
+    }
+
+    public function destroy_type(Request $request)
+    {
+        $id = $request->input('id');
+
+        $type = $this->abonnementInterface->destroy_type($id);
+        $type->delete();
+
+        return back()->with('success', 'Oppération réussie !');
+    }
+
+    public function update_type(Request $request)
+    {
+
+        DB::beginTransaction();
+        $id = 0;
+
+        try {
+            $type = $this->abonnementInterface->update_type($request, $id);
+            
+            if ($type) {  // Vérification si l'utilisateur a bien été modifier
+                DB::commit();
+                return back()->with('success', 'Oppération réussie !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Echec de l\'oppération.']);
+            }
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            return $th;
+            // return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
         }
     }
 }
