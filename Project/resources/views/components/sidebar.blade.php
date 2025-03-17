@@ -269,6 +269,18 @@
                     <span>Widgets</span>
                 </a>
             </li>
+            <li>
+                <a  href="{{ route('show-cours') }}">
+                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
+                    <span>Cours</span>
+                </a>
+            </li>
+            <li>
+                <a  href="{{ route('show-service') }}">
+                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
+                    <span>Services</span>
+                </a>
+            </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>

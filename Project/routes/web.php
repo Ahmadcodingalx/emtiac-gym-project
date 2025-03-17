@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AbonnementController;
+use App\Http\Controllers\CoursController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AiapplicationController;
@@ -61,9 +63,11 @@ Route::prefix('authentication')->group(function () {
         Route::get('/signin', 'signin')->name('signin');
         Route::get('/signup', 'signup')->name('signup');
 
-        Route::post('/signin/processing', 'login')->name('login.processing');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/logout', 'logout')->name('logout');
     });
 });
+
 
 // chart
 Route::prefix('chart')->group(function () {
@@ -166,6 +170,39 @@ Route::prefix('users')->group(function () {
         Route::get('/users-grid', 'usersGrid')->name('usersGrid');
         Route::get('/users-list', 'usersList')->name('usersList');
         Route::get('/view-profile', 'viewProfile')->name('viewProfile');
+
+        Route::get('users', 'show')->name('showUsers');
+
+        Route::post('/new-user', 'create')->name('new-user');
+        Route::post('/update-user', 'update')->name('update-user');
+        Route::post('/change-password', 'changePassword')->name('change-password');
+        Route::delete('/delete', 'destroy')->name('delete');
+    });
+});
+
+// Users
+Route::prefix('cours')->group(function () {
+    Route::controller(CoursController::class)->group(function () {
+
+        Route::get('/show-cours','show')->name('show-cours');
+
+        Route::post('/new-cours', 'create')->name('new-cours');
+        Route::put('/update-cours', 'update')->name('update-cours');
+
+        Route::delete('/delete-cours', 'destroy')->name('delete-cours');
+    });
+});
+
+// Users
+Route::prefix('service')->group(function () {
+    Route::controller(AbonnementController::class)->group(function () {
+
+        Route::get('/show-service','show')->name('show-service');
+
+        Route::post('/new-service', 'create')->name('new-service');
+        Route::put('/update-service', 'update')->name('update-service');
+
+        Route::delete('/delete-service', 'destroy')->name('delete-service');
     });
 });
 

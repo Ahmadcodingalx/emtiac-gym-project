@@ -21,14 +21,24 @@
                     <h4 class="mb-12">Connection au compte</h4>
                     <p class="mb-32 text-secondary-light text-lg">Bienvenue, s'il vous plait renseigner vos informations</p>
                 </div>
-                <form action={{ route('login.processing') }}, method="POST">
+                
+                <!-- Afficher l'erreur pour le champ username -->
+                @error('username')
+                    <div class="mb-16 alert alert-danger bg-danger-100 text-danger-600 border-danger-100 px-24 py-11 mb-0 fw-semibold text-lg radius-8 d-flex align-items-center justify-content-between" role="alert">
+                        {{ $message }}
+                        <button class="remove-button text-danger-600 text-xxl line-height-1">
+                            <iconify-icon icon="iconamoon:sign-times-light" class="icon"></iconify-icon>
+                        </button>
+                    </div>
+                @enderror
+                <form action="{{ route('login') }}", method="POST">
                     @csrf
 
                     <div class="icon-field mb-16">
                         <span class="icon top-50 translate-middle-y">
                             <iconify-icon icon="mage:email"></iconify-icon>
                         </span>
-                        <input type="text" name="email_username" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Email ou nom d'utilisateur">
+                        <input type="text" name="username" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Nom d'utilisateur">
                     </div>
                     <div class="position-relative mb-20">
                         <div class="icon-field">

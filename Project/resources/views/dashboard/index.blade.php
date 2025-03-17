@@ -10,6 +10,8 @@
 
             <div class="row row-cols-xxxl-5 row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-4">
                 <div class="col">
+                    {{-- @if (Auth::check() && Auth::user()->is_admin == true)
+                    @endif --}}
                     <div class="card shadow-none border bg-gradient-start-1 h-100">
                         <div class="card-body p-20">
                             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">

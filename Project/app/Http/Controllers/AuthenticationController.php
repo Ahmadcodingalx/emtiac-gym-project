@@ -3,25 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
 
-    Public function login(Request $request) {
+    Public function login(Request $request) 
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
-        $email_username = $request->email_username;
-        $password = $request->password;
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
 
-        if ($email_username == "ahmad" && $password == "1234") {
-            // return redirect()->route('index')->with('success', 'connexion reussie');
-            return view('dashboard/index');
-        } else {
-            return back()->with('error', ' Les infos ne sont pas valide');
+            // Récupérer l'utilisateur connecté
+            $user = Auth::user();
+
+            // Vérifier le rôle de l'utilisateur et rediriger en conséquence
+            if ($user->is_admin == true) {
+                // Rediriger vers le tableau de bord des administrateurs
+                return redirect()->intended('/dashboard/index');
+            } else {
+                // Rediriger vers le tableau de bord des utilisateurs
+                return redirect()->route('user.dashboard');
+            }
+        
         }
+
+        return back()->withErrors(['username' => 'Identifiants incorrects.']);
 
     }
 
-    Public function create() {}
+    Public function create() 
+    {}
 
     public function forgotPassword()
     {

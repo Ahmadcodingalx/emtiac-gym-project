@@ -12,6 +12,43 @@
 @section('content')
 
             <div class="card h-100 p-0 radius-12">
+                {{-- @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
+                @if (session('success'))
+                    {{-- <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div> --}}
+                    <div class="alert alert-success bg-success-100 text-success-600 border-success-100 px-24 py-11 mb-0 fw-semibold text-lg radius-8 d-flex align-items-center justify-content-between" role="alert">
+                        <div class="d-flex align-items-center gap-2">
+                            <iconify-icon icon="akar-icons:double-check" class="icon text-xl"></iconify-icon>
+                            {{ session('success') }}
+                        </div>
+                        <button class="remove-button text-success-600 text-xxl line-height-1">
+                            <iconify-icon icon="iconamoon:sign-times-light" class="icon"></iconify-icon>
+                        </button>
+                    </div>
+                @endif
+                @if($errors->has('error'))
+                    {{-- <div class="alert alert-danger">
+                        {{ $errors->first('error') }}
+                    </div> --}}
+                    <div class="alert alert-warning bg-warning-100 text-warning-600 border-warning-100 px-24 py-11 mb-0 fw-semibold text-lg radius-8 d-flex align-items-center justify-content-between" role="alert">
+                        <div class="d-flex align-items-center gap-2">
+                            <iconify-icon icon="mdi:alert-circle-outline" class="icon text-xl"></iconify-icon>
+                            {{ $errors->first('error') }}
+                        </div>
+                        <button class="remove-button text-warning-600 text-xxl line-height-1">
+                            <iconify-icon icon="iconamoon:sign-times-light" class="icon"></iconify-icon>
+                        </button>
+                    </div>
+                @endif
                 <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
                     <div class="d-flex align-items-center flex-wrap gap-3">
                         <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
@@ -39,7 +76,7 @@
                     </div>
                     <a  href="{{ route('addUser') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
-                        Add New User
+                        Ajouter un utilisateur
                     </a>
                 </div>
                 <div class="card-body p-24">
@@ -55,432 +92,94 @@
                                             S.L
                                         </div>
                                     </th>
-                                    <th scope="col">Join Date</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Date de création</th>
+                                    <th scope="col">Nom et prénom</th>
+                                    <th scope="col">Nom d'utilisateur</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Department</th>
-                                    <th scope="col">Designation</th>
-                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col">Téléphone</th>
+                                    {{-- <th scope="col" class="text-center">Status</th> --}}
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-10">
+                                                <div class="form-check style-check d-flex align-items-center">
+                                                    <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
+                                                </div>
+                                                {{ $user->id }}
                                             </div>
-                                            01
-                                        </div>
-                                    </td>
-                                    <td>25 Jan 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list1.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Kathryn Murphy</span>
+                                        </td>
+                                        <td>{{ $user->created_at }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ asset('assets/images/user-list/user-list1.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                                <div class="flex-grow-1">
+                                                    <span class="text-md mb-0 fw-normal text-secondary-light">{{ $user->lastname }} {{ $user->firstname }}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">osgoodwy@gmail.com</span></td>
-                                    <td>HR</td>
-                                    <td>Manager</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
+                                        </td>
+                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $user->username }}</span></td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->tel }}</td>
+                                        {{-- <td class="text-center">
+                                            <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
+                                        </td> --}}
+                                        <td class="text-center">
+                                            <div class="d-flex align-items-center gap-10 justify-content-center">
+                                                {{-- <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
+                                                </button>
+                                                <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                                </button> --}}
+                                                <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="id" value={{ $user->id }}>
+                                                    <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                        <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
+                                                    </button>
+                                                </form>
                                             </div>
-                                            02
-                                        </div>
-                                    </td>
-                                    <td>25 Jan 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list2.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Annette Black</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">redaniel@gmail.com</span></td>
-                                    <td>Design</td>
-                                    <td>UI UX Designer</td>
-                                    <td class="text-center">
-                                        <span class="bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm">Inactive</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            03
-                                        </div>
-                                    </td>
-                                    <td>10 Feb 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list3.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Ronald Richards</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">seannand@mail.ru</span></td>
-                                    <td>Design</td>
-                                    <td>UI UX Designer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            04
-                                        </div>
-                                    </td>
-                                    <td>10 Feb 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list4.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Eleanor Pena</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">miyokoto@mail.ru</span></td>
-                                    <td>Design</td>
-                                    <td>UI UX Designer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            05
-                                        </div>
-                                    </td>
-                                    <td>15 March 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list5.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Leslie Alexander</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">icadahli@gmail.com</span></td>
-                                    <td>Design</td>
-                                    <td>UI UX Designer</td>
-                                    <td class="text-center">
-                                        <span class="bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm">Inactive</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            06
-                                        </div>
-                                    </td>
-                                    <td>15 March 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list6.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Albert Flores</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">warn@mail.ru</span></td>
-                                    <td>Design</td>
-                                    <td>UI UX Designer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            07
-                                        </div>
-                                    </td>
-                                    <td>27 April 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list7.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Jacob Jones</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">zitka@mail.ru</span></td>
-                                    <td>Development</td>
-                                    <td>Frontend developer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            08
-                                        </div>
-                                    </td>
-                                    <td>25 Jan 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list8.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Jerome Bell</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">igerrin@gmail.com</span></td>
-                                    <td>Development</td>
-                                    <td>Frontend developer</td>
-                                    <td class="text-center">
-                                        <span class="bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm">Inactive</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            09
-                                        </div>
-                                    </td>
-                                    <td>30 April 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list2.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Marvin McKinney</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">maka@yandex.ru</span></td>
-                                    <td>Development</td>
-                                    <td>Frontend developer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                            </div>
-                                            10
-                                        </div>
-                                    </td>
-                                    <td>30 April 2024</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ asset('assets/images/user-list/user-list10.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                            <div class="flex-grow-1">
-                                                <span class="text-md mb-0 fw-normal text-secondary-light">Cameron Williamson</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">danten@mail.ru</span></td>
-                                    <td>Development</td>
-                                    <td>Frontend developer</td>
-                                    <td class="text-center">
-                                        <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex align-items-center gap-10 justify-content-center">
-                                            <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                            </button>
-                                            <button type="button" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                
                             </tbody>
                         </table>
+                        {{-- <div class="pagination-wrapper">
+                            {{ $users->links('pagination::bootstrap-4') }}
+                        </div> --}}
                     </div>
 
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
                         <span>Showing 1 to 10 of 12 entries</span>
                         <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="javascript:void(0)">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $users->previousPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
                                 </a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"  href="javascript:void(0)">1</a>
+                                <a class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"  href="?page=1">1</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"  href="javascript:void(0)">2</a>
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"  href="?page=2">2</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="javascript:void(0)">3</a>
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=3">3</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="javascript:void(0)">4</a>
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=4">4</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="javascript:void(0)">5</a>
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="javascript:void(0)">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $users->nextPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
                                 </a>
                             </li>

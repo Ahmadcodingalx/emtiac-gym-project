@@ -66,6 +66,7 @@ class HomeController extends Controller
         return view('widgets');
     }
 
+
     public function chatProfile()
     {
         return view('chatProfile');
