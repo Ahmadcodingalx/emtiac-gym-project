@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @php
-    $title='Liste des clients';
-    $subTitle = 'Clients';
+    $title='Liste des ventes';
+    $subTitle = 'Ventes';
     $script ='<script>
                         $(".remove-item-btn").on("click", function() {
                             $(this).closest("tr").addClass("d-none")
@@ -12,7 +12,7 @@
 @section('content')
 
             <div class="card h-100 p-0 radius-12">
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -20,7 +20,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif --}}
                 @if (session('success'))
                     {{-- <div class="alert alert-success">
                         {{ session('success') }}
@@ -74,9 +74,9 @@
                             <option>Inactive</option>
                         </select>
                     </div>
-                    <a  href="{{ route('addClient') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
+                    <a  href="{{ route('addSale') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
-                        Ajouter un Client
+                        Effectuer une vente
                     </a>
                 </div>
                 <div class="card-body p-24">
@@ -92,59 +92,48 @@
                                             S.L
                                         </div>
                                     </th>
-                                    <th scope="col">Date de création</th>
-                                    <th scope="col">Nom et prénom</th>
-                                    <th scope="col">Identifiant</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Téléphone</th>
+                                    <th scope="col">Date de vente</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Somme</th>
                                     {{-- <th scope="col" class="text-center">Status</th> --}}
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($clients as $client)
+                                @foreach ($sales as $sale)
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center gap-10">
                                                 <div class="form-check style-check d-flex align-items-center">
                                                     <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
                                                 </div>
-                                                {{ $client->id }}
+                                                {{ $sale->id }}
                                             </div>
                                         </td>
-                                        <td>{{ $client->created_at }}</td>
+                                        <td>{{ $sale->created_at }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ asset('storage/' . $client->image) }}" alt="Photo de {{ $client->lastname }}" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                                <img src="{{ asset('assets/images/sale-list/sale-list1.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
                                                 <div class="flex-grow-1">
-                                                    <span class="text-md mb-0 fw-normal text-secondary-light">{{ $client->lastname }} {{ $client->firstname }}</span>
+                                                    <span class="text-md mb-0 fw-normal text-secondary-light">{{ $sale->client->lastname }} {{ $sale->client->firstname }}</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $client->identifiant }}</span></td>
-                                        <td>{{ $client->email }}</td>
-                                        <td>{{ $client->tel }}</td>
+                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $sale->total }}</span></td>
                                         {{-- <td class="text-center">
                                             <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
                                         </td> --}}
                                         <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                    <a href="{{ route('viewClient', ['id' => $client->id]) }}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                                    </a>
-                                                    <a href="{{ route('viewClient', ['id' => $client->id]) }}" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                                    </a>
-                                                </div>
-                                                <form action="{{ route('delete-client') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $client->id }}>
-                                                    <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                                    </button>
-                                                </form>
+                                                <a href="{{ route('showSale', ['id' => $sale->id]) }}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
+                                                </a>
+                                                <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                                </button>
+                                                <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -153,15 +142,15 @@
                             </tbody>
                         </table>
                         {{-- <div class="pagination-wrapper">
-                            {{ $users->links('pagination::bootstrap-4') }}
+                            {{ $sales->links('pagination::bootstrap-4') }}
                         </div> --}}
                     </div>
 
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
+                    {{-- <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
                         <span>Showing 1 to 10 of 12 entries</span>
                         <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->previousPageUrl() }}">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $sales->previousPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
                                 </a>
                             </li>
@@ -181,12 +170,12 @@
                                 <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->nextPageUrl() }}">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $sales->nextPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

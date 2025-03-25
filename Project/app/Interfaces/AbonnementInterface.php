@@ -5,6 +5,14 @@ namespace App\Interfaces;
 interface AbonnementInterface
 {
     //
+    public function addAb();
+    public function show();
+    public function viewAb($id);
+    public function store($data);
+    public function destroy($id);
+
+
+
     public function create_service($data);
     public function show_service();
     public function destroy_service($id);

@@ -17,20 +17,20 @@ class ClientController extends Controller
         $this->clientInterface = $clientInterface;
     }
 
-    
+
     public function addClient()
     {
         return view('client/addClient');
     }
 
-    
+
     public function clientList()
     {
         $clients = $this->clientInterface->show();
 
         return view('client/clientList', compact('clients'));
     }
-    
+
     public function viewClient($id)
     {
 
@@ -56,10 +56,12 @@ class ClientController extends Controller
         $filePath = 'null';
 
         if ($clientRequest->hasFile('image')) {
-            
+
             $image = $clientRequest->file('image');
 
             $image_ext = $image->getClientOriginalExtension();
+            $image_name = 'Client_' . time() . '.' . $image_ext;
+            $filePath = $image->storeAs('client', $image_name, 'public');
         }
 
         // Validation des données
@@ -68,13 +70,13 @@ class ClientController extends Controller
             'firstname' => $clientRequest->firstname,
             'lastname' => $clientRequest->lastname,
             'email' => $clientRequest->email,
-            'image' => 'null',
+            'image' => $filePath,
             'tel' => $clientRequest->tel,
             'address' => $clientRequest->address,
             'identifiant' => strtoupper(substr($clientRequest->firstname, 0, 2))
-                        . strtoupper(substr($clientRequest->lastname, 0, 2))
-                        . '_'
-                        . rand(100, 999),
+                . strtoupper(substr($clientRequest->lastname, 0, 2))
+                . '_'
+                . rand(100, 999),
             'sex' => $clientRequest->sex === "Selectionner" ? null : ($clientRequest->sex === 'Homme' ? true : false),
         ];
 
@@ -82,7 +84,7 @@ class ClientController extends Controller
 
         try {
             $client = $this->clientInterface->create($data);
-            
+
             if ($client) {  // Vérification si l'utilisateur a bien été créé
                 DB::commit();
                 return back()->with('success', 'Client créé avec succès !');
@@ -90,7 +92,6 @@ class ClientController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'La création du client a échoué.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -134,18 +135,14 @@ class ClientController extends Controller
 
         try {
             $client = $this->clientInterface->update($clientRequest);
-            
+
             if ($client) {  // Vérification si l'utilisateur a bien été modifier
                 DB::commit();
-                // return redirect()->route('viewClient')->with('success', 'Oppération réussie !');
                 return back()->with('success', 'Oppération réussie !');
-                // return view('client/clientList', compact('clients'));
             } else {
                 DB::rollback();
                 return back()->withErrors(['error' => 'Echec de l\'oppération.']);
-                // return view('client/clientList', compact('clients'));
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;

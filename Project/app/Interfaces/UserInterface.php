@@ -12,5 +12,6 @@ interface UserInterface
     public function show();
     public function update($userRequest, $id);
     public function changePassword($passwordUpdateRequest, $id);
+    public function rolesAssigned($id, $roleType);
     public function destroy($id);
 }

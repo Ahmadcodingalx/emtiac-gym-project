@@ -13,4 +13,10 @@ class Product extends Model
         'quantity',
         'price',
     ];
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'product_sales', 'product_id', 'sale_id')
+            ->withPivot('quantity', 'subtotal');
+    }
 }

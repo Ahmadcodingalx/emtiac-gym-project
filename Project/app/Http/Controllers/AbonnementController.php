@@ -15,12 +15,32 @@ class AbonnementController extends Controller
         $this->abonnementInterface = $abonnementInterface;
     }
 
+    public function addAb()
+    {
+
+        $allData = $this->abonnementInterface->addAb();
+        
+        $clients = $allData['clientData'];
+        $types = $allData['typeData'];
+        $services = $allData['serviceData'];
+
+        return view('abonnements/addAbonnement', compact('clients', 'types', 'services'));
+    }
+
+    
+    public function adList()
+    {
+        $abonnements = $this->abonnementInterface->show();
+
+        return view('abonnements/abonnementsList', compact('abonnements'));
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -37,6 +57,44 @@ class AbonnementController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'type' => 'required',
+            'start_date' => 'required',
+        ]);
+
+        $data = [
+            'client_id' => $request->client,
+            'user_create_id' => auth()->id(),
+            'type_id' => $request->type,
+            // 'status' => 'suspendu',
+            'service_id' => $request->service,
+            'start_date' => $request->start_date,
+            'end_date' => $request->start_date,
+            'price' => $request->price,
+            'transaction_id' => 'abb_' . rand(100000, 999999),
+            'remark' => $request->remark,
+        ];
+
+        DB::beginTransaction();
+
+        try {
+
+            $abb = $this->abonnementInterface->store($data);
+
+            if ($abb) {
+                DB::commit();
+                return back()->with('success', 'Oppération éffectuée avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Oppération a échoué.']);
+            }
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’abonnement.']);
+        }
     }
 
     /**
@@ -44,7 +102,15 @@ class AbonnementController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $ab = $this->abonnementInterface->viewAb($id);
+
+        $allData = $this->abonnementInterface->addAb();
+
+        $clients = $allData['clientData'];
+        $types = $allData['typeData'];
+        $services = $allData['serviceData'];
+
+        return view('abonnements/viewAbonnement', compact('ab', 'clients', 'types', 'services'));
     }
 
     /**
@@ -66,9 +132,26 @@ class AbonnementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $abb = $this->abonnementInterface->destroy($request->id);
+
+            if ($abb) {
+                $abb->delete();
+                DB::commit();
+                return back()->with('success', 'Oppération éffectuée avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Oppération a échoué.']);
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’abonnement.']);
+        }
     }
 
 

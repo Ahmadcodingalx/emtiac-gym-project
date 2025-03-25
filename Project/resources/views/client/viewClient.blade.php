@@ -15,7 +15,7 @@
                             reader.readAsDataURL(input.files[0]);
                         }
                     }
-                    $("#imageUpload").change(function() {
+                    $("#image").change(function() {
                         readURL(this);
                     });
                     // ======================== Upload Image End =====================
@@ -44,10 +44,10 @@
             
         <div class="col-lg-4">
             <div class="user-grid-card position-relative border radius-16 overflow-hidden bg-base h-100">
-                <img src="{{ asset('assets/images/user-grid/user-grid-bg1.png') }}" alt="" class="w-100 object-fit-cover">
+                <img src="{{ asset('storage/' . $client->image) }}" alt="Profile du client" class="w-100 object-fit-cover">
                 <div class="pb-24 ms-16 mb-24 me-16  mt--100">
                     <div class="text-center border border-top-0 border-start-0 border-end-0">
-                        <img src="{{ asset('assets/images/user-grid/user-grid-img14.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
+                        <img src="{{ asset('storage/' . $client->image) }}" alt="Profil du client" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
                         <h6 class="mb-0 mt-16">{{ $client->identifiant }}</h6>
                         <span class="text-secondary-light mb-16">{{ $client->email }}</span>
                     </div>
@@ -162,7 +162,7 @@
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <form action="{{ route('update-client') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0">
+                        <form action="{{ route('update-client') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0"  enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <h6 class="text-md text-primary-light mb-16">Image</h6>
@@ -171,8 +171,8 @@
                                 <div class="avatar-upload">
                                     <div class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer">
                                         <input type="hidden" name="id" value={{ $client->id }}>
-                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" hidden>
-                                        <label for="imageUpload" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
+                                        <input type='file' id="image" name="image" accept=".png, .jpg, .jpeg" hidden>
+                                        <label for="image" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
                                             <iconify-icon icon="solar:camera-outline" class="icon"></iconify-icon>
                                         </label>
                                     </div>

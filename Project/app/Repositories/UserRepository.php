@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,16 @@ class UserRepository implements UserInterface
 
     public function create(array $data): User
     {
-        return User::create($data);
+        $user = User::create($data);
+
+        if ($user) {
+            $data = [
+                'user_id' => $user->id
+            ];
+            Role::create($data);
+        }
+
+        return $user;
     }
 
     public function show()
@@ -71,5 +81,28 @@ class UserRepository implements UserInterface
     public function destroy($id)
     {
         return User::find($id);
+    }
+
+    public function rolesAssigned($id, $roleType)
+    {
+        $role = Role::where('user_id', $id)->first();
+
+        switch ($roleType) {
+            case 1:
+                $role->coach = !$role->coach;
+                break;
+            
+            case 2:
+                $role->cashier = !$role->cashier;
+                break;
+
+            default:
+                $role->secretary = !$role->secretary;
+                break;
+        }
+
+        $role->save();
+
+        return $role;
     }
 }

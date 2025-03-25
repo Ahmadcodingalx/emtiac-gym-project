@@ -89,7 +89,7 @@ class UsersController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l’utilisateur.']);
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’utilisateur.']);
         }
     }
 
@@ -151,5 +151,28 @@ class UsersController extends Controller
         $user->delete();
 
         return back()->with('success', 'Oppération réussie !');
+    }
+
+    public function rolesAssigned($id, $type)
+    {
+        DB::beginTransaction();
+        // dd("ID: $id", "RoleType: $roleType");
+        
+        try {
+            DB::commit();
+            $role = $this->userInterface->rolesAssigned($id, $type);
+
+            if ($role) {
+                return back()->with('success', 'Oppération réussie !');
+                // return redirect()->route('usersRoles')->with('success', 'Opération réussie !');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'oppération']);
+            // return back()->withErrors(['error' => $th);
+        }
     }
 }

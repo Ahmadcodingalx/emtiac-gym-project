@@ -4,6 +4,7 @@ use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AiapplicationController;
@@ -175,11 +176,39 @@ Route::prefix('users')->group(function () {
         Route::get('/view-profile', 'viewProfile')->name('viewProfile');
 
         Route::get('users', 'show')->name('showUsers');
+        Route::get('/roles/{id}/{roleType}/user', 'rolesAssigned')->name('user-roles');
 
         Route::post('/new-user', 'create')->name('new-user');
         Route::post('/update-user', 'update')->name('update-user');
         Route::post('/change-password', 'changePassword')->name('change-password');
         Route::delete('/delete', 'destroy')->name('delete');
+    });
+});
+
+// Users
+Route::prefix('sales')->group(function () {
+    Route::controller(SaleController::class)->group(function () {
+        Route::get('/add-sale', 'addSale')->name('addSale');
+        Route::get('/sales-list', 'SalesList')->name('salesList');
+
+        Route::get('sale/{id}', 'showSale')->name('showSale');
+
+        Route::post('/new-sale', 'store')->name('new-sale');
+        Route::put('/update-sale/{id}', 'update')->name('update-sale');
+    });
+});
+
+// Users
+Route::prefix('abonnements')->group(function () {
+    Route::controller(AbonnementController::class)->group(function () {
+        Route::get('/add-abonnements', 'addAb')->name('addAb');
+        Route::get('/abonnements-list', 'adList')->name('adList');
+
+        Route::get('abonnements/{id}', 'show')->name('showAb');
+
+        Route::post('/new-abonnement', 'store')->name('new-abonnement');
+        Route::put('/update-abonnement/{id}', 'update')->name('update-abonnement');
+        Route::delete('/delete-abonnement', 'destroy')->name('delete-abonnement');
     });
 });
 

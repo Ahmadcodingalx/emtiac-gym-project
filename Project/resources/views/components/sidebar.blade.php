@@ -313,6 +313,20 @@
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                    <span>Gestion des ventes</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li>
+                        <a  href="{{ route('salesList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des ventes</a>
+                    </li>
+                    <li>
+                        <a  href="{{ route('addSale') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Effectuer une vente</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a  href="javascript:void(0)">
+                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
                     <span>Clients</span>
                 </a>
                 <ul class="sidebar-submenu">
@@ -321,6 +335,20 @@
                     </li>
                     <li>
                         <a  href="{{ route('addClient') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter des clients</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a  href="javascript:void(0)">
+                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
+                    <span>Abonnements</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li>
+                        <a  href="{{ route('adList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des abonnements</a>
+                    </li>
+                    <li>
+                        <a  href="{{ route('addAb') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Faire un abonnements</a>
                     </li>
                 </ul>
             </li>

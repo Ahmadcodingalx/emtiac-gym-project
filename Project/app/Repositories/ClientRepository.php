@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\ClientInterface;
 use App\Models\Client;
+use Illuminate\Support\Facades\Storage;
 
 class ClientRepository implements ClientInterface
 {
@@ -36,10 +37,22 @@ class ClientRepository implements ClientInterface
     {
         $client = Client::findOrFail($clientRequest->id);
 
+        if ($clientRequest->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($client->image !== 'null' && Storage::disk('public')->exists($client->image)) {
+                Storage::disk('public')->delete($client->image);
+            }
+
+            $image = $clientRequest->file('image');
+
+            $image_ext = $image->getClientOriginalExtension();
+            $image_name = 'Client_' . time() . '.' . $image_ext;
+            $client->image = $image->storeAs('client', $image_name, 'public');
+        }
+
         $client->user_id_update = auth()->id();
         $client->firstname = $clientRequest->input('firstname');
         $client->lastname = $clientRequest->input('lastname');
-        // $client->image = $clientRequest->input('image');
         $client->email = $clientRequest->input('email');
         $client->tel = $clientRequest->input('tel');
         $client->address = $clientRequest->input('address');

@@ -133,7 +133,7 @@
                                                 <form action="{{ route('delete-type') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $type->id }}>
+                                                    <input type="hidden" name="id" value="{{ $type->id }}">
                                                     <button type="submit" class="delete-btn dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10">
                                                         Delete
                                                     </button>
@@ -148,11 +148,11 @@
                                         <img src="{{ asset('assets/images/34563.png') }}" alt="" class="border br-white border-width-2-px w-100-px h-100-px rounded-circle object-fit-cover">
                                         {{-- <h6 class="text-lg mb-0 mt-4">Jacob Jones</h6> --}}
                                         <div class="col-12">
-                                            <input value={{ $type->id }} type="hidden" name="id">
-                                            <input disabled id="myInput1{{ $type->id }}" value={{ $type->name }} style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du Type d'abonnement">
+                                            <input value="{{ $type->id }}" type="hidden" name="id">
+                                            <input disabled id="myInput1{{ $type->id }}" value="{{ $type->name }}" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du Type d'abonnement">
                                         </div>
                                         <div class="" style="display: flex; align-items: center; justify-content: center;">
-                                            <input disabled id="amount{{ $type->id }}" value={{ $type->amount }} style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold; width: 100px; padding: 0;" type="number" name="amount" class="form-control form-control-lg" placeholder="Entrer le montant">
+                                            <input disabled id="amount{{ $type->id }}" value="{{ $type->amount }}" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold; width: 100px; padding: 0;" type="number" name="amount" class="form-control form-control-lg" placeholder="Entrer le montant">
                                             <h7 style="position: relative; left: -10px;">fcfa</h7>
                                         </div>
                                         @if ($type->description)

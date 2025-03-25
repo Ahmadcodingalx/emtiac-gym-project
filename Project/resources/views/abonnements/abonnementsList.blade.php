@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @php
-    $title='Liste des clients';
-    $subTitle = 'Clients';
+    $title='Liste des abonnements';
+    $subTitle = 'Abonnements';
     $script ='<script>
                         $(".remove-item-btn").on("click", function() {
                             $(this).closest("tr").addClass("d-none")
@@ -69,14 +69,16 @@
                             <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
                         </form>
                         <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
+                            <option>Tout</option>
+                            <option>actif</option>
+                            <option>expiré</option>
+                            <option>suspendu</option>
+                            <option>attente</option>
                         </select>
                     </div>
-                    <a  href="{{ route('addClient') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
+                    <a  href="{{ route('addAb') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
-                        Ajouter un Client
+                        Créer un abonnement
                     </a>
                 </div>
                 <div class="card-body p-24">
@@ -93,54 +95,82 @@
                                         </div>
                                     </th>
                                     <th scope="col">Date de création</th>
-                                    <th scope="col">Nom et prénom</th>
-                                    <th scope="col">Identifiant</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Téléphone</th>
+                                    {{-- <th scope="col">Client</th> --}}
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date de debut</th>
+                                    <th scope="col">Date de fin</th>
+                                    <th scope="col">Montant Payé</th>
                                     {{-- <th scope="col" class="text-center">Status</th> --}}
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($clients as $client)
+                                @foreach ($abonnements as $abonnement)
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center gap-10">
                                                 <div class="form-check style-check d-flex align-items-center">
                                                     <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
                                                 </div>
-                                                {{ $client->id }}
+                                                {{ $abonnement->id }}
                                             </div>
                                         </td>
-                                        <td>{{ $client->created_at }}</td>
-                                        <td>
+                                        <td>{{ $abonnement->created_at }}</td>
+                                        {{-- <td>
                                             <div class="d-flex align-items-center">
                                                 <img src="{{ asset('storage/' . $client->image) }}" alt="Photo de {{ $client->lastname }}" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
                                                 <div class="flex-grow-1">
                                                     <span class="text-md mb-0 fw-normal text-secondary-light">{{ $client->lastname }} {{ $client->firstname }}</span>
                                                 </div>
                                             </div>
+                                        </td> --}}
+                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $abonnement->transaction_id }}</span></td>
+                                        {{-- <td><span class="bg-danger radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
+                                        {{-- <td><span class="bg-neutral-300 radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
+                                        {{-- <td><span class="bg-success radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
+                                        <td class="dropdown">
+                                            <button class="{{ 
+                                                    $abonnement->status == 'expiré' ? 'bg-danger-400' :
+                                                    ($abonnement->status == 'suspendu' ? 'bg-neutral-400' :
+                                                    ($abonnement->status == 'attente' ? 'bg-warning-400' : 'bg-success-400'))
+                                                    }} radius-8 p-3 text-white w-100 not-active py-8" style="text-align: center"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ $abonnement->status }}
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if ($abonnement->status != 'expiré')
+                                                    @if ($abonnement->status != 'actif')
+                                                        <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Activer</a></li>
+                                                        @if ($abonnement->status != 'suspendu')
+                                                            <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
+                                                        @endif
+                                                    @elseif ($abonnement->status == 'actif')
+                                                        <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
+                                                    @endif
+                                                @endif
+                                                
+                                            </ul>
                                         </td>
-                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $client->identifiant }}</span></td>
-                                        <td>{{ $client->email }}</td>
-                                        <td>{{ $client->tel }}</td>
+                                        <td>{{ $abonnement->start_date }}</td>
+                                        <td>{{ $abonnement->end_date }}</td>
+                                        <td>{{ $abonnement->price }}</td>
                                         {{-- <td class="text-center">
                                             <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
                                         </td> --}}
                                         <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
                                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                    <a href="{{ route('viewClient', ['id' => $client->id]) }}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <a href="{{ route('showAb', ['id' => $abonnement->id]) }}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                         <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
                                                     </a>
-                                                    <a href="{{ route('viewClient', ['id' => $client->id]) }}" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <a href="{{ route('showAb', ['id' => $abonnement->id]) }}" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                         <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
                                                     </a>
                                                 </div>
-                                                <form action="{{ route('delete-client') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce client ?')">
+                                                <form action="{{ route('delete-abonnement') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $client->id }}>
+                                                    <input type="hidden" name="id" value={{ $abonnement->id }}>
                                                     <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                         <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                                     </button>
@@ -161,7 +191,7 @@
                         <span>Showing 1 to 10 of 12 entries</span>
                         <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->previousPageUrl() }}">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $abonnements->previousPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
                                 </a>
                             </li>
@@ -181,7 +211,7 @@
                                 <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->nextPageUrl() }}">
+                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $abonnements->nextPageUrl() }}">
                                     <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
                                 </a>
                             </li>
