@@ -140,12 +140,12 @@
                                             <ul class="dropdown-menu">
                                                 @if ($abonnement->status != 'expiré')
                                                     @if ($abonnement->status != 'actif')
-                                                        <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Activer</a></li>
+                                                        <li><a href="{{ route('update-status', ['id' => $abonnement->id, 'status' => 'actif']) }}" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Activer</a></li>
                                                         @if ($abonnement->status != 'suspendu')
-                                                            <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
+                                                            <li><a href="{{ route('update-status', ['id' => $abonnement->id, 'status' => 'suspendu']) }}" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
                                                         @endif
                                                     @elseif ($abonnement->status == 'actif')
-                                                        <li><a class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
+                                                        <li><a href="{{ route('update-status', ['id' => $abonnement->id, 'status' => 'suspendu']) }}" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
                                                     @endif
                                                 @endif
                                                 
@@ -153,7 +153,7 @@
                                         </td>
                                         <td>{{ $abonnement->start_date }}</td>
                                         <td>{{ $abonnement->end_date }}</td>
-                                        <td>{{ $abonnement->pric }}</td>
+                                        <td>{{ $abonnement->price ?? $abonnement->type->amount }}</td>
                                         {{-- <td class="text-center">
                                             <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
                                         </td> --}}

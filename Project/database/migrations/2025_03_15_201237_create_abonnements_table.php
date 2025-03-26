@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal(column: 'price')->nullable();
             $table->enum('status', ['actif', 'expiré', 'suspendu', 'attente'])->default('attente');
             $table->string('sale_mode')->default('cash');
-            $table->string('transaction_id')->nullable();
+            $table->string(column: 'transaction_id')->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();
 

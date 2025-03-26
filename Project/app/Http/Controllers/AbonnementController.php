@@ -66,12 +66,12 @@ class AbonnementController extends Controller
             'client_id' => $request->client,
             'user_create_id' => auth()->id(),
             'type_id' => $request->type,
-            // 'status' => 'suspendu',
+            'status' => 'attente',
             'service_id' => $request->service,
             'start_date' => $request->start_date,
-            'end_date' => $request->start_date,
+            'end_date' => '',
             'price' => $request->price,
-            'transaction_id' => 'abb_' . rand(100000, 999999),
+            'transaction_id' => '',
             'remark' => $request->remark,
         ];
 
@@ -126,7 +126,25 @@ class AbonnementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $ab = $this->abonnementInterface->update($request, $id);
+            
+            if ($ab) {  // Vérification si l'abonnement a bien été modifier
+                DB::commit();
+                return back()->with('success', 'Oppération réussie !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Echec de l\'oppération.']);
+            }
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
+        }
     }
 
     /**
@@ -140,6 +158,27 @@ class AbonnementController extends Controller
 
             if ($abb) {
                 $abb->delete();
+                DB::commit();
+                return back()->with('success', 'Oppération éffectuée avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Oppération a échoué.']);
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’abonnement.']);
+        }
+    }
+
+    public function updateStatus($id, $status)
+    {
+        DB::beginTransaction();
+        try {
+            $abb = $this->abonnementInterface->updateStatus($status, $id);
+
+            if ($abb) {
                 DB::commit();
                 return back()->with('success', 'Oppération éffectuée avec succès !');
             } else {

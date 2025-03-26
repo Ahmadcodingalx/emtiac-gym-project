@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->integer('number');
-            $table->enum('`type`', ['Jour', 'Semaine', 'Mois', 'Année']);
+            $table->enum('type', ['Jour', 'Semaine', 'Mois', 'Année']);
             $table->double('amount');
             $table->timestamps();
         });

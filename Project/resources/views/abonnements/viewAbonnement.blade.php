@@ -153,7 +153,7 @@
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <form action="{{ route('update-client') }}" method="POST" class="tab-pane fade show active"
+                        <form action="{{ route('update-abonnement', ['id' => $ab->id]) }}" method="POST" class="tab-pane fade show active"
                             id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0"
                             enctype="multipart/form-data">
                             @csrf
@@ -162,7 +162,7 @@
                             <div class="row gy-3 needs-validation align-items-start mt-20">
                                 <div class="col-md-4">
                                     <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="client" required>
+                                    <select class="form-control radius-8 form-select" id="client" name="client">
                                         <option value="">Sélectionner un client</option>
                                         <option value="">Autre</option>
                                         @foreach ($clients as $client)
@@ -173,10 +173,9 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="client" required>
+                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Type </label>
+                                    <select class="form-control radius-8 form-select" id="client" name="type" required>
                                         <option value="">Sélectionner un type</option>
-                                        <option value="">Autre</option>
                                         @foreach ($types as $type)
                                             <option value="{{ $type->id }}" {{ $ab->type_id == $type->id ? 'selected' : '' }}>
                                                 {{ $type->name }}
@@ -185,8 +184,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="client" required>
+                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Service </label>
+                                    <select class="form-control radius-8 form-select" id="client" name="service" >
                                         <option value="">Sélectionner un service</option>
                                         <option value="">Autre</option>
                                         @foreach ($services as $service)

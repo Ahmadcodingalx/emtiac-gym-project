@@ -208,6 +208,7 @@ Route::prefix('abonnements')->group(function () {
 
         Route::post('/new-abonnement', 'store')->name('new-abonnement');
         Route::put('/update-abonnement/{id}', 'update')->name('update-abonnement');
+        Route::get('/update-status/{id}/{status}', 'updateStatus')->name('update-status');
         Route::delete('/delete-abonnement', 'destroy')->name('delete-abonnement');
     });
 });

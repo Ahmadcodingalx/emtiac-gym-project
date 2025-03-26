@@ -76,10 +76,10 @@
                                     <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label>
                                     <select class="form-control radius-8 form-select" id="type" name="type">
                                         <option value="">Choisir</option>
-                                        <option value="">Jour</option>
-                                        <option value="">Semaine</option>
-                                        <option value="">Mois</option>
-                                        <option value="">Année</option>
+                                        <option value="Jour">Jour</option>
+                                        <option value="Semaine">Semaine</option>
+                                        <option value="Mois">Mois</option>
+                                        <option value="Année">Année</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,13 +148,13 @@
                                         </div>
                                         <div class="row gy-3 align-items-end">
                                             <div class="col-md-5">
-                                                <label class="form-label">Nombre</label>
-                                                <input disabled type="number" name="number" id="number{{ $type->id }}" value="{{ $type->number }}" class="form-control" placeholder="Entrer le nombre de jour" value="1" min="1" required>
+                                                {{-- <label class="form-label">Nombre</label> --}}
+                                                <input disabled type="number" name="number" id="number{{ $type->id }}" value="{{ $type->number }}" class="form-control" placeholder="Entrer le nombre de jour" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" value="1" min="1" required>
                                             </div>
                                             <div class="col-md-auto">
-                                                <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label>
-                                                <select disabled class="form-control radius-8 form-select" id="type{{ $type->id }}" value="{{ $type->type }}" name="type">
-                                                    <option value="">Choisir</option>
+                                                {{-- <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label> --}}
+                                                <select disabled class="form-control radius-8 form-select" id="type{{ $type->id }}" value="{{ $type->type }}" name="type" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;">
+                                                    <option value="{{ $type->id }}"> {{ $type->type }} </option>
                                                     <option value="">Jour</option>
                                                     <option value="">Semaine</option>
                                                     <option value="">Mois</option>

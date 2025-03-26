@@ -128,19 +128,6 @@
                                     <label class="form-label">Mode de payement <span style="color: rgb(180, 180, 180)">(Si différent du prix habituel)</span></label>
                                     <input type="text" name="price" id="price" class="form-control" placeholder="Entrer le prix" >
                                 </div> --}}
-                                <div class="col-md-4">
-                                    <label class="form-label">Activer maintenant </label>
-                                    <div class="d-flex align-items-center flex-wrap gap-28 mt-10">
-                                        <div class="form-check checked-warning d-flex align-items-center gap-2">
-                                            <input class="form-check-input" type="radio" name="radio" id="radio44">
-                                            <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="radio44"> Non </label>
-                                        </div>
-                                        <div class="form-check checked-success d-flex align-items-center gap-2">
-                                            <input class="form-check-input" type="radio" name="radio" id="radio33">
-                                            <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="radio33"> Oui </label>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <button id="addservice" class="btn btn-primary-600 mt-20" type="submit">Créer</button>
                         </div>
@@ -165,11 +152,6 @@
                         let serviceName = $("#service option:selected").text();
                         let price = parseFloat($("#service option:selected").data("price"));
                         let quantity = parseInt($("#quantity").val());
-            
-                        if (!serviceId || quantity < 1) {
-                            alert("Sélectionnez un produit et entrez une quantité valide !");
-                            return;
-                        }
             
                         let total = price * quantity;
             

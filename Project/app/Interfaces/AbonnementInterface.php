@@ -10,6 +10,8 @@ interface AbonnementInterface
     public function viewAb($id);
     public function store($data);
     public function destroy($id);
+    public function update($request, $id);
+    public function updateStatus($status, $id);
 
 
 
