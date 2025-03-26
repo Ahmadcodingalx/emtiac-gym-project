@@ -9,7 +9,8 @@ class Abonnement extends Model
     //
     protected $fillable = [
         'client_id',
-        'user_id',
+        'user_create_id',
+        'user_update_id',
         'type_id',
         'service_id',
         'start_date',
@@ -21,9 +22,14 @@ class Abonnement extends Model
         'remark',
     ];
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_create_id');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'user_update_id');
     }
 
     public function type()

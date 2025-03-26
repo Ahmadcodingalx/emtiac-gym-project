@@ -153,7 +153,7 @@
                                         </td>
                                         <td>{{ $abonnement->start_date }}</td>
                                         <td>{{ $abonnement->end_date }}</td>
-                                        <td>{{ $abonnement->price }}</td>
+                                        <td>{{ $abonnement->pric }}</td>
                                         {{-- <td class="text-center">
                                             <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
                                         </td> --}}

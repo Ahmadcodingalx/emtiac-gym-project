@@ -251,6 +251,8 @@ class AbonnementController extends Controller
         // Validation des données
         $data = [
             'name' => $request->name,
+            'number' => $request->number,
+            'type' => $request->type,
             'description' => $request->desc,
             'amount' => $request->amount,
         ];

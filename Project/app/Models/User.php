@@ -51,4 +51,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function createdAbonnements()
+    {
+        return $this->hasMany(Abonnement::class, 'user_create_id');
+    }
+
+    public function updatedAbonnements()
+    {
+        return $this->hasMany(Abonnement::class, 'user_update_id');
+    }
 }

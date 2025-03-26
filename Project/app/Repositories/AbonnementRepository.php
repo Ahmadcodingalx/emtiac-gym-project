@@ -25,7 +25,7 @@ class AbonnementRepository implements AbonnementInterface
 
     public function viewAb($id)
     {
-        return Abonnement::with('user', 'type', 'service', 'client')->findOrFail($id);
+        return Abonnement::with('createdBy', 'updatedBy', 'type', 'service', 'client')->findOrFail($id);
     }
 
     public function addAb()
@@ -109,6 +109,8 @@ class AbonnementRepository implements AbonnementInterface
         if ($request->input('name')) {
             $type->name = $request->input('name');
             $type->description = $request->input('desc');
+            $type->number = $request->input('number');
+            $type->type = $request->input('type');
             $type->description = $request->input('amount');
         }
 

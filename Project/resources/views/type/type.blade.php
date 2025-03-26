@@ -63,13 +63,29 @@
                                 <label class="form-label">Nom</label>
                                 <input type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du type d'abonnement">
                             </div>
-                            <div class="">
-                                <label class="form-label">Description</label>
-                                <textarea name="desc" class="form-control" rows="4" cols="50" placeholder="Enter une description..."></textarea>
-                            </div>
                             <div class="col-12">
                                 <label class="form-label">Montant</label>
                                 <input type="number" name="amount" class="form-control form-control-lg" placeholder="Entrer le montant">
+                            </div>
+                            <div class="row gy-3 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="number" name="number" id="number" class="form-control" placeholder="Entrer le nombre de jour" value="1" min="1" required>
+                                </div>
+                                <div class="col-md-auto">
+                                    <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label>
+                                    <select class="form-control radius-8 form-select" id="type" name="type">
+                                        <option value="">Choisir</option>
+                                        <option value="">Jour</option>
+                                        <option value="">Semaine</option>
+                                        <option value="">Mois</option>
+                                        <option value="">Année</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="">
+                                <label class="form-label">Description</label>
+                                <textarea name="desc" class="form-control" rows="4" cols="50" placeholder="Enter une description..."></textarea>
                             </div>
                             <div class="d-flex align-items-center justify-content-center gap-3">
                                 {{-- <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8">
@@ -87,31 +103,6 @@
         <div class="col-lg-8">
 
             <div class="card h-100 p-0 radius-12">
-                {{-- <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
-                    <div class="d-flex align-items-center flex-wrap gap-3">
-                        <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
-                        <form class="navbar-search">
-                            <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
-                            <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-                        </form>
-                    </div>
-                    <a  href="{{ route('viewProfile') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
-                        <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
-                        Ajouter un cours
-                    </a>
-                </div> --}}
                 <div class="card-body p-24">
                     <div class="p-24" style="width: 100%; overflow-x: auto; white-space: nowrap; display: flex; gap: 20px;">
                         @foreach ($types as $type)
@@ -155,6 +146,22 @@
                                             <input disabled id="amount{{ $type->id }}" value="{{ $type->amount }}" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold; width: 100px; padding: 0;" type="number" name="amount" class="form-control form-control-lg" placeholder="Entrer le montant">
                                             <h7 style="position: relative; left: -10px;">fcfa</h7>
                                         </div>
+                                        <div class="row gy-3 align-items-end">
+                                            <div class="col-md-5">
+                                                <label class="form-label">Nombre</label>
+                                                <input disabled type="number" name="number" id="number{{ $type->id }}" value="{{ $type->number }}" class="form-control" placeholder="Entrer le nombre de jour" value="1" min="1" required>
+                                            </div>
+                                            <div class="col-md-auto">
+                                                <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label>
+                                                <select disabled class="form-control radius-8 form-select" id="type{{ $type->id }}" value="{{ $type->type }}" name="type">
+                                                    <option value="">Choisir</option>
+                                                    <option value="">Jour</option>
+                                                    <option value="">Semaine</option>
+                                                    <option value="">Mois</option>
+                                                    <option value="">Année</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         @if ($type->description)
                                             <div class="">
                                                 <textarea disabled id="myInput2{{ $type->id }}" style="background-color: transparent; border-color: transparent; resize: none; width: 100%; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word;"  name="desc" class="form-control" rows="4" cols="50" placeholder="Enter une description...">{{ $type->description }}</textarea>
@@ -189,9 +196,13 @@
             let input1 = document.getElementById("myInput1" + id);
             let input2 = document.getElementById("myInput2" + id);
             let amount = document.getElementById("amount" + id);
+            let number = document.getElementById("number" + id);
+            let type = document.getElementById("type" + id);
             input1.disabled = !input1.disabled; // Inverse l'état (activé/désactivé)
             input2.disabled = !input2.disabled; // Inverse l'état (activé/désactivé)
             amount.disabled = !amount.disabled; // Inverse l'état (activé/désactivé)
+            number.disabled = !number.disabled; // Inverse l'état (activé/désactivé)
+            type.disabled = !type.disabled; // Inverse l'état (activé/désactivé)
 
             let buttons = document.getElementById("myButtons" + id);
 
@@ -205,9 +216,13 @@
             let input1 = document.getElementById("myInput1" + id);
             let input2 = document.getElementById("myInput2" + id);
             let amount = document.getElementById("amount" + id);
+            let number = document.getElementById("number" + id);
+            let type = document.getElementById("type" + id);
             input1.disabled = !input1.disabled; // Inverse l'état (activé/désactivé)
             input2.disabled = !input2.disabled; // Inverse l'état (activé/désactivé)
             amount.disabled = !amount.disabled; // Inverse l'état (activé/désactivé)
+            number.disabled = !number.disabled; // Inverse l'état (activé/désactivé)
+            type.disabled = !type.disabled; // Inverse l'état (activé/désactivé)
 
             let buttons = document.getElementById("myButtons" + id);
 

@@ -10,6 +10,8 @@ class Type extends Model
     protected $fillable = [
         'name',
         'description',
+        'type',
+        'number',
         'amount',
     ];
 }
