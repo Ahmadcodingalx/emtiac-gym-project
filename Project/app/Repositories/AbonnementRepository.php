@@ -143,6 +143,24 @@ class AbonnementRepository implements AbonnementInterface
         $abb = Abonnement::findOrFail($id);
 
         $abb->status = $status;
+
+        $type = Type::findOrFail($abb->type_id);
+
+        $startDate = Carbon::now();
+        $abb->start_date = now();
+        // dd($startDate);
+        if ($type->type === 'Jour') {
+            $day = $type->number - 1;
+            $abb->end_date = $startDate->addDays($day);
+        } elseif ($type->type === 'Semaine') {
+            $abb->end_date = $startDate->addWeeks($type->number);
+        } elseif ($type->type === 'Mois') {
+            $abb->end_date = $startDate->addMonths($type->number);
+            // $ab->end_date = $startDate->addMonthsNoOverflow($type->number);
+        } else {
+            $abb->end_date = $startDate->addYears($type->number);
+        }
+
         $abb->updated_at = now();
 
         $abb->save();

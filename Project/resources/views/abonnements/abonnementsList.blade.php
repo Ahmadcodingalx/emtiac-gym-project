@@ -144,8 +144,6 @@
                                                         @if ($abonnement->status != 'suspendu')
                                                             <li><a href="{{ route('update-status', ['id' => $abonnement->id, 'status' => 'suspendu']) }}" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
                                                         @endif
-                                                    @elseif ($abonnement->status == 'actif')
-                                                        <li><a href="{{ route('update-status', ['id' => $abonnement->id, 'status' => 'suspendu']) }}" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900"  href="javascript:void(0)">Suspendre</a></li>
                                                     @endif
                                                 @endif
                                                 

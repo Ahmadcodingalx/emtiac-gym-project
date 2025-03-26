@@ -40,6 +40,15 @@
 
 @section('content')
     <div class="row gy-4">
+        <style>
+            body { font-family: Arial, sans-serif; }
+            .container { width: 80%; margin: auto; padding: 20px; border: 1px solid #000; }
+            .title { text-align: center; font-size: 20px; font-weight: bold; }
+            .header { text-align: center; font-size: 15px; font-weight: bold; }
+            .details { margin-top: 20px; }
+            .details p { margin: 5px 0; }
+            .footer { text-align: center; margin-top: 20px; font-size: 12px; }
+        </style>
 
         <div class="col-lg-4">
             <div class="user-grid-card position-relative border radius-16 overflow-hidden bg-base h-100">
@@ -48,18 +57,21 @@
                         <h6 class="mb-3 mt-16">{{ $ab->transaction_id }}</h6>
                         <li class="d-flex align-items-center gap-1 mb-12">
                             <span class="">Créer par</span>
-                            <span class="text-secondary-light fw-medium"> :  {{ $ab->createdBy->firstname ?? "Aucun" }} {{ $ab->createdBy->lastname ?? "" }}</span>
+                            <span class="text-secondary-light fw-medium"> : {{ $ab->createdBy->firstname ?? 'Aucun' }}
+                                {{ $ab->createdBy->lastname ?? '' }}</span>
                         </li>
                         <li class="d-flex align-items-center gap-1 mb-12">
                             <span class=" ">Modifier par</span>
-                            <span class="text-secondary-light fw-medium"> :  {{ $ab->updatedBy->firstname ?? "Personne !" }} {{ $ab->updatedBy->lastname ?? "" }}</span>
+                            <span class="text-secondary-light fw-medium"> : {{ $ab->updatedBy->firstname ?? 'Personne !' }}
+                                {{ $ab->updatedBy->lastname ?? '' }}</span>
                         </li>
                     </div>
                     <div class="mt-24">
                         <ul>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light">Client</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->client->lastname ?? "Autre" }} {{ $ab->client->firstname ?? "" }}</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->client->lastname ?? 'Autre' }}
+                                    {{ $ab->client->firstname ?? '' }}</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Type</span>
@@ -67,7 +79,8 @@
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Service</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->service->name ?? "Aucun" }}</span>
+                                <span class="w-70 text-secondary-light fw-medium">:
+                                    {{ $ab->service->name ?? 'Aucun' }}</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Date de debut</span>
@@ -79,7 +92,8 @@
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Montant payé</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->price ?? $ab->type->amount }} fcfa</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->price ?? $ab->type->amount }}
+                                    fcfa</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Statut</span>
@@ -145,51 +159,61 @@
                                 Modifier l'abonnement
                             </button>
                         </li>
-                        {{-- <li class="nav-item" role="presentation">
-                            <button class="nav-link d-flex align-items-center px-24" id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notification" type="button" role="tab" aria-controls="pills-notification" aria-selected="false" tabindex="-1">
-                                Notification Settings
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link d-flex align-items-center px-24" id="pills-notification-tab"
+                                data-bs-toggle="pill" data-bs-target="#pills-notification" type="button" role="tab"
+                                aria-controls="pills-notification" aria-selected="false" tabindex="-1">
+                                Impression
                             </button>
-                        </li> --}}
+                        </li>
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <form action="{{ route('update-abonnement', ['id' => $ab->id]) }}" method="POST" class="tab-pane fade show active"
-                            id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0"
-                            enctype="multipart/form-data">
+
+                        <form action="{{ route('update-abonnement', ['id' => $ab->id]) }}" method="POST"
+                            class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel"
+                            aria-labelledby="pills-edit-profile-tab" tabindex="0" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <div class="row gy-3 needs-validation align-items-start mt-20">
                                 <div class="col-md-4">
-                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="client">
+                                    <label for="client"
+                                        class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
+                                    <select {{ $ab->status === 'actif' ? 'disabled' : ''}} class="form-control radius-8 form-select" id="client" name="client">
                                         <option value="">Sélectionner un client</option>
                                         <option value="">Autre</option>
                                         @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}" {{ $ab->client_id == $client->id ? 'selected' : '' }}>
+                                            <option value="{{ $client->id }}"
+                                                {{ $ab->client_id == $client->id ? 'selected' : '' }}>
                                                 {{ $client->lastname }} {{ $client->firstname }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Type </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="type" required>
+                                    <label for="client"
+                                        class="form-label fw-semibold text-primary-light text-sm mb-8">Type </label>
+                                    <select {{ $ab->status === 'actif' ? 'disabled' : ''}} class="form-control radius-8 form-select" id="client" name="type"
+                                        required>
                                         <option value="">Sélectionner un type</option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}" {{ $ab->type_id == $type->id ? 'selected' : '' }}>
+                                            <option value="{{ $type->id }}"
+                                                {{ $ab->type_id == $type->id ? 'selected' : '' }}>
                                                 {{ $type->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Service </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="service" >
+                                    <label for="client"
+                                        class="form-label fw-semibold text-primary-light text-sm mb-8">Service </label>
+                                    <select {{ $ab->status === 'actif' ? 'disabled' : ''}} class="form-control radius-8 form-select" id="client" name="service">
                                         <option value="">Sélectionner un service</option>
                                         <option value="">Autre</option>
                                         @foreach ($services as $service)
-                                            <option value="{{ $service->id }}" {{ $ab->service_id == $service->id ? 'selected' : '' }}>
+                                            <option value="{{ $service->id }}"
+                                                {{ $ab->service_id == $service->id ? 'selected' : '' }}>
                                                 {{ $service->name }}
                                             </option>
                                         @endforeach
@@ -197,13 +221,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Prix </label>
-                                    <input type="number" name="price" id="price" class="form-control"
+                                    <input {{ $ab->status === 'actif' ? 'disabled' : ''}} type="number" name="price" id="price" class="form-control"
                                         placeholder="Entrer le prix">
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label">Date de début <span class="text-danger-600">*</span></label>
+                                    <label class="form-label">Date de début <span
+                                            class="text-danger-600">*</span></label>
                                     <div class="icon-field has-validation">
-                                        <input type="date" value="{{ $ab->start_date }}" name="start_date" id="start_date" class="form-control" required>
+                                        <input {{ $ab->status === 'actif' ? 'disabled' : ''}} type="date" value="{{ $ab->start_date }}" name="start_date"
+                                            id="start_date" class="form-control" required>
                                         <div class="invalid-feedback">
                                             S'il vous plait, remplir ce champ
                                         </div>
@@ -213,13 +239,51 @@
                                     <label class="form-label">Remarque </label>
                                     <div class="icon-field has-validation">
                                         <textarea
+                                            {{ $ab->status === 'actif' ? 'disabled' : ''}}
                                             style="background-color: transparent; resize: none; width: 100%; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word;"
                                             name="remark" class="form-control" rows="4" cols="50" placeholder="Enter une remarque...">{{ $ab->remark }}</textarea>
                                     </div>
                                 </div>
                             </div>
-                            <button id="addservice" class="btn btn-primary-600 mt-20" type="submit">Modifier</button>
+                            <button id="addservice" class="btn btn-primary-600 mt-20"
+                                type="submit">Modifier</button>
                         </form>
+
+                        <div class="tab-pane fade" id="pills-notification" role="tabpanel"
+                            aria-labelledby="pills-notification-tab" tabindex="0">
+                            <div class="container">
+                                <div class="title">
+                                    Gym Center à Dieu la gloire
+                                </div>
+                                <div class="header">
+                                    Reçu d'Abonnement N° {{ $ab->transaction_id }}
+                                </div>
+                        
+                                <div class="details">
+                                    <p><strong>Date et heure:</strong> {{ now()->format('d/m/Y') }}</p>
+                                    <p><strong>Nom et prénom:</strong> {{ $ab->client->firstname ?? 'Autre' }} {{ $ab->client->lastname ?? '' }}</p>
+                                    <p><strong>Type d'abonnement:</strong> {{ $ab->type->name ?? 'N/A' }}</p>
+                                    <p><strong>Prix:</strong> {{ number_format($ab->price, 2) ?? $ab->type->amount }} fcfa</p>
+                                    <p><strong>Date de début:</strong> {{ $ab->start_date }}</p>
+                                    <p><strong>Date de fin:</strong> {{ $ab->end_date }}</p>
+                                    {{-- <p><strong>Nombre de séances restantes:</strong> {{ $ab->type->name ?? 'N/A' }}</p> --}}
+                                    <p><strong>mode de paiemant:</strong> Espèces</p>
+                                    <p><strong>Service:</strong> {{ $ab->service->name ?? 'Aucun' }}</p>
+                                    <p><strong>Responsable de l'enregistrement:</strong> {{ $ab->createdBy->firstname ?? 'Aucun' }}
+                                        {{ $ab->createdBy->lastname ?? '' }}</p>
+                                    <p><strong>Adresse:</strong> Lomé</p>
+                                    <p><strong>Contact:</strong> +228 96891550 / moroumamam53@gmail.com</p>
+                                </div>
+                        
+                                <div class="footer">
+                                    Condition d'utilisation <br>
+                                    -Ce ticket est personnel et non transférable <br>
+                                    -Présentation obligatoire à l'entrée <br>
+                                    -Valable jusqu'à expiration de l'abonnement <br><br>
+                                    Merci pour votre confiance ! 
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
