@@ -26,4 +26,14 @@ class Sale extends Model
         return $this->belongsToMany(Product::class, 'product_sales', 'sale_id', 'product_id')
             ->withPivot('quantity', 'subtotal'); // Charger les colonnes pivot
     }
+
+    public function incomes()
+    {
+        return $this->belongsTo(Income::class, 'sale_id');
+    }
+
+    public function Transactions()
+    {
+        return $this->belongsTo(Transaction::class, 'sale_id');
+    }
 }

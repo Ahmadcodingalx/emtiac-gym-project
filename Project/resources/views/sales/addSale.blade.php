@@ -72,7 +72,7 @@
                             <div class="row gy-3 needs-validation align-items-end">
                                 <div class="col-md-4">
                                     <label for="client" class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select class="form-control radius-8 form-select" id="client" name="client" required>
+                                    <select class="form-control radius-8 form-select" id="client" name="client">
                                         <option value="">Sélectionner un client</option>
                                         @foreach ($clients as $client)
                                             <option value="{{ $client->id }}">{{ $client->lastname }} {{ $client->firstname }}</option>

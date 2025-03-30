@@ -106,7 +106,7 @@
                                                             <li class="d-flex align-items-center gap-1">
                                                                 <h6 class="text-xl w-30">Client </h6>
                                                                 {{-- <span class="w-30 text-md fw-semibold text-primary-light">Nom</span> --}}
-                                                                <p class="w-70" style="font-size: 16px; font-weight: bold;">: {{ $sale->client->lastname }} {{ $sale->client->firstname }}</p>
+                                                                <p class="w-70" style="font-size: 16px; font-weight: bold;">: {{ $sale->client->lastname ?? "Autre" }} {{ $sale->client->firstname ?? "" }}</p>
                                                             </li>
                                                             <li class="d-flex align-items-center gap-1 mb-12">
                                                                 <h6 class="text-xl w-30">Totale </h6>

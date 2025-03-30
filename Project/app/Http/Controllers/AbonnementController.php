@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AbonnementInterface;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AbonnementController extends Controller
 {
@@ -19,7 +21,7 @@ class AbonnementController extends Controller
     {
 
         $allData = $this->abonnementInterface->addAb();
-        
+
         $clients = $allData['clientData'];
         $types = $allData['typeData'];
         $services = $allData['serviceData'];
@@ -27,7 +29,7 @@ class AbonnementController extends Controller
         return view('abonnements/addAbonnement', compact('clients', 'types', 'services'));
     }
 
-    
+
     public function adList()
     {
         $abonnements = $this->abonnementInterface->show();
@@ -35,13 +37,16 @@ class AbonnementController extends Controller
         return view('abonnements/abonnementsList', compact('abonnements'));
     }
 
+    public function fetchAbonnements(Request $request)
+    {
+        $abonnements = $this->abonnementInterface->show();
+        return response()->json($abonnements);
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-
-    }
+    public function index() {}
 
     /**
      * Show the form for creating a new resource.
@@ -60,6 +65,7 @@ class AbonnementController extends Controller
         $request->validate([
             'type' => 'required',
             'start_date' => 'required',
+            'payment_type' => 'required|in:total,partial',
         ]);
 
         $data = [
@@ -67,28 +73,64 @@ class AbonnementController extends Controller
             'user_create_id' => auth()->id(),
             'type_id' => $request->type,
             'status' => 'attente',
+            'if_all_pay' => $request->payment_type === 'total' ? true : false,
+            'if_group' => $request->if_group ? true : false,
+            'rest' => null,
             'service_id' => $request->service,
             'start_date' => $request->start_date,
             'end_date' => '',
+            'firstname' => $request->firstname ? Str::title($request->firstname) : null,
+            'lastname' => $request->lastname ? Str::upper($request->lastname) : null,
+            'tel' => $request->tel ? $request->tel : null,
             'price' => $request->price,
             'transaction_id' => '',
             'remark' => $request->remark,
         ];
 
+        if (!$data['if_all_pay'] && !$data['price']) {
+            return back()->withErrors(['error' => 'Veuillez renseigner le prix si le payement est partiel.']);
+        }
+
+        // Récupérer la date sélectionnée depuis l'input du formulaire
+        $selectedDate = Carbon::parse($request->input('start_date'));
+
+        // Obtenir la date d'aujourd'hui
+        $today = Carbon::today(); // ou Carbon::now()->startOfDay()
+
+        // Vérifier si la date est antérieure
+        if ($selectedDate->lessThan($today)) {
+            return back()->withErrors(['error' => 'La date sélectionnée ne doit pas antérieure à aujourd\'hui.']);
+        }
+
         DB::beginTransaction();
 
         try {
 
-            $abb = $this->abonnementInterface->store($data);
+            $abb = $this->abonnementInterface->store($data, 1);
 
             if ($abb) {
+                $members = json_decode($request->members, true);
+
+                if ($request->if_group == "1") {
+                    foreach ($members as $member) {
+                        $data2 = [
+                            'abonnement_id' => $abb->id,
+                            'firstname' => $member['firstname'],
+                            'lastname' => $member['lastname'],
+                            'tel' => $member['tel'],
+                            'sex' => true,
+                        ];
+    
+                        $this->abonnementInterface->store($data2, 2);
+                    }
+                }
+
                 DB::commit();
                 return back()->with('success', 'Oppération éffectuée avec succès !');
             } else {
                 DB::rollback();
                 return back()->withErrors(['error' => 'Oppération a échoué.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -130,7 +172,7 @@ class AbonnementController extends Controller
 
         try {
             $ab = $this->abonnementInterface->update($request, $id);
-            
+
             if ($ab) {  // Vérification si l'abonnement a bien été modifier
                 DB::commit();
                 return back()->with('success', 'Oppération réussie !');
@@ -138,7 +180,6 @@ class AbonnementController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'Echec de l\'oppération.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -193,6 +234,53 @@ class AbonnementController extends Controller
         }
     }
 
+    public function completeRest(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $data = [
+            'abbId' => $request->id,
+            'amount' => $request->amount
+        ];
+
+        DB::beginTransaction();
+        try {
+            $abb = $this->abonnementInterface->completeRest($data);
+
+            if ($abb) {
+                DB::commit();
+                return back()->with('success', 'Oppération éffectuée avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Oppération a échoué.']);
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            //throw $th;
+            // return $th;
+            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’abonnement.']);
+        }
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $query = $this->abonnementInterface->search();
+
+    //     if ($request->has('search')) {
+    //         $search = $request->input('search');
+    //         $query->where('code', 'LIKE', "%$search%")
+    //             ->orWhere('status', 'LIKE', "%$search%")
+    //             ->orWhere('start_date', 'LIKE', "%$search%");
+    //     }
+
+    //     $abonnements = $query->get(); // Pas de pagination ici pour AJAX
+
+    //     return view('abonnements.partials.table', compact('abonnements'));
+    // }
+
 
 
 
@@ -225,7 +313,7 @@ class AbonnementController extends Controller
 
         try {
             $service = $this->abonnementInterface->create_service($data);
-            
+
             if ($service) {  // Vérification si l'utilisateur a bien été créé
                 DB::commit();
                 return back()->with('success', 'Service créé avec succès !');
@@ -233,7 +321,6 @@ class AbonnementController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'La création du service a échoué.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -260,7 +347,7 @@ class AbonnementController extends Controller
 
         try {
             $service = $this->abonnementInterface->update_service($request, $id);
-            
+
             if ($service) {  // Vérification si l'utilisateur a bien été modifier
                 DB::commit();
                 return back()->with('success', 'Oppération réussie !');
@@ -268,7 +355,6 @@ class AbonnementController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'Echec de l\'oppération.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -300,7 +386,7 @@ class AbonnementController extends Controller
 
         try {
             $type = $this->abonnementInterface->create_type($data);
-            
+
             if ($type) {  // Vérification si l'utilisateur a bien été créé
                 DB::commit();
                 return back()->with('success', 'Type d\'abonnement créé avec succès !');
@@ -308,7 +394,6 @@ class AbonnementController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'La création du Type d\'abonnement a échoué.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
@@ -335,7 +420,7 @@ class AbonnementController extends Controller
 
         try {
             $type = $this->abonnementInterface->update_type($request, $id);
-            
+
             if ($type) {  // Vérification si l'utilisateur a bien été modifier
                 DB::commit();
                 return back()->with('success', 'Oppération réussie !');
@@ -343,7 +428,6 @@ class AbonnementController extends Controller
                 DB::rollback();
                 return back()->withErrors(['error' => 'Echec de l\'oppération.']);
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;

@@ -20,9 +20,17 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->date('all_pay_date')->nullable();
+            $table->date('end_pay_date')->nullable();
+            $table->boolean('if_all_pay')->default(1);
+            $table->boolean(column: 'if_group')->default(0);
             $table->decimal(column: 'price')->nullable();
+            $table->decimal(column: 'rest')->nullable();
             $table->enum('status', ['actif', 'expiré', 'suspendu', 'attente'])->default('attente');
             $table->string('sale_mode')->default('cash');
+            $table->string(column: 'firstname')->nullable();
+            $table->string(column: 'lastname')->nullable();
+            $table->string(column: 'tel')->nullable();
             $table->string(column: 'transaction_id')->nullable();
             $table->text('remark')->nullable();
             $table->timestamps();

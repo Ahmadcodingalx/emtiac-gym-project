@@ -15,9 +15,16 @@ class Abonnement extends Model
         'service_id',
         'start_date',
         'end_date',
+        'end_pay_date',
+        'if_all_pay',
+        'if_group',
         'price',
+        'rest',
         'status',
         'sale_mode',
+        'firstname',
+        'lastname',
+        'tel',
         'transaction_id',
         'remark',
     ];
@@ -45,5 +52,20 @@ class Abonnement extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function groupes()
+    {
+        return $this->hasMany(Groupe::class);
+    }
+
+    public function incomes()
+    {
+        return $this->belongsTo(Income::class, 'abb_id');
+    }
+
+    public function Transactions()
+    {
+        return $this->belongsTo(Transaction::class, 'abb_id');
     }
 }

@@ -51,21 +51,8 @@
                 @endif
                 <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
                     <div class="d-flex align-items-center flex-wrap gap-3">
-                        <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
                         <form class="navbar-search">
-                            <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
+                            <input type="text" class="bg-base h-40-px w-auto" name="search" id="search" placeholder="Search">
                             <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
                         </form>
                         <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
@@ -76,6 +63,12 @@
                             <option>attente</option>
                         </select>
                     </div>
+                    <form action="{{ route('rest-abonnement') }}" method="POST" class="navbar-search">
+                        @method('PUT')
+                        <input type="text" class="bg-base h-40-px" name="id" id="id" style="width: 200px; padding: 0px 8px;" placeholder="Code de l'abonnement">
+                        <input type="number" class="bg-base h-40-px" name="amount" id="amount" style="width: 100px; padding: 0px 8px;" placeholder="Montant">
+                        <button type="submit" class="btn btn-primary text-sm mx-10 btn-sm radius-8">Payeé</button>
+                    </form>
                     <a  href="{{ route('addAb') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
                         Créer un abonnement
@@ -101,6 +94,8 @@
                                     <th scope="col">Date de debut</th>
                                     <th scope="col">Date de fin</th>
                                     <th scope="col">Montant Payé</th>
+                                    <th scope="col">Montant Restant</th>
+                                    <th scope="col">À payer avant le </th>
                                     {{-- <th scope="col" class="text-center">Status</th> --}}
                                     <th scope="col" class="text-center">Action</th>
                                 </tr>
@@ -117,18 +112,7 @@
                                             </div>
                                         </td>
                                         <td>{{ $abonnement->created_at }}</td>
-                                        {{-- <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('storage/' . $client->image) }}" alt="Photo de {{ $client->lastname }}" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                <div class="flex-grow-1">
-                                                    <span class="text-md mb-0 fw-normal text-secondary-light">{{ $client->lastname }} {{ $client->firstname }}</span>
-                                                </div>
-                                            </div>
-                                        </td> --}}
                                         <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $abonnement->transaction_id }}</span></td>
-                                        {{-- <td><span class="bg-danger radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
-                                        {{-- <td><span class="bg-neutral-300 radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
-                                        {{-- <td><span class="bg-success radius-12 p-1 text-white">{{ $abonnement->status }}</span></td> --}}
                                         <td class="dropdown">
                                             <button class="{{ 
                                                     $abonnement->status == 'expiré' ? 'bg-danger-400' :
@@ -152,9 +136,8 @@
                                         <td>{{ $abonnement->start_date }}</td>
                                         <td>{{ $abonnement->end_date }}</td>
                                         <td>{{ $abonnement->price ?? $abonnement->type->amount }}</td>
-                                        {{-- <td class="text-center">
-                                            <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                        </td> --}}
+                                        <td>{{ $abonnement->if_all_pay == false ? $abonnement->rest : "0" }} fcfa</td>
+                                        <td>{{ $abonnement->if_all_pay == false ? $abonnement->end_pay_date : "---" }}</td>
                                         <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
                                                 <div class="d-flex align-items-center gap-10 justify-content-center">
@@ -217,5 +200,90 @@
                     </div>
                 </div>
             </div>
+
+
+
+    <!-- Importation de jQuery -->
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                let query = $(this).val();
+    
+                $.ajax({
+                    url: "/fetch-abonnements",
+                    type: "GET",
+                    data: { search: query },
+                    success: function(response) {
+                        let abonnements = response.data; // Récupère les abonnements paginés
+                        let tbody = $('#abonnement-table tbody');
+                        tbody.empty();
+    
+                        abonnements.forEach(abonnement => {
+                            tbody.append(`
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-10">
+                                            <div class="form-check style-check d-flex align-items-center">
+                                                <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
+                                            </div>
+                                            ${abonnement.id}
+                                        </div>
+                                    </td>
+                                    <td>${abonnement.created_at}</td>
+                                    <td><span class="text-md mb-0 fw-normal text-secondary-light">${abonnement.transaction_id}</span></td>
+                                    <td class="dropdown">
+                                        <button class="${
+                                                abonnement.status === 'expiré' ? 'bg-danger-400' :
+                                                (abonnement.status === 'suspendu' ? 'bg-neutral-400' :
+                                                (abonnement.status === 'attente' ? 'bg-warning-400' : 'bg-success-400'))
+                                            } radius-8 p-3 text-white w-100 not-active py-8" style="text-align: center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            ${abonnement.status}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            ${abonnement.status !== 'expiré' ? `
+                                                ${abonnement.status !== 'actif' ? `
+                                                    <li><a href="/update-status/${abonnement.id}/actif" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900">Activer</a></li>
+                                                    ${abonnement.status !== 'suspendu' ? `
+                                                        <li><a href="/update-status/${abonnement.id}/suspendu" class="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900">Suspendre</a></li>
+                                                    ` : ''}
+                                                ` : ''}
+                                            ` : ''}
+                                        </ul>
+                                    </td>
+                                    <td>${abonnement.start_date}</td>
+                                    <td>${abonnement.end_date}</td>
+                                    <td>${abonnement.price ?? abonnement.type.amount}</td>
+                                    <td>${abonnement.if_all_pay ? abonnement.if_all_pay : "0"} FCFA</td>
+                                    <td>${abonnement.if_all_pay ? abonnement.end_pay_date : "---"}</td>
+                                    <td class="text-center">
+                                        <div class="d-flex align-items-center gap-10 justify-content-center">
+                                            <div class="d-flex align-items-center gap-10 justify-content-center">
+                                                <a href="/showAb/${abonnement.id}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
+                                                </a>
+                                                <a href="/showAb/${abonnement.id}" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                                </a>
+                                            </div>
+                                            <form action="/delete-abonnement" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?')">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="id" value="${abonnement.id}">
+                                                <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection

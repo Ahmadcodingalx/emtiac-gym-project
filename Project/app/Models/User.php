@@ -61,4 +61,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Abonnement::class, 'user_update_id');
     }
+
+    public function incomes()
+    {
+        return $this->hasMany(Income::class, 'user_id');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expenses::class, 'user_id');
+    }
+
+    public function Transactions()
+    {
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
 }

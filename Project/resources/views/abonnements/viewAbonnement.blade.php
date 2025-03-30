@@ -70,12 +70,12 @@
                         <ul>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light">Client</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->client->lastname ?? 'Autre' }}
-                                    {{ $ab->client->firstname ?? '' }}</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->client->lastname ?? $ab->lastname }}
+                                    {{ $ab->client->firstname ?? $ab->firstname }}</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Type</span>
-                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->type->name }}</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{ $ab->type->name }} à {{ $ab->type->amount }} fcfa</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Service</span>
@@ -95,6 +95,19 @@
                                 <span class="w-70 text-secondary-light fw-medium">: {{ $ab->price ?? $ab->type->amount }}
                                     fcfa</span>
                             </li>
+                            @if (!$ab->if_all_pay)
+                                <li class="d-flex align-items-center gap-1 mb-12">
+                                    <span class="w-30 text-md fw-semibold text-primary-light"> Montant Restant</span>
+                                    <span class="w-70 text-secondary-light fw-medium">: {{ $ab->rest }}
+                                        fcfa</span>
+                                </li>
+                            @endif
+                            @if ($ab->if_group)
+                                <li class="d-flex align-items-center gap-1 mb-12">
+                                    <span class="w-30 text-md fw-semibold text-primary-light"> Nombre de Personnes</span>
+                                    <span class="w-70 text-secondary-light fw-medium">: {{ $ab->groupes->count() }} </span>
+                                </li>
+                            @endif
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Statut</span>
                                 <span class="w-70 text-secondary-light fw-medium">: {{ $ab->status }}</span>
@@ -177,20 +190,64 @@
                             @method('PUT')
 
                             <div class="row gy-3 needs-validation align-items-start mt-20">
-                                <div class="col-md-4">
-                                    <label for="client"
-                                        class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
-                                    <select {{ $ab->status === 'actif' ? 'disabled' : ''}} class="form-control radius-8 form-select" id="client" name="client">
-                                        <option value="">Sélectionner un client</option>
-                                        <option value="">Autre</option>
-                                        @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}"
-                                                {{ $ab->client_id == $client->id ? 'selected' : '' }}>
-                                                {{ $client->lastname }} {{ $client->firstname }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                @if ($ab->client)
+                                    <div class="col-md-4">
+                                        <label for="client"
+                                            class="form-label fw-semibold text-primary-light text-sm mb-8">Client </label>
+                                        <select {{ $ab->status === 'actif' ? 'disabled' : ''}} class="form-control radius-8 form-select" id="client" name="client">
+                                            <option value="">Sélectionner un client</option>
+                                            <option value="">Autre</option>
+                                            @foreach ($clients as $client)
+                                                <option value="{{ $client->id }}"
+                                                    {{ $ab->client_id == $client->id ? 'selected' : '' }}>
+                                                    {{ $client->lastname }} {{ $client->firstname }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @elseif (!$ab->client && !$ab->if_group)
+                                    <div class="row gy-3 needs-validation align-items-end">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Nom <span class="text-danger-600">*</span></label>
+                                            <input type="text" name="lastname" id="lastname" class="form-control"
+                                                placeholder="Entrer le nom..." required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Prénom <span class="text-danger-600">*</span></label>
+                                            <input type="text" name="firstname" id="firstname" class="form-control"
+                                                placeholder="Entrer le prénom..." required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Téléphone <span class="text-danger-600">*</span></label>
+                                            <input type="text" name="tel" id="tel" class="form-control"
+                                                placeholder="Entrer le numéro de tel..." required>
+                                        </div>
+                                    </div>
+                                @elseif ($ab->if_group)
+                                    <div class="user-grid-card position-relative border radius-16 overflow-hidden bg-base h-100">
+                                        <div class="pb-24 ms-16 mb-24 me-16  mt-100">
+                                            <h5>Membres du groupe ( {{ $ab->groupes->count() }} ) :</h5>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Prénom</th>
+                                                        <th>Téléphone</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($ab->groupes as $group)
+                                                        <tr>
+                                                            <td>{{ $group->lastname }}</td>
+                                                            <td>{{ $group->firstname }}</td>
+                                                            <td>{{ $group->tel }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="col-md-4">
                                     <label for="client"
                                         class="form-label fw-semibold text-primary-light text-sm mb-8">Type </label>
@@ -253,7 +310,7 @@
                             aria-labelledby="pills-notification-tab" tabindex="0">
                             <div class="container">
                                 <div class="title">
-                                    Gym Center à Dieu la gloire
+                                    Gym H
                                 </div>
                                 <div class="header">
                                     Reçu d'Abonnement N° {{ $ab->transaction_id }}
@@ -261,9 +318,20 @@
                         
                                 <div class="details">
                                     <p><strong>Date et heure:</strong> {{ now()->format('d/m/Y') }}</p>
-                                    <p><strong>Nom et prénom:</strong> {{ $ab->client->firstname ?? 'Autre' }} {{ $ab->client->lastname ?? '' }}</p>
-                                    <p><strong>Type d'abonnement:</strong> {{ $ab->type->name ?? 'N/A' }}</p>
-                                    <p><strong>Prix:</strong> {{ number_format($ab->price, 2) ?? $ab->type->amount }} fcfa</p>
+                                    @if ($ab->if_group)
+                                        <p><strong>Nombre de personnes:</strong> {{ $ab->groupes->count() }} </p>
+                                    @else
+                                        <p><strong>Nom et prénom:</strong> {{ $ab->client->firstname ?? $ab->firstname }} {{ $ab->client->lastname ?? $ab->lastname }}</p>
+                                    @endif
+                                    <p><strong>Type d'abonnement:</strong> {{ $ab->type->name }} à {{ $ab->type->amount }} fcfa    
+                                        @if ($ab->if_group)
+                                            --------- <span style="font-size: 15px" class="text-neutral-600">( en groupe ) </span>
+                                        @endif
+                                    </p>
+                                    <p><strong>Payé:</strong> {{ number_format($ab->price ?? $ab->type->amount, 2) }} fcfa</p>
+                                    @if (!$ab->if_all_pay)
+                                        <p><strong>Reste:</strong> {{ number_format($ab->rest, 2) }} fcfa --------- <span style="font-size: 15px" class="text-neutral-600">( à terminer avant le {{ $ab->end_pay_date }} ) </span></p>
+                                    @endif
                                     <p><strong>Date de début:</strong> {{ $ab->start_date }}</p>
                                     <p><strong>Date de fin:</strong> {{ $ab->end_date }}</p>
                                     {{-- <p><strong>Nombre de séances restantes:</strong> {{ $ab->type->name ?? 'N/A' }}</p> --}}

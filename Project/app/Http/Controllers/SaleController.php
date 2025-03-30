@@ -39,7 +39,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'client' => 'required',
+            // 'client' => 'required',
             'product' => 'required',
         ]);
 
@@ -51,24 +51,28 @@ class SaleController extends Controller
         DB::beginTransaction();
 
         try {
-            DB::commit();
-
             $sale = $this->saleInterface->store($data1, 1);
 
-            $products = json_decode($request->products, true);
+            if ($sale) {
+                $products = json_decode($request->products, true);
 
-            foreach ($products as $prod) {
-                $data = [
-                    'sale_id' => $sale->id,
-                    'product_id' => $prod['product'],
-                    'quantity' => $prod['quantity'],
-                    'subtotal' => $prod['total'],
-                ];
+                foreach ($products as $prod) {
+                    $data = [
+                        'sale_id' => $sale->id,
+                        'product_id' => $prod['product'],
+                        'quantity' => $prod['quantity'],
+                        'subtotal' => $prod['total'],
+                    ];
 
-                $this->saleInterface->store($data, 2);
+                    $this->saleInterface->store($data, 2);
+                }
+
+                DB::commit();
+                return back()->with('success', 'Oppération éffectuée avec succès !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Oppération a échoué.']);
             }
-
-            return back()->with('success', 'Oppération éffectuée avec succès !');
 
         } catch (\Throwable $th) {
             DB::rollback();

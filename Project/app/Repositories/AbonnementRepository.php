@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Interfaces\AbonnementInterface;
 use App\Models\Abonnement;
 use App\Models\Client;
+use App\Models\Groupe;
+use App\Models\Income;
 use App\Models\Service;
 use App\Models\Type;
 use Carbon\Carbon;
@@ -26,7 +28,7 @@ class AbonnementRepository implements AbonnementInterface
 
     public function viewAb($id)
     {
-        return Abonnement::with('createdBy', 'updatedBy', 'type', 'service', 'client')->findOrFail($id);
+        return Abonnement::with('createdBy', 'updatedBy', 'type', 'service', 'client', 'groupes')->findOrFail($id);
     }
 
     public function addAb()
@@ -44,50 +46,85 @@ class AbonnementRepository implements AbonnementInterface
         return $allData;
     }
 
-    public function store($data)
+    public function store($data, $id)
     {
-        $startDate = null;
-        $letters = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
-        $numbers = rand(100000, 999999);
-        $data['transaction_id'] = 'abb_' . $letters . '-' . $numbers;
+        if ($id == 1) {
+            $abType = $data['if_group'] ? "grp_" : "abb_";
+            $type = Type::findOrFail($data['type_id']);
 
-        $checkCode = Abonnement::where('transaction_id', $data['transaction_id'])->first();
-
-        if ($checkCode) {
-            while ($checkCode->transaction_id === $data['transaction_id']) {
-                $letters = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
-                $numbers = rand(100000, 999999);
-                $data['transaction_id'] = 'abb_' . $letters . '-' . $numbers;
+            if($data['price'] > $type->amount || (!$data['if_all_pay'] && ($type->type === "Semaine" || $type->type === "Jour"))) {
+                return false;
             }
-        }
 
+            $startDate = null;
+            $letters = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
+            $numbers = rand(100000, 999999);
+            $data['transaction_id'] = $abType . $letters . '-' . $numbers;
 
-        try {
-            $startDate = Carbon::parse($data['start_date']);
+            $checkCode = Abonnement::where('transaction_id', $data['transaction_id'])->first();
 
-            if ($startDate->isSameDay(Carbon::now())) {
-                $data['status'] = 'actif';
+            if ($checkCode) {
+                while ($checkCode->transaction_id === $data['transaction_id']) {
+                    $letters = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
+                    $numbers = rand(100000, 999999);
+                    $data['transaction_id'] = $abType . $letters . '-' . $numbers;
+                }
             }
-        } catch (\Exception $e) {
-            dd('Erreur de format de date : ', $e->getMessage());
-        }
 
-        $type = Type::findOrFail($data['type_id']);
 
-        if ($type->type === 'Jour') {
-            $data['end_date'] = $startDate->addDays($type->number);
-        } elseif ($type->type === 'Semaine') {
-            $data['end_date'] = $startDate->addWeeks($type->number);
-        } elseif ($type->type === 'Mois') {
-            $data['end_date'] = $startDate->addMonths($type->number);
-            // $data['end_date'] = $startDate->addMonthsNoOverflow($type->number);
+            try {
+                $startDate = Carbon::parse($data['start_date']);
+
+                if ($startDate->isSameDay(Carbon::now())) {
+                    $data['status'] = 'actif';
+                }
+            } catch (\Exception $e) {
+                dd('Erreur de format de date : ', $e->getMessage());
+            }
+
+
+            if ($type->type === 'Jour') {
+                $data['end_date'] = $startDate->addDays($type->number);
+            } elseif ($type->type === 'Semaine') {
+                $data['end_date'] = $startDate->addWeeks($type->number);
+            } elseif ($type->type === 'Mois') {
+                $data['end_date'] = $startDate->addMonths($type->number);
+                if (!$data['if_all_pay']) {
+                    $endDate = Carbon::parse($data['end_date']);
+                    $data['end_pay_date'] = $endDate->subWeeks(1);
+                    # code...
+                }
+                // $data['end_date'] = $startDate->addMonthsNoOverflow($type->number);
+            } else {
+                $data['end_date'] = $startDate->addYears($type->number);
+                if (!$data['if_all_pay']) {
+                    $endDate = Carbon::parse($data['end_date']);
+                    $data['end_pay_date'] = $endDate->subWeeks(1);
+                    # code...
+                }
+            }
+
+            if(!$data['if_all_pay']) {
+                $rest = $type->amount - $data['price'];
+                $data['rest'] = $rest;
+            }
+
+            $abb = Abonnement::create($data);
+
+            $transData = [
+                'user_id' => auth()->id(),
+                'abb_id' => $abb->id,
+                'type' => 'abb',
+                'date' => now(),
+                'amount' => $abb->price ? $abb->price : $type->amount,
+                'reason' => 'Transaction d\'un abonnement',
+            ];
+            $this->transaction_income($transData);
+
+            return $abb;
         } else {
-            $data['end_date'] = $startDate->addYears($type->number);
+            Groupe::create($data);
         }
-
-        $abb = Abonnement::create($data);
-
-        return $abb;
     }
 
     public function destroy($id)
@@ -133,7 +170,22 @@ class AbonnementRepository implements AbonnementInterface
             $ab->end_date = $startDate->addYears($type->number);
         }
 
+        // Corriger la transaction
+        // if ($request->input('price')) {
+        //     Income::where('abb_id', $ab->id)->delete();
+        //     $transData = [
+        //         'user_id' => auth()->id(),
+        //         'abb_id' => $ab->id,
+        //         'type' => 'abb_rest',
+        //         'date' => now(),
+        //         'amount' => $request->input('price'),
+        //         'reason' => 'Rest d\'un abonnement',
+        //     ];
+        //     $this->transaction_income($transData);
+        // }
+
         $ab->save();
+
 
         return $ab;
     }
@@ -156,9 +208,19 @@ class AbonnementRepository implements AbonnementInterface
             $abb->end_date = $startDate->addWeeks($type->number);
         } elseif ($type->type === 'Mois') {
             $abb->end_date = $startDate->addMonths($type->number);
+            if (!$abb->if_all_pay) {
+                $endDate = Carbon::parse($abb->end_date);
+                $abb->end_pay_date = $endDate->subWeeks(1);
+                # code...
+            }
             // $ab->end_date = $startDate->addMonthsNoOverflow($type->number);
         } else {
             $abb->end_date = $startDate->addYears($type->number);
+            if (!$abb->if_all_pay) {
+                $endDate = Carbon::parse($abb->end_date);
+                $abb->end_pay_date = $endDate->subWeeks(1);
+                # code...
+            }
         }
 
         $abb->updated_at = now();
@@ -167,6 +229,50 @@ class AbonnementRepository implements AbonnementInterface
 
         return $abb;
     }
+
+    public function completeRest($data)
+    {
+        $abb = Abonnement::where('transaction_id', $data['abbId'])->first();
+        $type = Type::findOrFail($abb->type_id);
+
+        $total = $abb->price + $data['amount'];
+        $rest = $abb->rest - $data['amount'];
+
+        if ($total <= $type->amount) {
+            $abb->price = $total;
+            $abb->rest = $rest;
+
+            $transData = [
+                'user_id' => auth()->id(),
+                'abb_id' => $abb->id,
+                'type' => 'abb_rest',
+                'date' => now(),
+                'amount' => $data['amount'],
+                'reason' => 'Rest d\'un abonnement',
+            ];
+            $this->transaction_income($transData);
+
+            $abb->save();
+            return $abb;
+        } else {
+            return false;
+        }
+    }
+
+    public function search()
+    {
+        return Abonnement::query();
+    }
+
+    public function transaction_income($data)
+    {
+        return Income::create($data);
+    }
+
+
+
+
+
 
 
 

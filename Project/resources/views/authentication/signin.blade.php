@@ -31,7 +31,7 @@
                         </button>
                     </div>
                 @enderror
-                <form action="{{ route('login') }}", method="POST">
+                <form action="{{ route('signin') }}", method="POST">
                     @csrf
 
                     <div class="icon-field mb-16">
