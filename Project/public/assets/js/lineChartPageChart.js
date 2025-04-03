@@ -2,7 +2,7 @@
     var options = {
         series: [{
             name: "This month",
-            data: [0, 48, 20, 24, 6, 33, 30, 48, 35, 18, 20, 5]
+            data: [0, 48, 20, 24, 6, 233, 30, 48, 35, 18, 20, 5]
         }],
         chart: {
             height: 264,

@@ -377,10 +377,7 @@
                         <a  href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Entrées / Sorties</a>
                     </li>
                     <li>
-                        <a  href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Recettes</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bilans</a>
+                        <a  href="{{ route('bilans') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bilans</a>
                     </li>
                     {{-- <li>
                         <a  href="{{ route('assignRole') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> impressions</a>

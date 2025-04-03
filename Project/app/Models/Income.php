@@ -19,16 +19,16 @@ class Income extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sale()
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Sale::class, 'abb_id');
     }
 
     public function abb()
     {
-        return $this->belongsTo(Abonnement::class);
+        return $this->belongsTo(Abonnement::class, 'sale_id');
     }
 }

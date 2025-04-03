@@ -231,6 +231,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(TransactionController::class)->group(function () {
             Route::get('/add-tans', 'addTrans')->name('addTrans');
             Route::get('/transactions-list', 'transList')->name('transList');
+            Route::get('/bilans', 'bilans')->name('bilans');
     
             // Route::get('abonnements/{id}', 'show')->name('showAb');
             // Route::get('/fetch-abonnements', 'fetchAbonnements');

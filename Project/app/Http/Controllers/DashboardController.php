@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\DashboardInterface;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+
+    private DashboardInterface $dashboardInterface;
+
+    public function __construct(DashboardInterface $dashboardInterface)
+    {
+        $this->dashboardInterface = $dashboardInterface;
+    }
+
     public function index()
     {
-        return view('dashboard/index');
+        $stat = $this->dashboardInterface->get_stats_data();
+
+        return view('dashboard/index', compact('stat'));
     }
     
     public function index2()

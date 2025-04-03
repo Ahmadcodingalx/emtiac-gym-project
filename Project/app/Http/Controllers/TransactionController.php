@@ -20,13 +20,56 @@ class TransactionController extends Controller
     {
         return view('stats_bilan/addTrans');
     }
+    
+    public function bilans()
+    {
+        $day_income = $this->transactionInterface->getDailyIncome();
+        $week_income = $this->transactionInterface->getWeeklyIncome();
+        $month_income = $this->transactionInterface->getMonthlyIncome();
+        $year_income = $this->transactionInterface->getYearlyIncome();
+        //**************** */
+        $day_expense = $this->transactionInterface->getDailyExpense();
+        $week_expense = $this->transactionInterface->getWeeklyExpense();
+        $month_expense = $this->transactionInterface->getMonthlyExpense();
+        $year_expense = $this->transactionInterface->getYearlyExpense();
+        //**************** */
+        // $day = $day_expense - $day_income;
+        // $week = $week_expense - $week_income;
+        // $month = $month_expense - $month_income;
+        // $year = (-$year_expense) + 100000;
+        // dd([
+        //     'year_expense' => $year_expense,
+        //     'year_income' => $year_income,
+        //     'diff' => $year
+        // ]);
+
+        return view('stats_bilan/recettes', compact(
+            'day_income',
+            'week_income',
+            'month_income',
+            'year_income',
+            //****** */
+            'day_expense',
+            'week_expense',
+            'month_expense',
+            'year_expense',
+            //****** */
+            // 'day',
+            // 'week',
+            // 'month',
+            // 'year'
+        ));
+    }
 
     public function transList(Request $request)
     {
 
         $transactions = $this->transactionInterface->transList($request);
+        $abb = $this->transactionInterface->getAbb();
+        $sales = $this->transactionInterface->getSale();
+        $rests = $this->transactionInterface->getRest();
 
-        return view('stats_bilan/incomes_expences', compact('transactions'));
+        return view('stats_bilan/incomes_expences', compact('transactions', 'abb', 'sales', 'rests'));
     }
 
     /**
