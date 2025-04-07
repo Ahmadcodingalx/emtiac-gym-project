@@ -6,6 +6,7 @@ use App\Interfaces\UserInterface;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserRepository implements UserInterface
 {
@@ -42,6 +43,19 @@ class UserRepository implements UserInterface
         $user = User::findOrFail(auth()->id());
 
         if ($userRequest->input('username')) {
+            if ($userRequest->hasFile('image')) {
+                // Supprimer l'ancienne image si elle existe
+                if ($user->image !== 'defaults/profile.png' && Storage::disk('public')->exists($user->image)) {
+                    Storage::disk('public')->delete($user->image);
+                }
+    
+                $image = $userRequest->file('image');
+    
+                $image_ext = $image->getClientOriginalExtension();
+                $image_name = 'User_' . time() . '.' . $image_ext;
+                $user->image = $image->storeAs('users', $image_name, 'public');
+            }
+
             $user->username = $userRequest->input('username');
             $user->firstname = $userRequest->input('firstname');
             $user->lastname = $userRequest->input('lastname');

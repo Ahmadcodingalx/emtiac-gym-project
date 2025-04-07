@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransactionsExport;
 use App\Interfaces\TransactionInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -168,4 +170,12 @@ class TransactionController extends Controller
 
     //     return view('bilan', compact('revenus', 'depenses'));
     // }
+
+
+    public function exportTransactions(Request $request)
+    {
+        $columns = $request->input('columns', []); // Liste des colonnes sélectionnées depuis le frontend
+
+        return Excel::download(new TransactionsExport($columns), 'Transactions.xlsx');
+    }
 }

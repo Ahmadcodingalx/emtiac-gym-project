@@ -50,6 +50,17 @@ class UsersController extends Controller
 
     public function create(UserRequest $userRequest)
     {
+        $filePath = 'defaults/profile.png';
+
+        if ($userRequest->hasFile('image')) {
+
+            $image = $userRequest->file('image');
+
+            $image_ext = $image->getClientOriginalExtension();
+            $image_name = 'User_' . time() . '.' . $image_ext;
+            $filePath = $image->storeAs('users', $image_name, 'public');
+        }
+
         // Validation des données
         $data = [
             'firstname' => $userRequest->firstname,
@@ -67,7 +78,7 @@ class UsersController extends Controller
                         . strtoupper(substr($userRequest->firstname, 0, 2))
                         . strtoupper(substr($userRequest->lastname, 0, 2)),
             'created_at' => now(),
-            'image' => 'null',
+            'image' => $filePath,
             'address' => 'null',
             'is_admin' => false
         ];

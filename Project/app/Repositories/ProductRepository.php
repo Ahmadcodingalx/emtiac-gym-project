@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Asset\PackageInterface;
 
 class ProductRepository implements ProductInterface
@@ -35,8 +36,22 @@ class ProductRepository implements ProductInterface
 
     public function update($productRequest)
     {
+        
         $product = Product::findOrFail($productRequest->id);
 
+        if ($productRequest->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($product->image !== 'defaults/product.png' && Storage::disk('public')->exists($client->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $image = $productRequest->file('image');
+
+            $image_ext = $image->getClientOriginalExtension();
+            $image_name = 'Product_' . time() . '.' . $image_ext;
+            $product->image = $image->storeAs('products', $image_name, 'public');
+        }
+        
         $product->name = $productRequest->input('name');
         $product->price = $productRequest->input('price');
         // $product->image = $productRequest->input('image');

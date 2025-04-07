@@ -39,7 +39,7 @@ class ClientRepository implements ClientInterface
 
         if ($clientRequest->hasFile('image')) {
             // Supprimer l'ancienne image si elle existe
-            if ($client->image !== 'null' && Storage::disk('public')->exists($client->image)) {
+            if ($client->image !== 'defaults/profile.png' && Storage::disk('public')->exists($client->image)) {
                 Storage::disk('public')->delete($client->image);
             }
 
@@ -47,7 +47,7 @@ class ClientRepository implements ClientInterface
 
             $image_ext = $image->getClientOriginalExtension();
             $image_name = 'Client_' . time() . '.' . $image_ext;
-            $client->image = $image->storeAs('client', $image_name, 'public');
+            $client->image = $image->storeAs('clients', $image_name, 'public');
         }
 
         $client->user_id_update = auth()->id();

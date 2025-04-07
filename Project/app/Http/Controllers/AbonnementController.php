@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AbonnementInterface;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -120,7 +121,7 @@ class AbonnementController extends Controller
                             'tel' => $member['tel'],
                             'sex' => true,
                         ];
-    
+
                         $this->abonnementInterface->store($data2, 2);
                     }
                 }
@@ -434,5 +435,18 @@ class AbonnementController extends Controller
             return $th;
             // return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
         }
+    }
+
+
+    public function previewPDF($id)
+    {
+        $abonnement = $this->abonnementInterface->viewAb($id);
+
+        // Créer un PDF avec un format de papier plus petit, comme A6
+        $pdf = Pdf::loadView('abonnements/receipt', compact('abonnement'))
+            ->setPaper('a6', 'portrait'); // Ou 'letter' si tu préfères ce format
+            // ->setPaper([0, 0, 500, 460]); // Ou 'letter' si tu préfères ce format
+
+        return $pdf->stream('recu_' . $abonnement->id . '_' . $abonnement->transaction_id . '.pdf');
     }
 }

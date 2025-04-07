@@ -97,6 +97,10 @@
                             <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
                             Effectuer une transaction
                         </a>
+                        <a href="{{ route('exportTrans') }}"class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
+                            <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
+                            Exporter
+                        </a>
                     </div>
 
                     <div class="card-body p-24">

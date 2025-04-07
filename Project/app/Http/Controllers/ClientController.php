@@ -53,7 +53,7 @@ class ClientController extends Controller
     public function create(ClientRequest $clientRequest)
     {
 
-        $filePath = 'null';
+        $filePath = 'defaults/profile.png';
 
         if ($clientRequest->hasFile('image')) {
 
@@ -61,7 +61,7 @@ class ClientController extends Controller
 
             $image_ext = $image->getClientOriginalExtension();
             $image_name = 'Client_' . time() . '.' . $image_ext;
-            $filePath = $image->storeAs('client', $image_name, 'public');
+            $filePath = $image->storeAs('clients', $image_name, 'public');
         }
 
         // Validation des données

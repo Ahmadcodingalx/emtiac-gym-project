@@ -7,8 +7,10 @@
     "require": {
         "php": "^8.2",
         "backpack/basset": "*",
+        "barryvdh/laravel-dompdf": "^3.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^3.1",
         "symfony/asset": "^7.1",
         "symfony/asset-mapper": "^7.1"
     },

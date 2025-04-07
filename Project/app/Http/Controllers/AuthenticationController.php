@@ -26,7 +26,7 @@ class AuthenticationController extends Controller
                 return redirect()->intended('/dashboard/index');
             } else {
                 // Rediriger vers le tableau de bord des utilisateurs
-                return redirect()->route('user.dashboard');
+                return redirect()->route('transList');
             }
         
         }
@@ -51,5 +51,11 @@ class AuthenticationController extends Controller
     public function signUp()
     {
         return view('authentication/signUp');
+    }
+
+    public function logout()
+    {
+        Auth::logout();  // Déconnecte l'utilisateur
+        return redirect()->route('login');  // Redirige vers la page de connexion ou autre
     }
 }

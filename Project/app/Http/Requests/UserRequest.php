@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
             'lastname' => 'required|string|max:255',
             'email' => 'required|email',
             'tel' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 
@@ -54,9 +55,9 @@ class UserRequest extends FormRequest
             'new_password.min' => 'Le mot de passe doit contenir au moins 8 caractères',
             'confirm-password.same' => 'Les mot de passes ne sont pas conformes',
 
-            // 'profil_image.image' => 'Le fichier doit être une image',
-            // 'profil_image.mimes' => 'Le fichier doit être au format jpeg, png ou jpg',
-            // 'profil_image.max' => 'La taille du fichier doit être inférieure à 5MB',
+            'image.image' => 'Le fichier doit être une image',
+            'image.mimes' => 'Le fichier doit être au format jpeg, png ou jpg',
+            'image.max' => 'La taille du fichier doit être inférieure à 2MB',
         ];
     }
 

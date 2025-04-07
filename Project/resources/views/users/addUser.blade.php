@@ -68,25 +68,25 @@
                             <div class="card border">
                                 
                                 <div class="card-body">
-                                    <h6 class="text-md text-primary-light mb-16">Image de Profil</h6>
-
-                                    <!-- Upload Image Start -->
-                                    <div class="mb-24 mt-16">
-                                        <div class="avatar-upload">
-                                            <div class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer">
-                                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" hidden>
-                                                <label for="imageUpload" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
-                                                    <iconify-icon icon="solar:camera-outline" class="icon"></iconify-icon>
-                                                </label>
-                                            </div>
-                                            <div class="avatar-preview">
-                                                <div id="imagePreview"> </div>
+                                    
+                                    <form action="{{ route('new-user') }}" method="POST" enctype="multipart/form-data">
+                                        <h6 class="text-md text-primary-light mb-16">Image de Profil</h6>
+    
+                                        <!-- Upload Image Start -->
+                                        <div class="mb-24 mt-16">
+                                            <div class="avatar-upload">
+                                                <div class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer">
+                                                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image" hidden>
+                                                    <label for="imageUpload" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
+                                                        <iconify-icon icon="solar:camera-outline" class="icon"></iconify-icon>
+                                                    </label>
+                                                </div>
+                                                <div class="avatar-preview">
+                                                    <div id="imagePreview"> </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- Upload Image End -->
-
-                                    <form action="{{ route('new-user') }}" method="POST">
+                                        <!-- Upload Image End -->
                                         @csrf
                                     
                                         <div class="mb-20">

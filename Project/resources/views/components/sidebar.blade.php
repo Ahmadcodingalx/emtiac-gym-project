@@ -18,7 +18,7 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="{{ route('index') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> AI</a>
+                        <a href="{{ route('index') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tableau de bord</a>
                     </li>
                     {{-- <li>
                     <a href="{{ route('index2') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
@@ -50,19 +50,19 @@
                 </ul>
             </li>
             <li class="sidebar-menu-group-title">Application</li>
-            <li>
+            {{-- <li>
                   <a href="{{ route('email') }}">
                     <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
                     <span>Email</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route('chatMessage') }}">
                     <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
                     <span>Chat</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('calendar') }}">
                     <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
                     <span>Calendar</span>
@@ -137,11 +137,11 @@
                     <a  href="{{ route('portfolio') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Portfolios</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
-            <li class="sidebar-menu-group-title">UI Elements</li>
+            <li class="sidebar-menu-group-title"> Menu</li>
 
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a  href="javascript:void(0)">
                     <iconify-icon icon="solar:document-text-outline" class="menu-icon"></iconify-icon>
                     <span>Components</span>
@@ -268,52 +268,43 @@
                     <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
                     <span>Widgets</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a  href="{{ route('show-cours') }}">
-                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-                    <span>Cours</span>
+                    {{-- <iconify-icon icon="fe:book-open" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="fluent:class-24-regular" width="20" height="20"></iconify-icon>
+                    <span style="margin-left: 5px">Cours</span>
                 </a>
             </li>
             <li>
                 <a  href="{{ route('show-service') }}">
-                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-                    <span>Services</span>
-                </a>
-            </li>
-            <li>
-                <a  href="{{ route('show-type') }}">
-                    <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-                    <span>Types d'abonnement</span>
+                    {{-- <iconify-icon icon="fe:award" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="healthicons:award-ribbon-outline" width="22" height="22"></iconify-icon>
+                    <span style="margin-left: 5px">Services</span>
                 </a>
             </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Utilisateurs</span>
+                    <iconify-icon icon="prime:users" width="20" height="20"></iconify-icon>
+                    <span style="margin-left: 5px">Utilisateurs</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a  href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('usersGrid') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
+                        <a  href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                     </li>
                     <li>
                         <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Gestion des rôles</a>
                     </li>
                     <li>
-                        <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('viewProfile') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View Profile</a>
+                        <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
                     </li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Gestion des ventes</span>
+                    {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="mdi:cart-sale" width="22" height="22"></iconify-icon>
+                    <span style="margin-left: 5px">Gestion des ventes</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -326,8 +317,9 @@
             </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Clients</span>
+                    {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="la:users" width="22" height="22"></iconify-icon>
+                    <span style="margin-left: 5px">Clients</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -338,10 +330,18 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a  href="{{ route('show-type') }}">
+                    {{-- <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="hugeicons:dashboard-square-setting" width="20" height="20"></iconify-icon>
+                    <span style="margin-left: 5px">Types d'abonnement</span>
+                </a>
+            </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Abonnements</span>
+                    {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="stash:subscription-list-duotone" width="22" height="22"></iconify-icon>
+                    <span style="margin-left: 5px">Abonnements</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -354,8 +354,9 @@
             </li>
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-                    <span>Produits</span>
+                    {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
+                    <iconify-icon icon="clarity:shopping-bag-line" width="22" height="22"></iconify-icon>
+                    <span style="margin-left: 5px">Produits</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -369,8 +370,9 @@
 
             <li class="dropdown">
                 <a  href="javascript:void(0)">
-                    <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i>
-                    <span>Statistic & bilan</span>
+                    {{-- <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i> --}}
+                    <iconify-icon icon="oui:stats" width="20" height="20"></iconify-icon>
+                    <span style="margin-left: 5px">Statistic & bilan</span>
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
@@ -383,9 +385,9 @@
                         <a  href="{{ route('assignRole') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> impressions</a>
                     </li> --}}
                 </ul>
-            </li>
+            </li> </br></br>
 
-            <li class="sidebar-menu-group-title">Application</li>
+            {{-- <li class="sidebar-menu-group-title">Application</li>
 
             <li class="dropdown">
                 <a  href="javascript:void(0)">
@@ -503,7 +505,7 @@
                         <a  href="{{ route('paymentGateway') }}"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Payment Gateway</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </aside>

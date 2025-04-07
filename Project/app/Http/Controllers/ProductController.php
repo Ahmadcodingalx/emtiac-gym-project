@@ -52,12 +52,24 @@ class ProductController extends Controller
      */
     public function create(ProductRequest $productRequest)
     {
+        $filePath = 'defaults/product.png';
+
+        if ($productRequest->hasFile('image')) {
+
+            $image = $productRequest->file('image');
+
+            $image_ext = $image->getClientOriginalExtension();
+            $image_name = 'Product_' . time() . '.' . $image_ext;
+            $filePath = $image->storeAs('products', $image_name, 'public');
+        }
+
         // Validation des données
         $data = [
             'name' => $productRequest->name,
             'price' => $productRequest->price,
             'quantity' => $productRequest->quantity,
             'description' => $productRequest->desc,
+            'image' => $filePath,
         ];
 
         DB::beginTransaction();

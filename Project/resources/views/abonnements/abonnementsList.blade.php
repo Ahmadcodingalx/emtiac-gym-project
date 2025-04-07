@@ -136,7 +136,7 @@
                                         <td>{{ $abonnement->start_date }}</td>
                                         <td>{{ $abonnement->end_date }}</td>
                                         <td>{{ $abonnement->price ?? $abonnement->type->amount }}</td>
-                                        <td>{{ $abonnement->if_all_pay == false ? $abonnement->rest : "0" }} fcfa</td>
+                                        <td>{{ $abonnement->if_all_pay == false ? $abonnement->rest : "0" }} fcfa </td>
                                         <td>{{ $abonnement->if_all_pay == false ? $abonnement->end_pay_date : "---" }}</td>
                                         <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
@@ -144,8 +144,8 @@
                                                     <a href="{{ route('showAb', ['id' => $abonnement->id]) }}" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                         <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
                                                     </a>
-                                                    <a href="{{ route('showAb', ['id' => $abonnement->id]) }}" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                                    <a href="{{ route('recu.preview', $abonnement->id) }}" target="_blank" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                        <iconify-icon icon="material-symbols-light:print-outline-rounded" width="24" height="24" class="menu-icone"></iconify-icon>
                                                     </a>
                                                 </div>
                                                 <form action="{{ route('delete-abonnement') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet abonnement ?')">

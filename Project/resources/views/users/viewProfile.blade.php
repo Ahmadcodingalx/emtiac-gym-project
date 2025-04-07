@@ -44,10 +44,10 @@
             
         <div class="col-lg-4">
             <div class="user-grid-card position-relative border radius-16 overflow-hidden bg-base h-100">
-                <img src="{{ asset('assets/images/user-grid/user-grid-bg1.png') }}" alt="" class="w-100 object-fit-cover">
+                <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="" class="w-100 object-fit-cover">
                 <div class="pb-24 ms-16 mb-24 me-16  mt--100">
                     <div class="text-center border border-top-0 border-start-0 border-end-0">
-                        <img src="{{ asset('assets/images/user-grid/user-grid-img14.png') }}" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
+                        <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
                         <h6 class="mb-0 mt-16">{{Auth::user()->lastname}} {{ Auth::user()->firstname }}</h6>
                         <span class="text-secondary-light mb-16">{{ Auth::user()->email }}</span>
                     </div>
@@ -173,7 +173,7 @@
                             <div class="mb-24 mt-16">
                                 <div class="avatar-upload">
                                     <div class="avatar-edit position-absolute bottom-0 end-0 me-24 mt-16 z-1 cursor-pointer">
-                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" hidden>
+                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image" hidden>
                                         <label for="imageUpload" class="w-32-px h-32-px d-flex justify-content-center align-items-center bg-primary-50 text-primary-600 border border-primary-600 bg-hover-primary-100 text-lg rounded-circle">
                                             <iconify-icon icon="solar:camera-outline" class="icon"></iconify-icon>
                                         </label>

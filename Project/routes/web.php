@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
     // Authentication
     Route::prefix('authentication')->group(function () {
         Route::controller(AuthenticationController::class)->group(function () {
-            Route::post('/logout', 'logout')->name('logout');
+            Route::get('/logout', 'logout')->name('logout');
         });
     });
     
@@ -216,6 +216,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/abonnements-list', 'adList')->name('adList');
     
             Route::get('abonnements/{id}', 'show')->name('showAb');
+            Route::get('/recu/preview/{id}', 'previewPDF')->name('recu.preview');
             Route::get('/fetch-abonnements', 'fetchAbonnements');
     
             Route::post('/new-abonnement', 'store')->name('new-abonnement');
@@ -232,6 +233,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/add-tans', 'addTrans')->name('addTrans');
             Route::get('/transactions-list', 'transList')->name('transList');
             Route::get('/bilans', 'bilans')->name('bilans');
+
+
+            Route::get('Transactions/export/', 'exportTransactions')->name('exportTrans');
     
             // Route::get('abonnements/{id}', 'show')->name('showAb');
             // Route::get('/fetch-abonnements', 'fetchAbonnements');
