@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/api/sales-data', 'getSalesData')->name('index');
     });
     
     Route::controller(HomeController::class)->group(function () {

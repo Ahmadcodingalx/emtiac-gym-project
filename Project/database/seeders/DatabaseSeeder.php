@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin1234'),
             'remember_token' => Str::random(10),
             'is_admin' => 1,
-            'image' => 'image',
+            'image' => 'defaults/profile.png',
             'tel' => '96891550',
             'address' => 'Assiama',
             'sex' => 1,

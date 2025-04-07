@@ -30,12 +30,17 @@ class CheckExpiringSubscriptions extends Command
         $today = Carbon::today(); // Date du jour
         $tomorrow = Carbon::tomorrow(); // Date de demain
 
-        // Trouver les abonnements qui expirent aujourd'hui ou demain
-        $expiringSubscriptions = Abonnement::whereIn('end_date', [$today, $tomorrow])->get();
+        // Trouver les abonnements qui expirent aujourd'hui
+        // $expiringSubscriptions = Abonnement::whereIn('end_date', [$today, $tomorrow])->get();
+        $expiringSubscriptions = Abonnement::whereIn('status', ['actif', 'suspendu', 'attente'])
+                                                ->whereDate('end_date', '<', $tomorrow)->get();
 
-        foreach ($expiringSubscriptions as $subscription) {
+        // Trouver les abonnements qui expirent demain
+        $expireSubscriptions = Abonnement::whereDate('end_date', '<', $today)->get();
+
+        foreach ($expireSubscriptions as $subscription) {
             // Exemple : Modifier le statut de l'abonnement ou envoyer un e-mail
-            $subscription->update(['status' => 'expiring']);
+            $subscription->update(['status' => 'expiré']);
 
             // Exemple d'envoi de notification
             // Notification::send($subscription->user, new SubscriptionExpiringNotification($subscription));

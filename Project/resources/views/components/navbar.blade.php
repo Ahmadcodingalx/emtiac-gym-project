@@ -9,10 +9,10 @@
                 <button type="button" class="sidebar-mobile-toggle">
                     <iconify-icon icon="heroicons:bars-3-solid" class="icon"></iconify-icon>
                 </button>
-                <form class="navbar-search">
+                {{-- <form class="navbar-search">
                     <input type="text" name="search" placeholder="Search">
                     <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-                </form>
+                </form> --}}
             </div>
         </div>
         <div class="col-auto">
@@ -306,7 +306,7 @@
 
                 <div class="dropdown">
                     <button class="d-flex justify-content-center align-items-center rounded-circle" type="button" data-bs-toggle="dropdown">
-                        <img src="{{ asset('assets/images/auth/No-data-amico.png') }}" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
+                        <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
                     </button>
                     <div class="dropdown-menu to-top dropdown-menu-sm">
                         <div class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">

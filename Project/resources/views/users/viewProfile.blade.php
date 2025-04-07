@@ -55,8 +55,12 @@
                         <h6 class="text-xl mb-16">Informations personnelles</h6>
                         <ul>
                             <li class="d-flex align-items-center gap-1 mb-12">
-                                <span class="w-30 text-md fw-semibold text-primary-light">Nom</span>
+                                <span class="w-30 text-md fw-semibold text-primary-light">Nom et prénom</span>
                                 <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->lastname}} {{ Auth::user()->firstname }}</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-1 mb-12">
+                                <span class="w-30 text-md fw-semibold text-primary-light">Nom d'utilisateur</span>
+                                <span class="w-70 text-secondary-light fw-medium">: {{Auth::user()->username}}</span>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-12">
                                 <span class="w-30 text-md fw-semibold text-primary-light"> Email</span>
@@ -166,7 +170,7 @@
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <form action="{{ route('update-user') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0">
+                        <form action="{{ route('update-user') }}" method="POST" class="tab-pane fade show active" id="pills-edit-profile" role="tabpanel" aria-labelledby="pills-edit-profile-tab" tabindex="0" enctype="multipart/form-data">
                             @csrf
                             <h6 class="text-md text-primary-light mb-16">Image de profil</h6>
                             <!-- Upload Image Start -->

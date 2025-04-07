@@ -113,7 +113,8 @@
                                         <td>{{ $sale->created_at }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ asset('assets/images/sale-list/sale-list1.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                                <img src="{{ asset('storage/') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                                {{-- <img src="{{ asset('storage/' . $sale->client->image) }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden"> --}}
                                                 <div class="flex-grow-1">
                                                     <span class="text-md mb-0 fw-normal text-secondary-light">{{ $sale->client->lastname ?? "---" }} {{ $sale->client->firstname ?? "---" }}</span>
                                                 </div>

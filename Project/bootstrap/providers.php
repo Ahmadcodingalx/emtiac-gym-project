@@ -3,6 +3,7 @@
 return [
     App\Providers\AbonnementProvider::class,
     App\Providers\AppServiceProvider::class,
+    App\Providers\AuthProvider::class,
     App\Providers\ClientProvider::class,
     App\Providers\CoursProvider::class,
     App\Providers\DailyRevenuesProvider::class,

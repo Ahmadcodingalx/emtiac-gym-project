@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Interfaces\UserInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -63,8 +64,8 @@ class UsersController extends Controller
 
         // Validation des données
         $data = [
-            'firstname' => $userRequest->firstname,
-            'lastname' => $userRequest->lastname,
+            'firstname' => Str::title($userRequest->firstname),
+            'lastname' => Str::upper($userRequest->lastname),
             'email' => $userRequest->email,
             'username' => 'user-' 
                         . strtoupper(substr($userRequest->firstname, 0, 2))
@@ -90,7 +91,9 @@ class UsersController extends Controller
             
             if ($user) {  // Vérification si l'utilisateur a bien été créé
                 DB::commit();
-                return back()->with('success', 'Utilisateur créé avec succès !');
+                return back()->with('success', '
+                Utilisateur créé avec succès !
+                Nom d\'utilisateur : ' . $user->username . ' / Mot de passe : ' . $data['password']);
             } else {
                 DB::rollback();
                 return back()->withErrors(['error' => 'La création de l’utilisateur a échoué.']);

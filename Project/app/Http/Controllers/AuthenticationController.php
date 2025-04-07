@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\AuthInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
+    private AuthInterface $authInterface;
+
+    public function __construct(AuthInterface $authInterface)
+    {
+        $this->authInterface = $authInterface;
+    }
 
     Public function login(Request $request) 
     {
@@ -19,6 +26,8 @@ class AuthenticationController extends Controller
 
             // Récupérer l'utilisateur connecté
             $user = Auth::user();
+
+            // $this->authInterface->update_ab_status();
 
             // Vérifier le rôle de l'utilisateur et rediriger en conséquence
             if ($user->is_admin == true) {

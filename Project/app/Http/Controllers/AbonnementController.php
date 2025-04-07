@@ -116,8 +116,8 @@ class AbonnementController extends Controller
                     foreach ($members as $member) {
                         $data2 = [
                             'abonnement_id' => $abb->id,
-                            'firstname' => $member['firstname'],
-                            'lastname' => $member['lastname'],
+                            'firstname' => Str::title($member['firstname']),
+                            'lastname' => Str::upper($member['lastname']),
                             'tel' => $member['tel'],
                             'sex' => true,
                         ];

@@ -6,6 +6,7 @@ use App\Http\Requests\ClientRequest;
 use App\Interfaces\ClientInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ClientController extends Controller
 {
@@ -67,8 +68,8 @@ class ClientController extends Controller
         // Validation des données
         $data = [
             'user_id_create' => auth()->id(),
-            'firstname' => $clientRequest->firstname,
-            'lastname' => $clientRequest->lastname,
+            'firstname' => Str::title($clientRequest->firstname),
+            'lastname' => Str::upper($clientRequest->lastname),
             'email' => $clientRequest->email,
             'image' => $filePath,
             'tel' => $clientRequest->tel,
