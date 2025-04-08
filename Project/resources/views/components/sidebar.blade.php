@@ -3,7 +3,7 @@
         <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
     </button>
     <div>
-        <a href="{{ route('index') }}" class="sidebar-logo">
+        <a href="{{ route((Auth::check() && Auth::user()->is_admin == true) ? 'index' : 'transList') }}" class="sidebar-logo">
             <img src="{{ asset('assets/images/logo.png') }}" alt="site logo" class="light-logo">
             <img src="{{ asset('assets/images/logo-light.png') }}" alt="site logo" class="dark-logo">
             <img src="{{ asset('assets/images/logo-icon.png') }}" alt="site logo" class="logo-icon">
@@ -18,7 +18,11 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a href="{{ route('index') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tableau de bord</a>
+                        @if (Auth::check() && Auth::user()->is_admin == true)
+                            <a href="{{ route('index') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tableau de bord</a>
+                        @else
+                            <a href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Tableau de bord</a>
+                        @endif
                     </li>
                     {{-- <li>
                     <a href="{{ route('index2') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> CRM</a>
@@ -49,19 +53,19 @@
                     </li> --}}
                 </ul>
             </li>
-            <li class="sidebar-menu-group-title">Application</li>
+            {{-- <li class="sidebar-menu-group-title">Application</li> --}}
             {{-- <li>
                   <a href="{{ route('email') }}">
                     <iconify-icon icon="mage:email" class="menu-icon"></iconify-icon>
                     <span>Email</span>
                 </a>
             </li> --}}
-            <li>
+            {{-- <li>
                 <a href="{{ route('chatMessage') }}">
                     <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
                     <span>Chat</span>
                 </a>
-            </li>
+            </li> --}}
             {{-- <li>
                 <a href="{{ route('calendar') }}">
                     <iconify-icon icon="solar:calendar-outline" class="menu-icon"></iconify-icon>
@@ -283,23 +287,25 @@
                     <span style="margin-left: 5px">Services</span>
                 </a>
             </li>
-            <li class="dropdown">
-                <a  href="javascript:void(0)">
-                    <iconify-icon icon="prime:users" width="20" height="20"></iconify-icon>
-                    <span style="margin-left: 5px">Utilisateurs</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a  href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Gestion des rôles</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
-                    </li>
-                </ul>
-            </li>
+            @if (Auth::check() && Auth::user()->is_admin == true)
+                <li class="dropdown">
+                    <a  href="javascript:void(0)">
+                        <iconify-icon icon="prime:users" width="20" height="20"></iconify-icon>
+                        <span style="margin-left: 5px">Utilisateurs</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li>
+                            <a  href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
+                        </li>
+                        <li>
+                            <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Gestion des rôles</a>
+                        </li>
+                        <li>
+                            <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
@@ -367,25 +373,53 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="dropdown">
-                <a  href="javascript:void(0)">
-                    {{-- <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i> --}}
-                    <iconify-icon icon="oui:stats" width="20" height="20"></iconify-icon>
-                    <span style="margin-left: 5px">Statistic & bilan</span>
-                </a>
-                <ul class="sidebar-submenu">
-                    <li>
-                        <a  href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Entrées / Sorties</a>
-                    </li>
-                    <li>
-                        <a  href="{{ route('bilans') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bilans</a>
-                    </li>
-                    {{-- <li>
-                        <a  href="{{ route('assignRole') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> impressions</a>
-                    </li> --}}
-                </ul>
-            </li> </br></br>
+            @if (Auth::check() && Auth::user()->is_admin == true)
+                <li class="dropdown">
+                    <a  href="javascript:void(0)">
+                        {{-- <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i> --}}
+                        <iconify-icon icon="oui:stats" width="20" height="20"></iconify-icon>
+                        <span style="margin-left: 5px">Statistic & bilan</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li>
+                            <a  href="{{ route('transList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Entrées / Sorties</a>
+                        </li>
+                        <li>
+                            <a  href="{{ route('bilans') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Bilans</a>
+                        </li>
+                        {{-- <li>
+                            <a  href="{{ route('assignRole') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> impressions</a>
+                        </li> --}}
+                    </ul>
+                </li> 
+            @endif
+            @if (Auth::check() && Auth::user()->is_admin == true)
+                <li class="dropdown">
+                    <a  href="javascript:void(0)">
+                        {{-- <i class="ri-user-settings-line text-xl me-6 d-flex w-auto"></i> --}}
+                        <iconify-icon icon="oui:stats" width="20" height="20"></iconify-icon>
+                        <span style="margin-left: 5px">Exportations</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li>
+                            <a  href="{{ route('bilan.export.pdf', ['month' => now()->format('m')]) }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Totale des recettes</a>
+                        </li>
+                        <li>
+                            <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payement tèrminer</a>
+                        </li>
+                        <li>
+                            <a  href="{{ route('rest.export.pdf', ['month' => now()->format('m')]) }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payement inachevé</a>
+                        </li>
+                        <li>
+                            <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Clients</a>
+                        </li>
+                        <li>
+                            <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Ventes</a>
+                        </li>
+                    </ul>
+                </li> 
+            @endif
+        </br></br>
 
             {{-- <li class="sidebar-menu-group-title">Application</li>
 

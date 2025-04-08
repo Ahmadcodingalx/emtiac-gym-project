@@ -64,9 +64,10 @@
                                 <tr>
                                     <th scope="col">Nom et prénom</th>
                                     <th scope="col">Nom d'utilisateur</th>
-                                    <th scope="col">Coach</th>
+                                    <th scope="col">Admin</th>
+                                    {{-- <th scope="col">Coach</th>
                                     <th scope="col">Sécretaire</th>
-                                    <th scope="col">Caisier/ère</th>
+                                    <th scope="col">Caisier/ère</th> --}}
                                     {{-- <th scope="col" class="text-center">Status</th> --}}
                                     {{-- <th scope="col" class="text-center">Action</th> --}}
                                 </tr>
@@ -76,7 +77,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ asset('assets/images/user-list/user-list1.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                                <img src="{{ asset('storage/' . $user->image) }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
                                                 <div class="flex-grow-1">
                                                     <span class="text-md mb-0 fw-normal text-secondary-light">{{ $user->lastname }} {{ $user->firstname }}</span>
                                                 </div>
@@ -105,65 +106,50 @@
                                                 @method('DELETE')
                                                 <input type="hidden" name="id" value={{ $user->id }}>
                                             </form> --}}
-                                            <a href="{{ route('user-roles', ['id' => $user->id, 'roleType' => 1]) }}" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                {{-- @if ()
-                                                @endif --}}
-                                                <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                            </a>
+                                            @if ($user->is_admin == true)
+                                                <a href="{{ route('user-roles', ['id' => $user->id, 'roleType' => 1]) }}" type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="akar-icons:double-check" class="icon text-xl"></iconify-icon>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('user-roles', ['id' => $user->id, 'roleType' => 1]) }}" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                    <iconify-icon icon="iconamoon:sign-times-light" class="icon text-xl"></iconify-icon>
+                                                </a>
+                                            @endif
                                         </td>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                {{-- <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                    <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                                </button>
-                                                <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                    <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                                </button> --}}
-                                                {{-- <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $user->id }}>
-                                                    <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                                    </button>
-                                                </form> --}}
-                                                {{-- <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $user->id }}>
-                                                </form> --}}
                                                 <a href="{{ route('user-roles', ['id' => $user->id, 'roleType' => 2]) }}" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                     <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                                 </a>
                                             </div>
-                                        </td>
-                                        <td class="text-center">
+                                        </td> --}}
+                                        {{-- <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                {{-- <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                                <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                     <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
                                                 </button>
                                                 <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                     <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                                </button> --}}
-                                                {{-- <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
+                                                </button>
+                                                <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="hidden" name="id" value={{ $user->id }}>
                                                     <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                         <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                                     </button>
-                                                </form> --}}
-                                                {{-- <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
+                                                </form>
+                                                <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="hidden" name="id" value={{ $user->id }}>
-                                                </form> --}}
+                                                </form>
                                                 <a href="{{ route('user-roles', ['id' => $user->id, 'roleType' => 3]) }}" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                                     <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
                                                     <iconify-icon icon="fluent:update-24-regular" class="menu-icon"></iconify-icon>
                                                 </a>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                                 

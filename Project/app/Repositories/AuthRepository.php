@@ -3,8 +3,13 @@
 namespace App\Repositories;
 
 use App\Interfaces\AuthInterface;
+use App\Mail\OtpCodeEmail;
 use App\Models\Abonnement;
+use App\Models\OtpCode;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthRepository implements AuthInterface
 {
@@ -16,20 +21,49 @@ class AuthRepository implements AuthInterface
         //
     }
 
-    public function update_ab_status()
+    public function checkOtpCode($data)
     {
-        // On récupère la date actuelle
-        // $today = Carbon::today();
+        // Logique pour vérifier le code OTP
+        $otp_code = OtpCode::where('email', $data['email'])->first();
 
-        // // On récupère tous les abonnements avec un statut "actif" et dont la date de fin est passée
-        // $abonnements = Abonnement::where('status', 'attente')  // Seulement les abonnements "actifs"
-        //     ->whereDate('end_date', '>', $today)  // Date de fin inférieure à aujourd'hui
-        //     ->get();  // Récupération de ces abonnements
+        if (!$otp_code)
+            return false;
 
-        // // Pour chaque abonnement expiré, on change son statut à "terminé"
-        // foreach ($abonnements as $abonnement) {
-        //     $abonnement->status = 'suspendu';  // Mise à jour du statut
-        //     $abonnement->save();  // Sauvegarde les modifications dans la base de données
-        // }
+        if (Hash::check($data['code'], $otp_code['code'])) {
+
+            $user = User::where('email', $data['email'])->first();
+            $user->password = $data['password'];
+            $user->save();
+
+            $otp_code->delete();
+
+            // $user->token = $user->createToken($user->id)->plainTextToken;
+            return true;
+        }
+
+        return false;
+    }
+
+    public function sendOtpEmail($email)
+    {
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return false;
+        } else {
+            $otp_code = [
+                'email' => $user->email,
+                'code' => rand(100000, 999999)
+            ];
+    
+            OtpCode::where('email', $user->email)->delete();
+            OtpCode::create($otp_code);
+            Mail::to($user->email)->send(
+                new OtpCodeEmail(
+                    $otp_code['code']
+                )
+            );
+            return true;
+        }
     }
 }

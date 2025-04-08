@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbonnementController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CoursController;
+use App\Http\Controllers\ExportsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TransactionController;
@@ -29,6 +30,8 @@ Route::prefix('authentication')->group(function () {
         Route::post('/signin', 'login')->name('signin');
         Route::get('/forgotpassword', 'forgotPassword')->name('forgotPassword');
         Route::get('/signup', 'signup')->name('signup');
+        Route::post('/checkOtpCode', 'checkOtpCode')->name('checkOtpCode');
+        Route::post('/sendOtpEmail', 'sendOtpEmail')->name('sendOtpEmail');
 
         Route::get('/login', 'signin')->name('login');
     });
@@ -246,6 +249,14 @@ Route::middleware('auth')->group(function () {
             // Route::put('/update-abonnement/{id}', 'update')->name('update-abonnement');
             // Route::get('/update-status/{id}/{status}', 'updateStatus')->name('update-status');
             // Route::delete('/delete-abonnement', 'destroy')->name('delete-abonnement');
+        });
+    });
+    
+    // Users
+    Route::prefix('exports_data')->group(function () {
+        Route::controller(ExportsController::class)->group(function () {
+            Route::get('/export-bilan-pdf', 'exportBilanPdf')->name('bilan.export.pdf');
+            Route::get('/export-rest-pdf', 'exportRestPayPdf')->name('rest.export.pdf');
         });
     });
     

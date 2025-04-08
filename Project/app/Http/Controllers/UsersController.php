@@ -179,6 +179,9 @@ class UsersController extends Controller
             if ($role) {
                 return back()->with('success', 'Oppération réussie !');
                 // return redirect()->route('usersRoles')->with('success', 'Opération réussie !');
+            } else {
+                DB::rollback();
+                return back()->withErrors(['error' => 'Vous ne pouvez pas modifier le admin principal !']);
             }
         } catch (\Throwable $th) {
             //throw $th;

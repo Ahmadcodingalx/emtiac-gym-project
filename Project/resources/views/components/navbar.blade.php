@@ -312,7 +312,7 @@
                         <div class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">
                             <div>
                                 <h6 class="text-lg text-primary-light fw-semibold mb-2">{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</h6>
-                                <span class="text-secondary-light fw-medium text-sm">Admin</span>
+                                <span class="text-secondary-light fw-medium text-sm">{{ Auth::user()->username }}</span>
                             </div>
                             <button type="button" class="hover-text-danger">
                                 <iconify-icon icon="radix-icons:cross-1" class="icon text-xl"></iconify-icon>
@@ -329,11 +329,11 @@
                                     <iconify-icon icon="tabler:message-check" class="icon text-xl"></iconify-icon> Inbox
                                 </a>
                             </li> --}}
-                            <li>
+                            {{-- <li>
                                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3" href="{{ route('company') }}">
                                     <iconify-icon icon="icon-park-outline:setting-two" class="icon text-xl"></iconify-icon> Paramettre
                                 </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3" href="{{ route('logout') }}">
                                 {{-- <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3" href="javascript:void(0)"> --}}

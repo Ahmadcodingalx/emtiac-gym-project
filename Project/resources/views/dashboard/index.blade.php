@@ -142,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-3 col-xl-6">
+                {{-- <div class="col-xxl-3 col-xl-6">
                     <div class="card h-100 radius-8 border">
                         <div class="card-body p-24">
                             <h6 class="mb-12 fw-semibold text-lg mb-16">Total Inscrit</h6>
@@ -197,7 +197,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-xxl-9 col-xl-12">
                     <div class="card h-100">
                         <div class="card-body p-24">
@@ -206,21 +206,17 @@
                                 <ul class="nav border-gradient-tab nav-pills mb-0" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link d-flex align-items-center active" id="pills-to-do-list-tab" data-bs-toggle="pill" data-bs-target="#pills-to-do-list" type="button" role="tab" aria-controls="pills-to-do-list" aria-selected="true">
-                                            Latest Registered
-                                            <span class="text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert">35</span>
+                                            Dèrniers clients inscrit
+                                            <span class="text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert">10</span>
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link d-flex align-items-center" id="pills-recent-leads-tab" data-bs-toggle="pill" data-bs-target="#pills-recent-leads" type="button" role="tab" aria-controls="pills-recent-leads" aria-selected="false" tabindex="-1">
-                                            Latest Subscribe
-                                            <span class="text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert">35</span>
+                                            Dèrniers abonnements
+                                            <span class="text-sm fw-semibold py-6 px-12 bg-neutral-500 rounded-pill text-white line-height-1 ms-12 notification-alert">10</span>
                                         </button>
                                     </li>
                                 </ul>
-                                <a  href="javascript:void(0)" class="text-primary-600 hover-text-primary d-flex align-items-center gap-1">
-                                    View All
-                                    <iconify-icon icon="solar:alt-arrow-right-linear" class="icon"></iconify-icon>
-                                </a>
                             </div>
 
                             <div class="tab-content" id="pills-tabContent">
@@ -232,7 +228,6 @@
                                                     <th scope="col">Users </th>
                                                     <th scope="col">Registered On</th>
                                                     <th scope="col">Plan</th>
-                                                    <th scope="col" class="text-center">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -248,73 +243,6 @@
                                                     </td>
                                                     <td>27 Mar 2024</td>
                                                     <td>Free</td>
-                                                    <td class="text-center">
-                                                        <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="{{ asset('assets/images/users/user2.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="text-md mb-0 fw-medium">Wade Warren</h6>
-                                                                <span class="text-sm text-secondary-light fw-medium">xterris@gmail.com</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>27 Mar 2024</td>
-                                                    <td>Basic</td>
-                                                    <td class="text-center">
-                                                        <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="{{ asset('assets/images/users/user3.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="text-md mb-0 fw-medium">Albert Flores</h6>
-                                                                <span class="text-sm text-secondary-light fw-medium">seannand@mail.ru</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>27 Mar 2024</td>
-                                                    <td>Standard</td>
-                                                    <td class="text-center">
-                                                        <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="{{ asset('assets/images/users/user4.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="text-md mb-0 fw-medium">Bessie Cooper </h6>
-                                                                <span class="text-sm text-secondary-light fw-medium">igerrin@gmail.com</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>27 Mar 2024</td>
-                                                    <td>Business</td>
-                                                    <td class="text-center">
-                                                        <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <img src="{{ asset('assets/images/users/user5.png') }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="text-md mb-0 fw-medium">Arlene McCoy</h6>
-                                                                <span class="text-sm text-secondary-light fw-medium">fellora@mail.ru</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>27 Mar 2024</td>
-                                                    <td>Enterprise </td>
-                                                    <td class="text-center">
-                                                        <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

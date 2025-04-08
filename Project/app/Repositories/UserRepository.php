@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
+use App\Mail\OtpCodeEmail;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class UserRepository implements UserInterface
@@ -23,10 +25,17 @@ class UserRepository implements UserInterface
         $user = User::create($data);
 
         if ($user) {
-            $data = [
+            $data2 = [
                 'user_id' => $user->id
             ];
-            Role::create($data);
+            // Mail::to($data['email'])->send(
+            //     new OtpCodeEmail(
+            //         $user->lastename,
+            //         $user->email,
+            //         $user->id
+            //     )
+            // );
+            Role::create($data2);
         }
 
         return $user;
@@ -48,9 +57,9 @@ class UserRepository implements UserInterface
                 if ($user->image !== 'defaults/profile.png' && Storage::disk('public')->exists($user->image)) {
                     Storage::disk('public')->delete($user->image);
                 }
-    
+
                 $image = $userRequest->file('image');
-    
+
                 $image_ext = $image->getClientOriginalExtension();
                 $image_name = 'User_' . time() . '.' . $image_ext;
                 $user->image = $image->storeAs('users', $image_name, 'public');
@@ -67,7 +76,7 @@ class UserRepository implements UserInterface
         }
 
         $user->updated_at = now();
-        
+
         $user->save();
 
         return $user;
@@ -86,7 +95,7 @@ class UserRepository implements UserInterface
         }
 
         $user->updated_at = now();
-        
+
         $user->save();
 
         return $user;
@@ -99,24 +108,34 @@ class UserRepository implements UserInterface
 
     public function rolesAssigned($id, $roleType)
     {
-        $role = Role::where('user_id', $id)->first();
+        $role = User::findOrFail($id);
+        $check_is_super_admin = Role::where('user_id', $id)->first();
 
-        switch ($roleType) {
-            case 1:
-                $role->coach = !$role->coach;
-                break;
-            
-            case 2:
-                $role->cashier = !$role->cashier;
-                break;
+        if($check_is_super_admin) {
+            $role->is_admin = !$role->is_admin;
+            $role->save();
 
-            default:
-                $role->secretary = !$role->secretary;
-                break;
+            return $role;
+        } else {
+            return false;
         }
+        // $role = Role::where('user_id', $id)->first();
 
-        $role->save();
+        // switch ($roleType) {
+        //     case 1:
+        //         $role->coach = !$role->coach;
+        //         break;
 
-        return $role;
+        //     case 2:
+        //         $role->cashier = !$role->cashier;
+        //         break;
+
+        //     default:
+        //         $role->secretary = !$role->secretary;
+        //         break;
+        // }
+
+        // $role->save();
+
     }
 }
