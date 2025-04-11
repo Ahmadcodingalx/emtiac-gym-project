@@ -259,9 +259,16 @@ class AbonnementRepository implements AbonnementInterface
         }
     }
 
-    public function search()
+    public function search(string $query)
     {
-        return Abonnement::query();
+        return Abonnement::with('type')
+                // ->where('transaction_id', 'LIKE', "%{$query}%")
+                // ->orWhere('status', 'LIKE', "%{$query}%")
+                ->when($query, function ($q) use ($query) {
+                    $q->where('transaction_id', 'LIKE', "%$query%")
+                      ->orWhere('status', 'LIKE', "%$query%");
+                })
+                ->paginate(10);
     }
 
     public function transaction_income($data)

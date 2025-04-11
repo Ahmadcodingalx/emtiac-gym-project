@@ -28,7 +28,7 @@ class AuthenticationController extends Controller
             // Récupérer l'utilisateur connecté
             $user = Auth::user();
 
-            // $this->authInterface->update_ab_status();
+            $this->authInterface->histLogin($user->id, $user);
 
             // Vérifier le rôle de l'utilisateur et rediriger en conséquence
             if ($user->is_admin == true) {
@@ -75,19 +75,19 @@ class AuthenticationController extends Controller
             'code' => $request->otp_code,
             'password' => $request->new_access_key,
         ];
-        dd($request->email);
 
         DB::beginTransaction();
 
         try {
             $user = $this->authInterface->checkOtpCode($data);
 
-            if (!$user) {
+            if ($user) {
                 DB::commit();
+                return back()->with('success', 'Réinitialisation réussie.');
+            } else {
                 return back()->withErrors(['error' => 'Code OTP incorrect.']);
             }
 
-            return back()->with('success', 'Réinitialisation réussie.');
         } catch (\Throwable $th) {
             //throw $th;
             // return $th;

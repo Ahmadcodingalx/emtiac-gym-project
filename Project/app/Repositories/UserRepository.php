@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
+use App\Mail\EmailNotification;
 use App\Mail\OtpCodeEmail;
+use App\Models\HistLogin;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -28,13 +30,38 @@ class UserRepository implements UserInterface
             $data2 = [
                 'user_id' => $user->id
             ];
-            // Mail::to($data['email'])->send(
-            //     new OtpCodeEmail(
-            //         $user->lastename,
-            //         $user->email,
-            //         $user->id
-            //     )
-            // );
+            $notif = 'Votre compte Gym H, vient d\'être créé. 
+                        Votre nom d\'utilisateur est : '
+                        . $data['username']
+                        . ' et votre mot de passe est : '
+                        . $data['password'] 
+                        . ' Utiliser ces informations pour vous connectez à Gym H';
+
+            Mail::to($user->email)->send(
+                new EmailNotification(
+                    $notif
+                )
+            );
+
+            $admins = User::where('is_admin', true)->get();
+            foreach ($admins as $admin) {
+                if ($user->email != $admin->email) {
+                    $admin_notif = 'Le compte de ' 
+                        . $data['lastname']
+                        . ' '
+                        . $data['firstname']
+                        . ' est créé aveec succès, son nom d\'utilisateur : '
+                        . $data['username']
+                        . ' et son mot de passe est : '
+                        . $data['password'] . '.';
+
+                    Mail::to($admin->email)->send(
+                        new EmailNotification(
+                            $admin_notif
+                        )
+                    );
+                }
+            }
             Role::create($data2);
         }
 
@@ -45,6 +72,11 @@ class UserRepository implements UserInterface
     {
         return User::paginate(10);
         // return User::all();
+    }
+
+    public function usersHistList()
+    {
+        return HistLogin::with('user')->paginate(10);
     }
 
     public function update($userRequest, $id)
@@ -137,5 +169,30 @@ class UserRepository implements UserInterface
 
         // $role->save();
 
+    }
+
+    public function histLoginSearch(string $query)
+    {
+        return HistLogin::with('user')
+            ->when($query, function ($q) use ($query) {
+                $q->where('created_at', 'LIKE', "%$query%")
+                ->orWhereHas('user', function ($uq) use ($query) {
+                    $uq->where('firstname', 'LIKE', "%$query%")
+                        ->orWhere('lastname', 'LIKE', "%$query%");
+                });
+            })
+            ->paginate(10);
+    }
+
+    public function usersSearch(string $query)
+    {
+        return User::when($query, function ($q) use ($query) {
+                $q->where('firstname', 'LIKE', "%$query%")
+                ->orWhere('lastname', 'LIKE', "%$query%")
+                ->orWhere('username', 'LIKE', "%$query%")
+                ->orWhere('email', 'LIKE', "%$query%")
+                ->orWhere('tel', 'LIKE', "%$query%");
+            })
+            ->paginate(10);
     }
 }

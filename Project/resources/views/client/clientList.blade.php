@@ -158,33 +158,45 @@
                     </div>
 
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                        <span>Showing 1 to 10 of 12 entries</span>
+                        <span>Showing {{ $clients->firstItem() }} to {{ $clients->lastItem() }} of {{ $clients->total() }} entries</span>
+                        
                         <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->previousPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"  href="?page=1">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"  href="?page=2">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=3">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=4">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $clients->nextPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
-                                </a>
-                            </li>
+                            <!-- Bouton Précédent -->
+                            @if ($clients->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
+                                        <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
+                                    </span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $clients->previousPageUrl() }}">
+                                        <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
+                                    </a>
+                                </li>
+                            @endif
+                    
+                            <!-- Numéros de pages -->
+                            @foreach ($clients->getUrlRange(1, $clients->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $clients->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link {{ $page == $clients->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+                    
+                            <!-- Bouton Suivant -->
+                            @if ($clients->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $clients->nextPageUrl() }}">
+                                        <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="page-item disabled">
+                                    <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
+                                        <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
+                                    </span>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

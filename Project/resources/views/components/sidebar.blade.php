@@ -298,10 +298,13 @@
                             <a  href="{{ route('usersList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                         </li>
                         <li>
-                            <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Gestion des rôles</a>
+                            <a  href="{{ route('usersRoles') }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Rôles</a>
                         </li>
                         <li>
                             <a  href="{{ route('addUser') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
+                        </li>
+                        <li>
+                            <a  href="{{ route('usersHistList') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Historiques</a>
                         </li>
                     </ul>
                 </li>
@@ -314,7 +317,7 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a  href="{{ route('salesList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des ventes</a>
+                        <a  href="{{ route('salesList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                     </li>
                     <li>
                         <a  href="{{ route('addSale') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Effectuer une vente</a>
@@ -329,20 +332,22 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a  href="{{ route('clientsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des clients</a>
+                        <a  href="{{ route('clientsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                     </li>
                     <li>
-                        <a  href="{{ route('addClient') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter des clients</a>
+                        <a  href="{{ route('addClient') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
                     </li>
                 </ul>
             </li>
-            <li>
-                <a  href="{{ route('show-type') }}">
-                    {{-- <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon> --}}
-                    <iconify-icon icon="hugeicons:dashboard-square-setting" width="20" height="20"></iconify-icon>
-                    <span style="margin-left: 5px">Types d'abonnement</span>
-                </a>
-            </li>
+            @if (Auth::check() && Auth::user()->is_admin == true)
+                <li>
+                    <a  href="{{ route('show-type') }}">
+                        {{-- <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon> --}}
+                        <iconify-icon icon="hugeicons:dashboard-square-setting" width="20" height="20"></iconify-icon>
+                        <span style="margin-left: 5px">Types d'abonnement</span>
+                    </a>
+                </li>
+            @endif
             <li class="dropdown">
                 <a  href="javascript:void(0)">
                     {{-- <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon> --}}
@@ -351,7 +356,7 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a  href="{{ route('adList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des abonnements</a>
+                        <a  href="{{ route('adList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                     </li>
                     <li>
                         <a  href="{{ route('addAb') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Faire un abonnements</a>
@@ -366,10 +371,10 @@
                 </a>
                 <ul class="sidebar-submenu">
                     <li>
-                        <a  href="{{ route('productsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste des produits</a>
+                        <a  href="{{ route('productsList') }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Liste</a>
                     </li>
                     <li>
-                        <a  href="{{ route('addProduct') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter des produits</a>
+                        <a  href="{{ route('addProduct') }}"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Ajouter</a>
                     </li>
                 </ul>
             </li>
@@ -404,18 +409,18 @@
                         <li>
                             <a  href="{{ route('bilan.export.pdf', ['month' => now()->format('m')]) }}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Totale des recettes</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payement tèrminer</a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a  href="{{ route('rest.export.pdf', ['month' => now()->format('m')]) }}"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Payement inachevé</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Clients</a>
                         </li>
                         <li>
                             <a  href=""><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Ventes</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li> 
             @endif

@@ -126,7 +126,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('delete-service') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">
+                                                <form action="{{ route('delete-service') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce service ?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="hidden" name="id" value={{ $service->id }}>
@@ -145,7 +145,7 @@
                                         {{-- <h6 class="text-lg mb-0 mt-4">Jacob Jones</h6> --}}
                                         <div class="col-12">
                                             <input value={{ $service->id }} type="hidden" name="id">
-                                            <input disabled id="myInput1{{ $service->id }}" value={{ $service->name }} style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du service">
+                                            <input disabled id="myInput1{{ $service->id }}" value="{{ $service->name }}" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du service">
                                         </div>
                                         @if ($service->description)
                                             <div class="">

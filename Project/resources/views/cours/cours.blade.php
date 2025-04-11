@@ -92,31 +92,6 @@
         <div class="col-lg-8">
 
             <div class="card h-100 p-0 radius-12">
-                {{-- <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
-                    <div class="d-flex align-items-center flex-wrap gap-3">
-                        <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
-                        <form class="navbar-search">
-                            <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
-                            <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-                        </form>
-                    </div>
-                    <a  href="{{ route('viewProfile') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
-                        <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
-                        Ajouter un cours
-                    </a>
-                </div> --}}
                 <div class="card-body p-24">
                     <div class="p-24" style="width: 100%; overflow-x: auto; white-space: nowrap; display: flex; gap: 20px;">
                         @foreach ($cours as $cours)
@@ -135,7 +110,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('delete-cours') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">
+                                                <form action="{{ route('delete-cours') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="hidden" name="id" value={{ $cours->id }}>
@@ -154,7 +129,7 @@
                                         {{-- <h6 class="text-lg mb-0 mt-4">Jacob Jones</h6> --}}
                                         <div class="col-12">
                                             <input value={{ $cours->id }} type="hidden" name="id">
-                                            <input disabled id="myInput1{{ $cours->id }}" value={{ $cours->name }} style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du cours">
+                                            <input disabled id="myInput1{{ $cours->id }}" value="{{ $cours->name }}" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;" type="text" name="name" class="form-control form-control-lg" placeholder="Entrer le nom du cours">
                                         </div>
                                         @if ($cours->description)
                                             <div class="">

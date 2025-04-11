@@ -198,7 +198,7 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="col-xxl-9 col-xl-12">
+                {{-- <div class="col-xxl-9 col-xl-12">
                     <div class="card h-100">
                         <div class="card-body p-24">
 
@@ -347,8 +347,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xxl-3 col-xl-12">
+                </div> --}}
+                {{-- <div class="col-xxl-3 col-xl-12">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
@@ -431,8 +431,8 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="col-xxl-6 col-xl-12">
+                </div> --}}
+                {{-- <div class="col-xxl-6 col-xl-12">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20">
@@ -566,9 +566,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="col-xxl-6">
+                {{-- <div class="col-xxl-6">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="d-flex align-items-center flex-wrap gap-2 justify-content-between">
@@ -602,7 +602,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
     

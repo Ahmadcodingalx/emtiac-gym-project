@@ -154,6 +154,19 @@ class SaleRepository implements SaleInterface
     }
     public function destroy($id) {}
 
+    public function saleSearch(string $query)
+    {
+        return Sale::with('client')
+                    ->when($query, function ($q) use ($query) {
+                        $q->where('created_at', 'LIKE', "%$query%")
+                        ->orWhereHas('client', function ($uq) use ($query) {
+                            $uq->where('firstname', 'LIKE', "%$query%")
+                                ->orWhere('lastname', 'LIKE', "%$query%");
+                        });
+                    })
+                    ->paginate(10);
+    }
+
     public function transaction_income($data)
     {
         return Income::create($data);

@@ -187,8 +187,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/add-user', 'addUser')->name('addUser');
             Route::get('/users-grid', 'usersGrid')->name('usersGrid');
             Route::get('/users-list', 'usersList')->name('usersList');
+            Route::get('/users-hist-list', 'usersHistList')->name('usersHistList');
             Route::get('/users-roles-list', 'usersRoles')->name('usersRoles');
             Route::get('/view-profile', 'viewProfile')->name('viewProfile');
+
+            Route::get('/users/search/{type}','usersSearch')->name('users.search');
+            Route::get('/users/search/zero/{type}','usersSearchZero')->name('users.search.zero');
+            //****************** */
+            Route::get('/hist_login/search','histLoginSearch')->name('hist_login.search');
+            Route::get('/hist_login/search/zero','histLoginSearchZero')->name('hist_login.search.zero');
     
             Route::get('users', 'show')->name('showUsers');
             Route::get('/roles/{id}/{roleType}/user', 'rolesAssigned')->name('user-roles');
@@ -205,6 +212,9 @@ Route::middleware('auth')->group(function () {
         Route::controller(SaleController::class)->group(function () {
             Route::get('/add-sale', 'addSale')->name('addSale');
             Route::get('/sales-list', 'SalesList')->name('salesList');
+
+            Route::get('/sale/search','saleSearch')->name('sales.search');
+            Route::get('/sale/search/zero','saleSearchZero')->name('sales.search.zero');
     
             Route::get('sale/{id}', 'showSale')->name('showSale');
     
@@ -309,6 +319,8 @@ Route::middleware('auth')->group(function () {
         Route::controller(AbonnementController::class)->group(function () {
     
             Route::get('/show-service','show_service')->name('show-service');
+            Route::get('/abonnements/search','search')->name('abonnements.search');
+            Route::get('/abonnements/search/zero','searchZero')->name('abonnements.search.zero');
     
             Route::post('/new-service', 'create_service')->name('new-service');
             Route::put('/update-service', 'update_service')->name('update-service');

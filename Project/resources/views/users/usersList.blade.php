@@ -1,7 +1,7 @@
 @extends('layout.layout')
 @php
-    $title='Users Grid';
-    $subTitle = 'Users Grid';
+    $title='Liste des utilisateurs';
+    $subTitle = 'Utilisateurs';
     $script ='<script>
                         $(".remove-item-btn").on("click", function() {
                             $(this).closest("tr").addClass("d-none")
@@ -51,141 +51,52 @@
                 @endif
                 <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
                     <div class="d-flex align-items-center flex-wrap gap-3">
-                        <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                        </select>
                         <form class="navbar-search">
-                            <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
+                            <input type="text" class="bg-base h-40-px w-auto" name="search" id="search" placeholder="Rechercher">
                             <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
                         </form>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-                        </select>
                     </div>
                     <a  href="{{ route('addUser') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
                         Ajouter un utilisateur
                     </a>
                 </div>
-                <div class="card-body p-24">
-                    <div class="table-responsive scroll-sm">
-                        <table class="table bordered-table sm-table mb-0">
-                            <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <div class="d-flex align-items-center gap-10">
-                                            <div class="form-check style-check d-flex align-items-center">
-                                                <input class="form-check-input radius-4 border input-form-dark" type="checkbox" name="checkbox" id="selectAll">
-                                            </div>
-                                            S.L
-                                        </div>
-                                    </th>
-                                    <th scope="col">Date de création</th>
-                                    <th scope="col">Nom et prénom</th>
-                                    <th scope="col">Nom d'utilisateur</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Téléphone</th>
-                                    {{-- <th scope="col" class="text-center">Status</th> --}}
-                                    <th scope="col" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $user)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-10">
-                                                <div class="form-check style-check d-flex align-items-center">
-                                                    <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
-                                                </div>
-                                                {{ $user->id }}
-                                            </div>
-                                        </td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('storage/' . $user->image) }}" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                                                <div class="flex-grow-1">
-                                                    <span class="text-md mb-0 fw-normal text-secondary-light">{{ $user->lastname }} {{ $user->firstname }}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $user->username }}</span></td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->tel }}</td>
-                                        {{-- <td class="text-center">
-                                            <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                        </td> --}}
-                                        <td class="text-center">
-                                            <div class="d-flex align-items-center gap-10 justify-content-center">
-                                                {{-- <button type="button" class="bg-info-focus bg-hover-info-200 text-info-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                    <iconify-icon icon="majesticons:eye-line" class="icon text-xl"></iconify-icon>
-                                                </button>
-                                                <button type="button" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                    <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                                </button> --}}
-                                                <form action="{{ route('delete') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce cours ?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="id" value={{ $user->id }}>
-                                                    <button type="submit" class="remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                                        <iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                
-                            </tbody>
-                        </table>
-                        {{-- <div class="pagination-wrapper">
-                            {{ $users->links('pagination::bootstrap-4') }}
-                        </div> --}}
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                        <span>Showing 1 to 10 of 12 entries</span>
-                        <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $users->previousPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"  href="?page=1">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"  href="?page=2">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=3">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=4">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $users->nextPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="card-body p-24" id="usersTable">
+                    @include('users.userTable', ['users' => $users])
                 </div>
             </div>
+
+    
+        <!-- Importation de jQuery -->
+        <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+
+  
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const input = document.getElementById('search');
+        
+                input.addEventListener('keyup', function () {
+                    const query = input.value;
+                    console.log(query);
+                    if (query == '') {
+                        fetch(`{{ route('users.search.zero', ['type' => 0]) }}?q=${encodeURIComponent(query)}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('usersTable').innerHTML = html;
+                            })
+                            .catch(error => console.error('Erreur AJAX :', error));
+                    } else {
+                        fetch(`{{ route('users.search', ['type' => 0]) }}?q=${encodeURIComponent(query)}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('usersTable').innerHTML = html;
+                            })
+                            .catch(error => console.error('Erreur AJAX :', error));
+                    }
+                    
+        
+                });
+            });
+        </script>
 
 @endsection

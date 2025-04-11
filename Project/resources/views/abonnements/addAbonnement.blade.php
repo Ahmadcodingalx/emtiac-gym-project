@@ -23,6 +23,12 @@
 @endphp
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+<!-- Select2 CSS + JS -->
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
 
     <div class="card h-100 p-0 radius-12">
         @if ($errors->any())
@@ -82,13 +88,15 @@
                                 Autre personne
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link d-flex align-items-center px-24" id="pills-group-tab"
-                                data-bs-toggle="pill" data-bs-target="#pills-group" type="button" role="tab"
-                                aria-controls="pills-group" aria-selected="false" tabindex="-1">
-                                Groupe
-                            </button>
-                        </li>
+                        @if (Auth::check() && Auth::user()->is_admin == true)
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link d-flex align-items-center px-24" id="pills-group-tab"
+                                    data-bs-toggle="pill" data-bs-target="#pills-group" type="button" role="tab"
+                                    aria-controls="pills-group" aria-selected="false" tabindex="-1">
+                                    Groupe
+                                </button>
+                            </li>
+                        @endif
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
@@ -280,148 +288,149 @@
                                 <button id="addservice" class="btn btn-primary-600 mt-20" type="submit">Créer</button>
                             </div>
                         </form>
-
-                        <form action="{{ route('new-abonnement') }}" method="POST" class="tab-pane fade"
-                            id="pills-group" role="tabpanel" aria-labelledby="pills-group-tab"
-                            tabindex="0">
-                            @csrf
-                            <input type="hidden" name="if_group" value="1">
-                            <div class="card-body p-24">
-                                <div class="row justify-content-center">
-                                    <div class="">
-                                        <div class="card border">
-                                            
-                                            <div class="card-body">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom</th>
-                                                            <th>Prénom</th>
-                                                            <th>Téléphone</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="memberList">
-                                                        <!-- Les membres ajoutés apparaîtront ici -->
-                                                    </tbody>
-                                                </table>
-                                                <!-- Total Général -->
-                                                {{-- <h4>Total: <span id="totalGeneral">0</span> FCFA</h4> --}}
-            
-                                                <!-- Champ caché pour envoyer les données des membres -->
-                                                <input type="hidden" name="members" id="membersJson">
-            
-                                                {{-- <button type="submit" class="btn btn-success">Valider la Vente</button> --}}
+                        @if (Auth::check() && Auth::user()->is_admin == true)
+                            <form action="{{ route('new-abonnement') }}" method="POST" class="tab-pane fade"
+                                id="pills-group" role="tabpanel" aria-labelledby="pills-group-tab"
+                                tabindex="0">
+                                @csrf
+                                <input type="hidden" name="if_group" value="1">
+                                <div class="card-body p-24">
+                                    <div class="row justify-content-center">
+                                        <div class="">
+                                            <div class="card border">
+                                                
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nom</th>
+                                                                <th>Prénom</th>
+                                                                <th>Téléphone</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="memberList">
+                                                            <!-- Les membres ajoutés apparaîtront ici -->
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- Total Général -->
+                                                    {{-- <h4>Total: <span id="totalGeneral">0</span> FCFA</h4> --}}
+                
+                                                    <!-- Champ caché pour envoyer les données des membres -->
+                                                    <input type="hidden" name="members" id="membersJson">
+                
+                                                    {{-- <button type="submit" class="btn btn-success">Valider la Vente</button> --}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
+                                <div class="col-lg-12">
+                                    <div class="card">
                                         <div class="card-body">
-                                            <div class="row gy-3 needs-validation align-items-end">
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Nom <span class="text-danger-600">*</span></label>
-                                                    <input type="text" name="lastname2" id="lastname2" class="form-control"
-                                                        placeholder="Entrer le nom..." required>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Prénom <span class="text-danger-600">*</span></label>
-                                                    <input type="text" name="firstname2" id="firstname2" class="form-control"
-                                                        placeholder="Entrer le prénom..." required>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Téléphone</label>
-                                                    <input type="text" name="tel2" id="tel2" class="form-control"
-                                                        placeholder="Entrer le numéro de tel...">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label>&nbsp;</label>
-                                                    <button id="addMember" class="btn btn-primary-600" type="button">Ajouter</button>
-                                                </div>
-                                            </div>
-                                            <div class="row gy-3 needs-validation align-items-end mt-20">
-                                                
-                                                <div class="col-md-4">
-                                                    <label for="type"
-                                                        class="form-label fw-semibold text-primary-light text-sm mb-8"> Type d'abonnement
-                                                        <span class="text-danger-600">*</span> </label>
-                                                    <select class="form-control radius-8 form-select" id="type" name="type">
-                                                        <option value="">Sélectionner un type d'abonnement</option>
-                                                        @foreach ($types as $type)
-                                                        <option value="{{ $type->id }}">{{ $type->name }} à {{ $type->amount }} fcfa</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="service"
-                                                        class="form-label fw-semibold text-primary-light text-sm mb-8">Service <span
-                                                            style="color: rgb(180, 180, 180)">(Facultatif)</span> </label>
-                                                    <select class="form-control radius-8 form-select" id="service" name="service">
-                                                        <option value="{{ null }}">Sélectionner un service</option>
-                                                        {{-- <option value="">Sélectionner un service</option> --}}
-                                                        <option value="{{ null }}">Autre</option>
-                                                        @foreach ($services as $service)
-                                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Prix <span style="color: rgb(180, 180, 180)">(Si
-                                                            différent du prix habituel)</span></label>
-                                                    <input type="number" name="price" id="price" class="form-control"
-                                                        placeholder="Entrer le prix">
-                                                </div>
-                                            </div>
-                                            <div class="row gy-3 needs-validation align-items-start mt-20">
-                                                
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Date de début <span
-                                                            class="text-danger-600">*</span></label>
-                                                    <div class="icon-field has-validation">
-                                                        <input type="date" name="start_date" id="start_date" class="form-control"
-                                                            required>
-                                                        <div class="invalid-feedback">
-                                                            S'il vous plait, remplir ce champ
-                                                        </div>
+                                            <div class="card-body">
+                                                <div class="row gy-3 needs-validation align-items-end">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Nom <span class="text-danger-600">*</span></label>
+                                                        <input type="text" name="lastname2" id="lastname2" class="form-control"
+                                                            placeholder="Entrer le nom..." required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Prénom <span class="text-danger-600">*</span></label>
+                                                        <input type="text" name="firstname2" id="firstname2" class="form-control"
+                                                            placeholder="Entrer le prénom..." required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Téléphone</label>
+                                                        <input type="text" name="tel2" id="tel2" class="form-control"
+                                                            placeholder="Entrer le numéro de tel...">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>&nbsp;</label>
+                                                        <button id="addMember" class="btn btn-primary-600" type="button">Ajouter</button>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Remarque <span
-                                                            style="color: rgb(180, 180, 180)">(Facultatif)</span></label>
-                                                    <div class="icon-field has-validation">
-                                                        <textarea
-                                                            style="background-color: transparent; resize: none; width: 100%; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word;"
-                                                            name="remark" class="form-control" rows="4" cols="50" placeholder="Enter une remarque..."></textarea>
+                                                <div class="row gy-3 needs-validation align-items-end mt-20">
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label for="type"
+                                                            class="form-label fw-semibold text-primary-light text-sm mb-8"> Type d'abonnement
+                                                            <span class="text-danger-600">*</span> </label>
+                                                        <select class="form-control radius-8 form-select" id="type" name="type">
+                                                            <option value="">Sélectionner un type d'abonnement</option>
+                                                            @foreach ($types as $type)
+                                                            <option value="{{ $type->id }}">{{ $type->name }} à {{ $type->amount }} fcfa</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="service"
+                                                            class="form-label fw-semibold text-primary-light text-sm mb-8">Service <span
+                                                                style="color: rgb(180, 180, 180)">(Facultatif)</span> </label>
+                                                        <select class="form-control radius-8 form-select" id="service" name="service">
+                                                            <option value="{{ null }}">Sélectionner un service</option>
+                                                            {{-- <option value="">Sélectionner un service</option> --}}
+                                                            <option value="{{ null }}">Autre</option>
+                                                            @foreach ($services as $service)
+                                                                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Prix <span style="color: rgb(180, 180, 180)">(Si
+                                                                différent du prix habituel)</span></label>
+                                                        <input type="number" name="price" id="price" class="form-control"
+                                                            placeholder="Entrer le prix">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="card-header border-bottom bg-base py-16 px-24">
-                                                        <h6 class="text-lg fw-semibold mb-0">Payement <span class="text-danger-600">*</span></h6>
-                                                    </div>
-                                                    <div class="card-body p-24">
-                                                        <div class="d-flex align-items-start flex-column flex-wrap gap-3">
-                                                            <div class="form-check checked-primary d-flex align-items-center gap-2">
-                                                                <input class="form-check-input" type="radio" name="payment_type" id="total" value="total">
-                                                                <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="total"> Total </label>
-                                                            </div>
-                                                            <div class="form-check checked-secondary d-flex align-items-center gap-2">
-                                                                <input class="form-check-input" type="radio" name="payment_type" id="partial" value="partial">
-                                                                <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="partial"> Partiel </label>
+                                                <div class="row gy-3 needs-validation align-items-start mt-20">
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Date de début <span
+                                                                class="text-danger-600">*</span></label>
+                                                        <div class="icon-field has-validation">
+                                                            <input type="date" name="start_date" id="start_date" class="form-control"
+                                                                required>
+                                                            <div class="invalid-feedback">
+                                                                S'il vous plait, remplir ce champ
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Remarque <span
+                                                                style="color: rgb(180, 180, 180)">(Facultatif)</span></label>
+                                                        <div class="icon-field has-validation">
+                                                            <textarea
+                                                                style="background-color: transparent; resize: none; width: 100%; overflow-x: hidden; white-space: pre-wrap; word-wrap: break-word;"
+                                                                name="remark" class="form-control" rows="4" cols="50" placeholder="Enter une remarque..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="card-header border-bottom bg-base py-16 px-24">
+                                                            <h6 class="text-lg fw-semibold mb-0">Payement <span class="text-danger-600">*</span></h6>
+                                                        </div>
+                                                        <div class="card-body p-24">
+                                                            <div class="d-flex align-items-start flex-column flex-wrap gap-3">
+                                                                <div class="form-check checked-primary d-flex align-items-center gap-2">
+                                                                    <input class="form-check-input" type="radio" name="payment_type" id="total" value="total">
+                                                                    <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="total"> Total </label>
+                                                                </div>
+                                                                <div class="form-check checked-secondary d-flex align-items-center gap-2">
+                                                                    <input class="form-check-input" type="radio" name="payment_type" id="partial" value="partial">
+                                                                    <label class="form-check-label line-height-1 fw-medium text-secondary-light" for="partial"> Partiel </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <button id="addservice" class="btn btn-primary-600 mt-20" type="submit">Créer</button>
                                             </div>
-                                            <button id="addservice" class="btn btn-primary-600 mt-20" type="submit">Créer</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                        </form>
+                                
+                            </form>
+                        @endif
 
                     </div>
                 </div>
@@ -435,7 +444,7 @@
 
 
     <!-- Importation de jQuery -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script> --}}
 
     <script>
         // $(document).ready(function() {
@@ -533,5 +542,44 @@
             // }
         });
     </script>
+
+
+<script>
+    const clientInput = document.getElementById('client');
+    const clientChoices = new Choices(clientInput, {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: "Sélectionner un client",
+    });
+
+    const typeInput = document.getElementById('type');
+    const typeChoices = new Choices(typeInput, {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: "Sélectionner un type",
+    });
+
+    const serviceInput = document.getElementById('service');
+    const serviceChoices = new Choices(serviceInput, {
+        searchEnabled: true,
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: "Sélectionner un service",
+    });
+</script>
+
+
+
+{{-- <script>
+    $(document).ready(function() {
+        $('#client').select2({
+            placeholder: "Sélectionner un client",
+            width: '100%',
+            allowClear: true // Permet de vider la sélection
+        });
+    });
+</script> --}}
 
 @endsection

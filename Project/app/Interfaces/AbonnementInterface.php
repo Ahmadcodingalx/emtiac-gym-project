@@ -12,7 +12,7 @@ interface AbonnementInterface
     public function destroy($id);
     public function update($request, $id);
     public function updateStatus($status, $id);
-    public function search();
+    public function search(string $query);
     public function completeRest($data);
 
 

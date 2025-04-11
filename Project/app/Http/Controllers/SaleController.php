@@ -115,4 +115,22 @@ class SaleController extends Controller
             return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération.']);
         }
     }
+
+    
+    public function saleSearch(Request $request)
+    {
+
+        $query = $request->get('q');
+        $sales = $this->saleInterface->saleSearch($query);
+
+        return view('sales.saleTable', compact('sales'))->render();
+    }
+
+    public function saleSearchZero()
+    {
+
+        $sales = $this->saleInterface->show();
+
+        return view('sales.saleTable', compact('sales'))->render();
+    }
 }

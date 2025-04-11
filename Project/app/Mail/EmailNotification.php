@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -16,7 +17,7 @@ class EmailNotification extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(private $notif)
     {
         //
     }
@@ -27,7 +28,8 @@ class EmailNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Notification',
+            subject: 'Notification',
+            from: new Address('info@gymh.org', 'GymH -- Notification'),
         );
     }
 
@@ -36,8 +38,12 @@ class EmailNotification extends Mailable
      */
     public function content(): Content
     {
+        // dd($this->message);
         return new Content(
-            view: 'view.name',
+            view: 'mails.notification',
+            with: [
+                'notif' => $this->notif
+            ]
         );
     }
 

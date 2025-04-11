@@ -8,9 +8,19 @@ class HistLogin extends Model
 {
     //
     protected $fillable = [
-        'date',
-        'username',
-        'firstname',
-        'lastname',
+        'user_id',
+        'IpAddress',
+        'country',
+        'region',
+        'city',
+        'latitude',
+        'longitude',
+        'user_agent',
     ];
+
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

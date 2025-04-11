@@ -44,7 +44,7 @@ $script ='<script>
     <section class="auth forgot-password-page bg-base d-flex flex-wrap">
         <div class="auth-left d-lg-block d-none">
             <div class="d-flex align-items-center flex-column h-100 justify-content-center">
-                <img src="{{ asset('assets/images/auth/forgot-pass-img.png') }}" alt="">
+                <img src="{{ asset('assets/images/auth/16191-removebg-preview.png') }}" alt="">
             </div>
         </div>
         <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
@@ -99,18 +99,19 @@ $script ='<script>
                         <input type="email" name="email" id="email1" value='{{ old("email") }}' class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Enter Email" required>
                     </div>
                     <button type="submit" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32">Continue</button>
-                    <button type="bouton" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32" data-bs-toggle="modal" data-bs-target="#exampleModal">Vérifier</button>
-
-                    <div class="text-center">
-                    <a  href="{{ route('login') }}" class="text-primary-600 fw-bold mt-24">Retour à la page de connexion</a>
-                    </div>
                 </form>
+                <button type="bouton" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32" data-bs-toggle="modal" data-bs-target="#exampleModal">Vérifier</button>
+
+                <div class="text-center">
+                <a  href="{{ route('login') }}" class="text-primary-600 fw-bold mt-24">Retour à la page de connexion</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true" data-bs-keyboard="false">
+    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"> --}}
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -157,7 +158,7 @@ $script ='<script>
                     </div>
                     <h6 class="mb-12">Confirmer le code</h6>
                     <div class="icon-field">
-                        <input type="email" name="change_password_email" id="change_password_email" autocomplete="off" class="form-control h-56-px bg-neutral-50 radius-12 pt-10" placeholder="">
+                        <input type="hidden" name="change_password_email" id="change_password_email" autocomplete="off" class="form-control h-56-px bg-neutral-50 radius-12 pt-10" placeholder="">
                         <input type="text" name="otp_code" class="form-control h-56-px bg-neutral-50 radius-12 pt-10" placeholder="Ente le code">
                         <div class="mb-20">
                             <div class="position-relative">

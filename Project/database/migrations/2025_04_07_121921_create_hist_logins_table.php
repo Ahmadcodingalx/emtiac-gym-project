@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('hist_logins', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->date('date');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('IpAddress');
+            $table->string('country');
+            $table->string('city');
+            $table->string('region');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->string('user_agent');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

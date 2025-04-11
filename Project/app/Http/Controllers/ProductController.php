@@ -89,7 +89,7 @@ class ProductController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création du produit.']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création du produit.']);
         }
     }
 
@@ -141,7 +141,7 @@ class ProductController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'oppération']);
         }
     }
 

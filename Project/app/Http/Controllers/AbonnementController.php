@@ -266,21 +266,22 @@ class AbonnementController extends Controller
         }
     }
 
-    // public function search(Request $request)
-    // {
-    //     $query = $this->abonnementInterface->search();
+    public function search(Request $request)
+    {
 
-    //     if ($request->has('search')) {
-    //         $search = $request->input('search');
-    //         $query->where('code', 'LIKE', "%$search%")
-    //             ->orWhere('status', 'LIKE', "%$search%")
-    //             ->orWhere('start_date', 'LIKE', "%$search%");
-    //     }
+        $query = $request->get('q');
+        $abonnements = $this->abonnementInterface->search($query);
 
-    //     $abonnements = $query->get(); // Pas de pagination ici pour AJAX
+        return view('abonnements.abonnementsTable', compact('abonnements'))->render();
+    }
 
-    //     return view('abonnements.partials.table', compact('abonnements'));
-    // }
+    public function searchZero()
+    {
+
+        $abonnements = $this->abonnementInterface->show();
+
+        return view('abonnements.abonnementsTable', compact('abonnements'))->render();
+    }
 
 
 
@@ -445,7 +446,7 @@ class AbonnementController extends Controller
         // Créer un PDF avec un format de papier plus petit, comme A6
         $pdf = Pdf::loadView('abonnements/receipt', compact('abonnement'))
             ->setPaper('a6', 'portrait'); // Ou 'letter' si tu préfères ce format
-            // ->setPaper([0, 0, 500, 460]); // Ou 'letter' si tu préfères ce format
+        // ->setPaper([0, 0, 500, 460]); // Ou 'letter' si tu préfères ce format
 
         return $pdf->stream('recu_' . $abonnement->id . '_' . $abonnement->transaction_id . '.pdf');
     }

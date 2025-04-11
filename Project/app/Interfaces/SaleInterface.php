@@ -13,4 +13,6 @@ interface SaleInterface
     public function destroy($id);
     public function getClients();
     public function getProducts();
+    public function saleSearch(string $query);
+    
 }

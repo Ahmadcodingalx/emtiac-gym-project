@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'tel' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
@@ -47,6 +47,7 @@ class UserRequest extends FormRequest
 
             'email.required' => 'Veuillez renseigner l\'email',
             'email.email' => 'L\'email est invalide',
+            'email.unique' => 'L\'email existe déjà !',
 
             'tel.required' => 'Veuillez renseigner le numéro de téléphone',
 

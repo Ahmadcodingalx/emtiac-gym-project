@@ -37,6 +37,13 @@ class UsersController extends Controller
         return view('users/usersList', compact('users'));
     }
 
+    public function usersHistList()
+    {
+        $historiques = $this->userInterface->usersHistList();
+
+        return view('users/hist_login', compact('historiques'));
+    }
+
     public function usersRoles()
     {
         $users = $this->userInterface->show();
@@ -103,7 +110,7 @@ class UsersController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’utilisateur.']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l’utilisateur.']);
         }
     }
 
@@ -128,7 +135,7 @@ class UsersController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'oppération']);
         }
     }
 
@@ -153,7 +160,7 @@ class UsersController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de l\'oppération']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'oppération']);
         }
     }
 
@@ -191,5 +198,48 @@ class UsersController extends Controller
             return back()->withErrors(['error' => 'Une erreur est survenue lors de l\'oppération']);
             // return back()->withErrors(['error' => $th);
         }
+    }
+
+    
+    public function histLoginSearch(Request $request)
+    {
+        $query = $request->get('q');
+        $historiques = $this->userInterface->histLoginSearch($query);
+
+        return view('users.hist_login_table', compact('historiques'))->render();
+        
+    }
+    
+    public function histLoginSearchZero(Request $request)
+    {
+
+        $query = $request->get('q');
+        $historiques = $this->userInterface->usersHistList();
+
+        return view('users.hist_login_table', compact('historiques'))->render();
+    }
+    
+    public function usersSearch(Request $request, $type)
+    {
+        $query = $request->get('q');
+        $users = $this->userInterface->usersSearch($query);
+
+        if($type == 0)
+            return view('users.userTable', compact('users'))->render();
+        else
+            return view('users.roleTable', compact('users'))->render();
+        
+    }
+    
+    public function usersSearchZero(Request $request, $type)
+    {
+
+        $query = $request->get('q');
+        $users = $this->userInterface->show();
+
+        if($type == 0)
+            return view('users.userTable', compact('users'))->render();
+        else
+            return view('users.roleTable', compact('users'))->render();
     }
 }

@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasMany(Abonnement::class, 'user_create_id');
     }
 
+    public function hist_logins()
+    {
+        return $this->hasMany(HistLogin::class, 'user_id');
+    }
+
     public function updatedAbonnements()
     {
         return $this->hasMany(Abonnement::class, 'user_update_id');

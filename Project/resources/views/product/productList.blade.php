@@ -51,7 +51,7 @@
                 @endif
                 <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
                     <div class="d-flex align-items-center flex-wrap gap-3">
-                        <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
+                        {{-- <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
                         <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
                             <option>1</option>
                             <option>2</option>
@@ -63,16 +63,11 @@
                             <option>8</option>
                             <option>9</option>
                             <option>10</option>
-                        </select>
+                        </select> --}}
                         <form class="navbar-search">
                             <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
                             <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
                         </form>
-                        <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-                        </select>
                     </div>
                     <a  href="{{ route('addProduct') }}" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
                         <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
@@ -124,9 +119,6 @@
                                         <td><span class="text-md mb-0 fw-normal text-secondary-light">{{ $product->price }} fcfa</span></td>
                                         <td>{{ $product->quantity }}</td>
                                         <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">{{ $product->description }}</td>
-                                        {{-- <td class="text-center">
-                                            <span class="bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm">Active</span>
-                                        </td> --}}
                                         <td class="text-center">
                                             <div class="d-flex align-items-center gap-10 justify-content-center">
                                                 <div class="d-flex align-items-center gap-10 justify-content-center">
@@ -152,39 +144,48 @@
                                 
                             </tbody>
                         </table>
-                        {{-- <div class="pagination-wrapper">
-                            {{ $users->links('pagination::bootstrap-4') }}
-                        </div> --}}
                     </div>
 
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                        <span>Showing 1 to 10 of 12 entries</span>
+                        <span>Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries</span>
+                        
                         <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $products->previousPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-left" class=""></iconify-icon>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md bg-primary-600 text-white"  href="?page=1">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px"  href="?page=2">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=3">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=4">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="?page=5">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md"  href="{{ $products->nextPageUrl() }}">
-                                    <iconify-icon icon="ep:d-arrow-right" class=""></iconify-icon>
-                                </a>
-                            </li>
+                            <!-- Bouton Précédent -->
+                            @if ($products->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
+                                        <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
+                                    </span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $products->previousPageUrl() }}">
+                                        <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
+                                    </a>
+                                </li>
+                            @endif
+                    
+                            <!-- Numéros de pages -->
+                            @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $products->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link {{ $page == $products->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+                    
+                            <!-- Bouton Suivant -->
+                            @if ($products->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $products->nextPageUrl() }}">
+                                        <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="page-item disabled">
+                                    <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
+                                        <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
+                                    </span>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
