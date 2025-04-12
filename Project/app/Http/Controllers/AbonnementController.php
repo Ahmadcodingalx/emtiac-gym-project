@@ -262,7 +262,7 @@ class AbonnementController extends Controller
             DB::rollback();
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’abonnement.']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l’abonnement.']);
         }
     }
 

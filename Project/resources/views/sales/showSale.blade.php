@@ -77,14 +77,9 @@
                                                 Détails de la vente
                                             </button>
                                         </li>
-                                        <li class="nav-item" role="presentation">
+                                        {{-- <li class="nav-item" role="presentation">
                                             <button class="nav-link d-flex align-items-center px-24" id="pills-change-passwork-tab" data-bs-toggle="pill" data-bs-target="#pills-change-passwork" type="button" role="tab" aria-controls="pills-change-passwork" aria-selected="false" tabindex="-1">
                                                 Modifier la vente
-                                            </button>
-                                        </li>
-                                        {{-- <li class="nav-item" role="presentation">
-                                            <button class="nav-link d-flex align-items-center px-24" id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notification" type="button" role="tab" aria-controls="pills-notification" aria-selected="false" tabindex="-1">
-                                                Notification Settings
                                             </button>
                                         </li> --}}
                                     </ul>
@@ -95,9 +90,9 @@
                                                 {{-- <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8">
                                                     Supprimer
                                                 </button> --}}
-                                                <button type="submit" class="mb-10 btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8">
+                                                {{-- <button type="submit" class="mb-10 btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8">
                                                     Imprimer
-                                                </button>
+                                                </button> --}}
                                             </div>
                                             <div class="">
                                                 <div class="user-grid-card position-relative border radius-16 overflow-hidden bg-base h-100">

@@ -2,11 +2,11 @@
 @php
     $title='Liste des Types d\'abonnement';
     $subTitle = 'Types d\'abonnement';
-    $script = '<script>
-                        $(".delete-btn").on("click", function() {
-                            $(this).closest(".user-grid-card").addClass("d-none")
-                        });
-                </script>';
+    // $script = '<script>
+    //                     $(".delete-btn").on("click", function() {
+    //                         $(this).closest(".user-grid-card").addClass("d-none")
+    //                     });
+    //             </script>';
 @endphp
 
 @section('content')
@@ -121,7 +121,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('delete-type') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">
+                                                <form action="{{ route('delete-type') }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce type d\'abonnement ?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <input type="hidden" name="id" value="{{ $type->id }}">
@@ -155,10 +155,10 @@
                                                 {{-- <label for="type" class="form-label fw-semibold text-primary-light text-sm mb-8">Nature du type <span class="text-danger-600">*</span> </label> --}}
                                                 <select disabled class="form-control radius-8 form-select" id="type{{ $type->id }}" value="{{ $type->type }}" name="type" style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold;">
                                                     <option value="{{ $type->id }}"> {{ $type->type }} </option>
-                                                    <option value="">Jour</option>
-                                                    <option value="">Semaine</option>
-                                                    <option value="">Mois</option>
-                                                    <option value="">Année</option>
+                                                    <option value="Jour">Jour</option>
+                                                    <option value="Semaine">Semaine</option>
+                                                    <option value="Mois">Mois</option>
+                                                    <option value="Année">Année</option>
                                                 </select>
                                             </div>
                                         </div>

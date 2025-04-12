@@ -43,7 +43,8 @@ class SaleRepository implements SaleInterface
 
             $product = Product::find($data['product_id']);
 
-            $product->quantity -= $data['quantity'];
+            if (!($product->quantity <= 0)) 
+                $product->quantity -= $data['quantity'];
             $product->save();
 
             $sale = Sale::find($data['sale_id']);
@@ -125,6 +126,7 @@ class SaleRepository implements SaleInterface
         $products = json_decode($request->products, true);
 
         foreach ($products as $prod) {
+            dd($oldProdQtt[$prod['product']]);
             $quantity = $oldProdQtt[$prod['product']];
             $data = [
                 'sale_id' => $sale->id,
@@ -152,7 +154,9 @@ class SaleRepository implements SaleInterface
 
         return $sale;
     }
-    public function destroy($id) {}
+    public function destroy($id) {
+        return Sale::find($id);
+    }
 
     public function saleSearch(string $query)
     {

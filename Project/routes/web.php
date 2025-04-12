@@ -220,6 +220,7 @@ Route::middleware('auth')->group(function () {
     
             Route::post('/new-sale', 'store')->name('new-sale');
             Route::put('/update-sale/{id}', 'update')->name('update-sale');
+            Route::delete('/delete-sale', 'destroy')->name('delete-sale');
         });
     });
     
@@ -276,6 +277,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/add-client', 'addClient')->name('addClient');
             Route::get('/clients-list', 'clientList')->name('clientsList');
             Route::get('/clients-list', 'clientList')->name('clientsList');
+
+            Route::get('/client/search','clientSearch')->name('client.search');
+            Route::get('/client/search/zero','clientSearchZero')->name('client.search.zero');
             
             // Route::get('users', 'show')->name('showUsers');
             
@@ -291,6 +295,9 @@ Route::middleware('auth')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/add-product', 'addProduct')->name('addProduct');
             Route::get('/products-list', 'productsList')->name('productsList');
+
+            Route::get('/product/search','productSearch')->name('product.search');
+            Route::get('/product/search/zero','productSearchZero')->name('product.search.zero');
             
             // Route::get('users', 'show')->name('showUsers');
             

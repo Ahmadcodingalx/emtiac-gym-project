@@ -38,7 +38,7 @@
             </p>
             <p><strong>Payé:</strong> {{ number_format($abonnement->price ?? $abonnement->type->amount, 2) }} F</p>
             @if (!$abonnement->if_all_pay)
-                <p><strong>Reste:</strong> {{ number_format($abonnement->rest, 2) }} F - <span style="font-size: 12px" class="text-neutral-600">( à payer avant le {{ $abonnement->end_pay_date }} ) </span></p>
+                <p><strong>Reste:</strong> {{ number_format(($abonnement->type->amount - $abonnement->price), 2) }} F - <span style="font-size: 12px" class="text-neutral-600">( à payer avant le {{ $abonnement->end_pay_date }} ) </span></p>
             @endif
             <p><strong>Date de début:</strong> {{ $abonnement->start_date }}</p>
             <p><strong>Date de fin:</strong> {{ $abonnement->end_date }}</p>

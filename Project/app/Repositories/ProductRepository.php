@@ -67,6 +67,19 @@ class ProductRepository implements ProductInterface
 
     public function destroy($id)
     {
-        return Product::find($id);
+        $product = Product::find($id);
+        if ($product->image !== 'defaults/profile.png' && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+        return $product;
+    }
+
+    public function productSearch($query)
+    {
+        return Product::when($query, function ($q) use ($query) {
+            $q->where('name', 'LIKE', "%$query%")
+            ->orWhere('created_at', 'LIKE', "%$query%");
+        })
+        ->paginate(10);
     }
 }

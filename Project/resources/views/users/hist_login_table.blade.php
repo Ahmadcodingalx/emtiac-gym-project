@@ -12,7 +12,7 @@
                     <td>{{ $hist->created_at }}</td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img src="{{ asset('storage/' . $hist->user->image) }}" alt="Photo de {{ $hist->user->lastname }}" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                            <img src="{{ asset('storage/' . $hist->user->image ?? "") }}" alt="Photo de {{ $hist->user->lastname }}" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
                             <div class="flex-grow-1">
                                 <span class="text-md mb-0 fw-normal text-secondary-light">{{ $hist->user->lastname }} {{ $hist->user->firstname }}</span>
                             </div>

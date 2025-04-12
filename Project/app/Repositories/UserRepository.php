@@ -37,11 +37,11 @@ class UserRepository implements UserInterface
                         . $data['password'] 
                         . ' Utiliser ces informations pour vous connectez à Gym H';
 
-            Mail::to($user->email)->send(
-                new EmailNotification(
-                    $notif
-                )
-            );
+            // Mail::to($user->email)->send(
+            //     new EmailNotification(
+            //         $notif
+            //     )
+            // );
 
             $admins = User::where('is_admin', true)->get();
             foreach ($admins as $admin) {
@@ -55,11 +55,11 @@ class UserRepository implements UserInterface
                         . ' et son mot de passe est : '
                         . $data['password'] . '.';
 
-                    Mail::to($admin->email)->send(
-                        new EmailNotification(
-                            $admin_notif
-                        )
-                    );
+                    // Mail::to($admin->email)->send(
+                    //     new EmailNotification(
+                    //         $admin_notif
+                    //     )
+                    // );
                 }
             }
             Role::create($data2);
@@ -135,7 +135,12 @@ class UserRepository implements UserInterface
 
     public function destroy($id)
     {
-        return User::find($id);
+        $user = User::find($id);
+        if ($user->image !== 'defaults/profile.png' && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
+
+        return $user;
     }
 
     public function rolesAssigned($id, $roleType)

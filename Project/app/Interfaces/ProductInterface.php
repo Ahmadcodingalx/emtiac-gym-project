@@ -12,4 +12,5 @@ interface ProductInterface
     public function viewProduct($id);
     public function update($productRequest);
     public function destroy($request);
+    public function productSearch($query);
 }

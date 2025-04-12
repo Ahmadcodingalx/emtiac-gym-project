@@ -59,7 +59,7 @@
                     <td>{{ $abonnement->start_date }}</td>
                     <td>{{ $abonnement->end_date }}</td>
                     <td>{{ $abonnement->price ?? $abonnement->type->amount }} fcfa </td>
-                    <td>{{ $abonnement->if_all_pay == false ? $abonnement->rest : "0" }} fcfa </td>
+                    <td>{{ $abonnement->if_all_pay == false ? ($abonnement->type->amount - $abonnement->price) : "0" }} fcfa </td>
                     <td>{{ $abonnement->if_all_pay == false ? $abonnement->end_pay_date : "---" }}</td>
                     <td class="text-center">
                         <div class="d-flex align-items-center gap-10 justify-content-center">

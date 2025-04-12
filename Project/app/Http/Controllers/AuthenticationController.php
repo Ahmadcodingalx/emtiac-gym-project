@@ -28,7 +28,17 @@ class AuthenticationController extends Controller
             // Récupérer l'utilisateur connecté
             $user = Auth::user();
 
-            $this->authInterface->histLogin($user->id, $user);
+            DB::beginTransaction();
+            try {
+                $this->authInterface->histLogin($user->id, $user);
+    
+                    DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                //throw $th;
+                // return $th;
+                return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l’utilisateur.']);
+            }
 
             // Vérifier le rôle de l'utilisateur et rediriger en conséquence
             if ($user->is_admin == true) {
@@ -91,7 +101,7 @@ class AuthenticationController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             // return $th;
-            return back()->withErrors(['error' => $th . 'Une erreur est survenue lors de la création de l’utilisateur.']);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors de la création de l’utilisateur.']);
         }
     }
 

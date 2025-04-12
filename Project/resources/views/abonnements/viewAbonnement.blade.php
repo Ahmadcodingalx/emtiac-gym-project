@@ -98,7 +98,7 @@
                             @if (!$ab->if_all_pay)
                                 <li class="d-flex align-items-center gap-1 mb-12">
                                     <span class="w-30 text-md fw-semibold text-primary-light"> Montant Restant</span>
-                                    <span class="w-70 text-secondary-light fw-medium">: {{ $ab->rest }}
+                                    <span class="w-70 text-secondary-light fw-medium">: {{ ($ab->type->amount - $ab->price) }}
                                         fcfa</span>
                                 </li>
                             @endif

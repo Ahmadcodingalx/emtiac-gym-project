@@ -235,13 +235,14 @@ class AbonnementRepository implements AbonnementInterface
         $abb = Abonnement::where('transaction_id', $data['abbId'])->first();
         $type = Type::findOrFail($abb->type_id);
 
-        $total = $abb->price + $data['amount'];
-        $rest = $abb->rest - $data['amount'];
+        
+        if ((!$abb->if_all_pay) && ($data['amount'] > 0) && ($data['amount'] <= ($type->amount - $abb->price))) {
+            $total = $abb->price + $data['amount'];
+            $rest = $abb->rest - $data['amount'];
 
-        if ($total <= $type->amount) {
             $abb->price = $total;
             $abb->rest = $rest;
-
+            
             $transData = [
                 'user_id' => auth()->id(),
                 'abb_id' => $abb->id,
@@ -337,7 +338,7 @@ class AbonnementRepository implements AbonnementInterface
             $type->description = $request->input('desc');
             $type->number = $request->input('number');
             $type->type = $request->input('type');
-            $type->description = $request->input('amount');
+            $type->amount = $request->input('amount');
         }
 
         $type->updated_at = now();

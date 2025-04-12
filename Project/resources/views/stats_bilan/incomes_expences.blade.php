@@ -264,11 +264,11 @@
                         </div>
     
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                            <span>Showing {{ $transactions->firstItem() }} to {{ $transactions->lastItem() }} of {{ $transactions->total() }} entries</span>
+                            <span>Showing {{ $abb->firstItem() }} to {{ $abb->lastItem() }} of {{ $abb->total() }} entries</span>
                             
                             <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                 <!-- Bouton Précédent -->
-                                @if ($transactions->onFirstPage())
+                                @if ($abb->onFirstPage())
                                     <li class="page-item disabled">
                                         <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
@@ -276,23 +276,23 @@
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->previousPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $abb->previousPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
                                         </a>
                                     </li>
                                 @endif
                         
                                 <!-- Numéros de pages -->
-                                @foreach ($transactions->getUrlRange(1, $transactions->lastPage()) as $page => $url)
-                                    <li class="page-item {{ $page == $transactions->currentPage() ? 'active' : '' }}">
-                                        <a class="page-link {{ $page == $transactions->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
+                                @foreach ($abb->getUrlRange(1, $abb->lastPage()) as $page => $url)
+                                    <li class="page-item {{ $page == $abb->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link {{ $page == $abb->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
                                     </li>
                                 @endforeach
                         
                                 <!-- Bouton Suivant -->
-                                @if ($transactions->hasMorePages())
+                                @if ($abb->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->nextPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $abb->nextPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
                                         </a>
                                     </li>
@@ -362,11 +362,11 @@
                         </div>
     
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                            <span>Showing {{ $transactions->firstItem() }} to {{ $transactions->lastItem() }} of {{ $transactions->total() }} entries</span>
+                            <span>Showing {{ $sales->firstItem() }} to {{ $sales->lastItem() }} of {{ $sales->total() }} entries</span>
                             
                             <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                 <!-- Bouton Précédent -->
-                                @if ($transactions->onFirstPage())
+                                @if ($sales->onFirstPage())
                                     <li class="page-item disabled">
                                         <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
@@ -374,23 +374,23 @@
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->previousPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $sales->previousPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
                                         </a>
                                     </li>
                                 @endif
                         
                                 <!-- Numéros de pages -->
-                                @foreach ($transactions->getUrlRange(1, $transactions->lastPage()) as $page => $url)
-                                    <li class="page-item {{ $page == $transactions->currentPage() ? 'active' : '' }}">
-                                        <a class="page-link {{ $page == $transactions->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
+                                @foreach ($sales->getUrlRange(1, $sales->lastPage()) as $page => $url)
+                                    <li class="page-item {{ $page == $sales->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link {{ $page == $sales->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
                                     </li>
                                 @endforeach
                         
                                 <!-- Bouton Suivant -->
-                                @if ($transactions->hasMorePages())
+                                @if ($sales->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->nextPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $sales->nextPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
                                         </a>
                                     </li>
@@ -460,11 +460,11 @@
                         </div>
     
                         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24">
-                            <span>Showing {{ $transactions->firstItem() }} to {{ $transactions->lastItem() }} of {{ $transactions->total() }} entries</span>
+                            <span>Showing {{ $rests->firstItem() }} to {{ $rests->lastItem() }} of {{ $rests->total() }} entries</span>
                             
                             <ul class="pagination d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                 <!-- Bouton Précédent -->
-                                @if ($transactions->onFirstPage())
+                                @if ($rests->onFirstPage())
                                     <li class="page-item disabled">
                                         <span class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
@@ -472,23 +472,23 @@
                                     </li>
                                 @else
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->previousPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $rests->previousPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-left"></iconify-icon>
                                         </a>
                                     </li>
                                 @endif
                         
                                 <!-- Numéros de pages -->
-                                @foreach ($transactions->getUrlRange(1, $transactions->lastPage()) as $page => $url)
-                                    <li class="page-item {{ $page == $transactions->currentPage() ? 'active' : '' }}">
-                                        <a class="page-link {{ $page == $transactions->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
+                                @foreach ($rests->getUrlRange(1, $rests->lastPage()) as $page => $url)
+                                    <li class="page-item {{ $page == $rests->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link {{ $page == $rests->currentPage() ? 'bg-primary-600 text-white' : 'bg-neutral-200 text-secondary-light' }} fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px" href="{{ $url }}">{{ $page }}</a>
                                     </li>
                                 @endforeach
                         
                                 <!-- Bouton Suivant -->
-                                @if ($transactions->hasMorePages())
+                                @if ($rests->hasMorePages())
                                     <li class="page-item">
-                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $transactions->nextPageUrl() }}">
+                                        <a class="page-link bg-neutral-200 text-secondary-light fw-semibold radius-8 border-0 d-flex align-items-center justify-content-center h-32-px w-32-px text-md" href="{{ $rests->nextPageUrl() }}">
                                             <iconify-icon icon="ep:d-arrow-right"></iconify-icon>
                                         </a>
                                     </li>

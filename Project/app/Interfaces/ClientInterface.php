@@ -12,4 +12,5 @@ interface ClientInterface
     public function viewClient($id);
     public function update($userRequest);
     public function destroy($id);
+    public function clientSearch(string $query);
 }

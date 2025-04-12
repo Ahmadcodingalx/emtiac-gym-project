@@ -157,4 +157,23 @@ class ProductController extends Controller
 
         return back()->with('success', 'Oppération réussie !');
     }
+
+        
+    public function productSearch(Request $request)
+    {
+        $query = $request->get('q');
+        $products = $this->productInterface->productSearch($query);
+
+        return view('product.productTable', compact('products'))->render();
+        
+    }
+    
+    public function productSearchZero(Request $request)
+    {
+
+        $query = $request->get('q');
+        $products = $this->productInterface->show();
+
+        return view('product.productTable', compact('products'))->render();
+    }
 }

@@ -2,11 +2,11 @@
 @php
     $title='Liste des utilisateurs';
     $subTitle = 'Utilisateurs';
-    $script ='<script>
-                        $(".remove-item-btn").on("click", function() {
-                            $(this).closest("tr").addClass("d-none")
-                        });
-            </script>';
+    // $script ='<script>
+    //                     $(".remove-item-btn").on("click", function() {
+    //                         $(this).closest("tr").addClass("d-none")
+    //                     });
+    //         </script>';
 @endphp
 
 @section('content')

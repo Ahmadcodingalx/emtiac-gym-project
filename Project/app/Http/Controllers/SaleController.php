@@ -101,11 +101,11 @@ class SaleController extends Controller
         DB::beginTransaction();
 
         try {
-            DB::commit();
-
+            
             $sale = $this->saleInterface->update($request, $id);
-
+            
             if ($sale) {
+                DB::commit();
                 return back()->with('success', 'Oppération éffectuée avec succès !');
             }
         } catch (\Throwable $th) {
@@ -132,5 +132,15 @@ class SaleController extends Controller
         $sales = $this->saleInterface->show();
 
         return view('sales.saleTable', compact('sales'))->render();
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->input('id');
+
+        $sale = $this->saleInterface->destroy($id);
+        $sale->delete();
+
+        return back()->with('success', 'Oppération réussie !');
     }
 }

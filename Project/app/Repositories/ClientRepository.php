@@ -67,6 +67,22 @@ class ClientRepository implements ClientInterface
 
     public function destroy($id)
     {
-        return Client::find($id);
+        $client = Client::find($id);
+        if ($client->image !== 'defaults/profile.png' && Storage::disk('public')->exists($client->image)) {
+            Storage::disk('public')->delete($client->image);
+        }
+        return $client;
+    }
+    
+    public function clientSearch(string $query)
+    {
+        return Client::when($query, function ($q) use ($query) {
+                $q->where('firstname', 'LIKE', "%$query%")
+                ->orWhere('lastname', 'LIKE', "%$query%")
+                ->orWhere('identifiant', 'LIKE', "%$query%")
+                ->orWhere('email', 'LIKE', "%$query%")
+                ->orWhere('tel', 'LIKE', "%$query%");
+            })
+            ->paginate(10);
     }
 }

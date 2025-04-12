@@ -165,4 +165,23 @@ class ClientController extends Controller
 
         return back()->with('success', 'Oppération réussie !');
     }
+
+      
+    public function clientSearch(Request $request)
+    {
+        $query = $request->get('q');
+        $clients = $this->clientInterface->clientSearch($query);
+
+        return view('client.clientTable', compact('clients'))->render();
+        
+    }
+    
+    public function clientSearchZero(Request $request)
+    {
+
+        $query = $request->get('q');
+        $clients = $this->clientInterface->show();
+
+        return view('client.clientTable', compact('clients'))->render();
+    }
 }
